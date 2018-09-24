@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="min">8dp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="indent_portrait">50dp</dimen>
+    <dimen name="indent_landscape">0dp</dimen>
+    <dimen name="button_text">32sp</dimen>
+</resources>

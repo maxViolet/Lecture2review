@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Maxim Fialko</string>
+    <string name="enter_a_message">Enter a message…</string>
+    <string name="send_message">SEND MESSAGE</string>
+    <string name="blablabla">This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a
+        test text.</string>
+    <string name="text1">Burger-fan</string>
+    <string name="text2">Apple-fag</string>
+    <string name="text3">Noob programmer</string>
+    <string name="email">maxfialko@gmail.com</string>
+    <string name="no_email_app_found" >No email app found</string>
+</resources>
