@@ -18,8 +18,8 @@ import static android.widget.Toast.LENGTH_LONG;
 public class previewEmailActivity extends AppCompatActivity {
 
     ActionBar actionBar;
-    public static final String EXTRA_MESSAGE = "message";
-    public static final String SUBJECT = "homework";
+    private static final String EXTRA_MESSAGE = "message";
+    private static final String SUBJECT = "homework";
 
     public static void start(Activity activity, String messageText) {
         Intent intent = new Intent(activity, previewEmailActivity.class);
@@ -51,7 +51,7 @@ public class previewEmailActivity extends AppCompatActivity {
     }
 
     //открытие почты по кнопке EMAIL
-    public void openEmailApp(String BODY) {
+    private void openEmailApp(String BODY) {
         final Intent sendEmail = new Intent(Intent.ACTION_SENDTO);
         sendEmail.setData(Uri.parse(String.format("mailto:%s", getString(R.string.email))));
         sendEmail.putExtra(Intent.EXTRA_SUBJECT, SUBJECT);

@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="@dimen/indent_portrait"
+                android:layout_marginStart="@dimen/indent_landscape"
                 android:padding="8dp"
                 android:text="@string/blablabla"
                 android:textSize="@dimen/text_size" />
