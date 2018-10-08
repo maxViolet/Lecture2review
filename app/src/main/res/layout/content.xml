@@ -1,93 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.android.maximfialko.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.example.android.maximfialko.AboutActivity"
+    tools:showIn="@layout/about_activity">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:orientation="vertical">
 
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
+            android:layout_marginStart="50dp"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/min"
-                    android:drawableStart="@drawable/ic_hamburger"
-                    android:padding="@dimen/min"
-                    android:text="@string/text1"
-                    android:textSize="@dimen/text_size" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/ic_apple"
-                    android:padding="@dimen/min"
-                    android:text="@string/text2"
-                    android:textSize="@dimen/text_size" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/ic_question"
-                    android:padding="@dimen/min"
-                    android:text="@string/text3"
-                    android:textSize="@dimen/text_size" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/dimOrange" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="@dimen/indent_portrait"
+                android:drawableStart="@drawable/ic_hamburger"
+                android:drawablePadding="@dimen/min"
                 android:padding="@dimen/min"
-                android:text="@string/blablabla"
-                android:textSize="@dimen/text_size" />
+                android:text="@string/text1"
+                android:textSize="@dimen/text_size"
+                tools:text="@tools:sample/cities" />
 
-            <EditText
-                android:id="@+id/textInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="@color/dimOrange"
-                android:hint="@string/enter_a_message"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/previewEmailButton"
-                style="@style/Widget.AppCompat.Button.Borderless"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/background_light"
-                android:backgroundTint="@android:color/background_light"
-                android:shadowColor="@android:color/background_light"
-                android:text="@string/send_message" />
+                android:drawableStart="@drawable/ic_apple"
+                android:drawablePadding="8dp"
+                android:padding="@dimen/min"
+                android:text="@string/text2"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_question"
+                android:drawablePadding="@dimen/min"
+                android:padding="@dimen/min"
+                android:text="@string/text3"
+                android:textSize="@dimen/text_size" />
         </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/minx2"
+            android:layout_marginEnd="@dimen/minx2"
+            android:background="@color/dimOrange" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/indent_portrait"
+            android:layout_marginEnd="@dimen/minx2"
+            android:padding="@dimen/min"
+            android:text="@string/blablabla"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/textInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/dimOrange"
+            android:hint="@string/enter_a_message"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/previewEmailButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/minx2"
+            android:background="@android:color/background_light"
+            android:backgroundTint="@android:color/background_light"
+            android:shadowColor="@android:color/background_light"
+            android:text="@string/send_message" />
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

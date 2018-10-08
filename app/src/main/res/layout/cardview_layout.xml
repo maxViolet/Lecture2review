@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_cd_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/minx2"
+            android:paddingTop="@dimen/minx2"
+            android:paddingEnd="@dimen/minx2"
+            tools:text="@tools:sample/cities" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="@dimen/min">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/iv_imageUrl"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_cd_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:padding="4dp"
+                    android:textSize="@dimen/text_size"
+                    tools:text="@string/blablabla" />
+
+                <TextView
+                    android:id="@+id/tv_previewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="5"
+                    android:padding="4dp"
+                    tools:text="@string/blablabla" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_imageUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_publishDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/minx2"
+            android:paddingEnd="@dimen/minx2"
+            tools:text="@tools:sample/date/ddmmyy" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
