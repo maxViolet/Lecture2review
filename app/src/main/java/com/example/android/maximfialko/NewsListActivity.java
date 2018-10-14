@@ -1,5 +1,4 @@
 package com.example.android.maximfialko;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 public class NewsListActivity extends AppCompatActivity {
 
     private RVAdapter adapter;
@@ -42,11 +40,8 @@ public class NewsListActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         //add margins to RecyclerView
-        margins decoration = new margins(14, 1);
+        margins decoration = new margins(32, 1);
         rv.addItemDecoration(decoration);
-
-//        Toolbar toolbar = findViewById(R.id.det_toolbar);
-//        setSupportActionBar(toolbar);
     }
 
     @Override //для элемента меню
