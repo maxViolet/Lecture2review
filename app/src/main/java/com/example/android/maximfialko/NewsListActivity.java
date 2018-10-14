@@ -3,12 +3,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.appcompat.widget.Toolbar;
 
+import com.example.android.maximfialko.data.Margins;
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.data.NewsItemList;
-import com.example.android.maximfialko.data.RVAdapter;
-import com.example.android.maximfialko.data.margins;
+import com.example.android.maximfialko.data.NewsAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 public class NewsListActivity extends AppCompatActivity {
 
-    private RVAdapter adapter;
+    private NewsAdapter adapter;
 
     //переход на DetailedNewsActivity
-    private final RVAdapter.OnItemClickListener clickListener = new RVAdapter.OnItemClickListener() {
+    private final NewsAdapter.OnItemClickListener clickListener = new NewsAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(NewsItem position) {
             openDetailedNewsActivity(position.getItemId());
@@ -33,24 +32,24 @@ public class NewsListActivity extends AppCompatActivity {
         setContentView(R.layout.news_list_activity);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
-        adapter = new RVAdapter(this, NewsItemList.generateNews(), clickListener);
+        adapter = new NewsAdapter(this, NewsItemList.generateNews(), clickListener);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(true);
 
         rv.setAdapter(adapter);
 
-        //add margins to RecyclerView
-        margins decoration = new margins(32, 1);
+        //add Margins to RecyclerView
+        Margins decoration = new Margins(32, 1);
         rv.addItemDecoration(decoration);
     }
 
-    @Override //для элемента меню
+    @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
 
-    @Override //для элемента меню
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_switch:

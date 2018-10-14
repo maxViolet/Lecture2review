@@ -2,8 +2,6 @@ package com.example.android.maximfialko;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,14 +11,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class previewEmailActivity extends AppCompatActivity {
+public class PreviewEmailActivity extends AppCompatActivity {
 
     ActionBar actionBar;
     private static final String EXTRA_MESSAGE = "message";
     private static final String SUBJECT = "homework";
 
     public static void start(Activity activity, String messageText) {
-        Intent intent = new Intent(activity, previewEmailActivity.class);
+        Intent intent = new Intent(activity, PreviewEmailActivity.class);
         intent.putExtra(EXTRA_MESSAGE, messageText);
         activity.startActivity(intent);
     }
@@ -29,9 +27,6 @@ public class previewEmailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview_email_activity);
-
-        actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F0AC73")));
 
         final Button email = (Button) findViewById(R.id.emailButton);
         final TextView messageView = (TextView) findViewById(R.id.textOutput);

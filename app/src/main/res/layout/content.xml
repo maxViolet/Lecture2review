@@ -64,7 +64,8 @@
             android:layout_marginEnd="@dimen/minx2"
             android:padding="@dimen/min"
             android:text="@string/blablabla"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            tools:text="@tools:sample/cities" />
 
         <EditText
             android:id="@+id/textInput"
@@ -74,7 +75,8 @@
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/dimOrange"
             android:hint="@string/enter_a_message"
-            android:inputType="text" />
+            android:inputType="text"
+            tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/previewEmailButton"

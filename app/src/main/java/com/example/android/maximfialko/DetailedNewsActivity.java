@@ -45,20 +45,16 @@ public class DetailedNewsActivity extends AppCompatActivity {
         assert detNewsItem != null;
         Glide.with(this).load(detNewsItem.getImageUrl()).into(b_image);
         b_title.setText(detNewsItem.getTitle());
-//        b_date.setText(detNewsItem.getPublishDate());
         b_fullText.setText(detNewsItem.getFullText());
-
-//        Toolbar det_toolbar = (Toolbar) findViewById(R.id.det_toolbar);
-//        setSupportActionBar(det_toolbar);
     }
 
-    @Override //для элемента меню
+    @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
 
-    @Override //для элемента меню
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_switch:
@@ -68,8 +64,4 @@ public class DetailedNewsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-//    private void displayUserInfo(User user) {
-//        getSupportActionBar().setTitle(user.getName());
-//    }
 }

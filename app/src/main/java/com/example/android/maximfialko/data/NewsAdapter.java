@@ -15,11 +15,10 @@ import com.example.android.maximfialko.R;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 //--------------------------------------------------------------------------------------------------
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
     private final List<NewsItem> news;
     private final LayoutInflater inflater;
@@ -29,8 +28,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private final RequestManager imageLoader;
 
     //----------------------------------------------------------------------------------------------
-    public RVAdapter(@NonNull Context context, @NonNull List<NewsItem> news,
-                     @NonNull OnItemClickListener clickListener) {
+    public NewsAdapter(@NonNull Context context, @NonNull List<NewsItem> news,
+                       @NonNull OnItemClickListener clickListener) {
         this.news = news;
         this.inflater = LayoutInflater.from(context);
         this.clickListener = clickListener;

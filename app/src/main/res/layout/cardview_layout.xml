@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
@@ -19,13 +18,14 @@
             android:paddingStart="@dimen/minx2"
             android:paddingTop="@dimen/minx2"
             android:paddingEnd="@dimen/minx2"
+            android:textAllCaps="true"
             tools:text="@tools:sample/cities" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="@dimen/min">
+            android:padding="@dimen/halfmin">
 
 
             <LinearLayout
@@ -40,7 +40,9 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:padding="4dp"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size"
+                    android:textStyle="bold"
                     tools:text="@string/blablabla" />
 
                 <TextView
@@ -49,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="5"
                     android:padding="4dp"
+                    android:textColor="@android:color/black"
                     tools:text="@string/blablabla" />
             </LinearLayout>
 
@@ -70,6 +73,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/minx2"
             android:paddingEnd="@dimen/minx2"
+            android:textColor="@android:color/black"
             tools:text="@tools:sample/date/ddmmyy" />
 
     </LinearLayout>

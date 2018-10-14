@@ -6,11 +6,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 //-------------------------------------------------------------------------------------------------
 public class AboutActivity extends AppCompatActivity {
+
+    static final String title = "Maxim Fialko";
 
     //-------------------------------------------------------------------------------------------------
     @Override
@@ -20,6 +25,7 @@ public class AboutActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(title);
 
         final Button previewEmail = findViewById(R.id.previewEmailButton);
         final EditText textInput = findViewById(R.id.textInput);
@@ -32,14 +38,13 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSecondActivity(textInput.getText().toString());
+            }
+        });
     }
     //--------------------------------------------------------------------------------------------------
     @Override
@@ -64,7 +69,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void openSecondActivity(String text) {
-        previewEmailActivity.start(this, text);
+        PreviewEmailActivity.start(this, text);
     }
 }
 //-------------------------------------------------------------------------------------------------
