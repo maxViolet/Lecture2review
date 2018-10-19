@@ -1,6 +1,11 @@
 package com.example.android.maximfialko;
+
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,22 +14,25 @@ import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.data.NewsItemList;
 import com.example.android.maximfialko.data.NewsAdapter;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.WeakHashMap;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-public class NewsListActivity extends AppCompatActivity {
+
+public class NewsListActivity extends AppCompatActivity{
 
     private NewsAdapter adapter;
 
     //переход на DetailedNewsActivity
-    private final NewsAdapter.OnItemClickListener clickListener = new NewsAdapter.OnItemClickListener() {
-        @Override
-        public void onItemClick(NewsItem position) {
-            openDetailedNewsActivity(position.getItemId());
-       }
-    };
+    private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getItemId());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,15 +41,20 @@ public class NewsListActivity extends AppCompatActivity {
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(this, NewsItemList.generateNews(), clickListener);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setHasFixedSize(true);
+
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rv.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            rv.setLayoutManager(new GridLayoutManager(this, 2));
+        }
 
         rv.setAdapter(adapter);
 
         //add Margins to RecyclerView
-        Margins decoration = new Margins(32, 1);
+        Margins decoration = new Margins(24, 1);
         rv.addItemDecoration(decoration);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
@@ -64,3 +77,5 @@ public class NewsListActivity extends AppCompatActivity {
         DetailedNewsActivity.start(this, id);
     }
 }
+
+

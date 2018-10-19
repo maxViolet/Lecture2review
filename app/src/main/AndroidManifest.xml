@@ -22,10 +22,10 @@
         <activity android:name=".PreviewEmailActivity" />
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".DetailedNewsActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar" />
     </application>
 
 </manifest>

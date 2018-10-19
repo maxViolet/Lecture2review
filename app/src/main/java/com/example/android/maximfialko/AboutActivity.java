@@ -25,12 +25,14 @@ public class AboutActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
 
         final Button previewEmail = findViewById(R.id.previewEmailButton);
         final EditText textInput = findViewById(R.id.textInput);
 
-    //-------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------
         previewEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,14 +40,18 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSecondActivity(textInput.getText().toString());
-            }
-        });
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openSecondActivity(textInput.getText().toString());
+                }
+            });
+        }
     }
+
     //--------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

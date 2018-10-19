@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 //--------------------------------------------------------------------------------------------------
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
-    private final List<NewsItem> news;
+    private List<NewsItem> news;
     private final LayoutInflater inflater;
     @NonNull
     private final OnItemClickListener clickListener;
@@ -58,6 +58,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return news.size();
+    }
+
+    public void add(List<NewsItem> newsItems) {
+        this.news.addAll(newsItems);
     }
 
     public interface OnItemClickListener {
