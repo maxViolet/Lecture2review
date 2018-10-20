@@ -50,7 +50,7 @@ public class NewsListActivity extends AppCompatActivity{
 
         rv.setAdapter(adapter);
 
-        //add Margins to RecyclerView
+        //add Margins to Recycler View
         Margins decoration = new Margins(24, 1);
         rv.addItemDecoration(decoration);
     }
