@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.android.maximfialko.R;
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
