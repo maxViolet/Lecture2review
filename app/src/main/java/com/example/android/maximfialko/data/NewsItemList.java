@@ -1,5 +1,7 @@
 package com.example.android.maximfialko.data;
 
+import android.util.Log;
+
 import java.util.*;
 
 
@@ -17,6 +19,8 @@ public class NewsItemList {
     }
 
     public static List<NewsItem> generateNews() {
+
+        Log.d("gg_wp", "in generating news: " + Thread.currentThread().getName() );
         final Category darwinAwards = new Category(1, "Darwin Awards");
         final Category criminal = new Category(2, "Criminal");
         final Category animals = new Category(3, "Animals");

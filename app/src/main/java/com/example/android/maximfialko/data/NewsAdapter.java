@@ -39,7 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .centerCrop();
         this.imageLoader = Glide.with(context).applyDefaultRequestOptions(imageOption);
     }
-
+    //----------------------------------------------------------------------------------------------
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
