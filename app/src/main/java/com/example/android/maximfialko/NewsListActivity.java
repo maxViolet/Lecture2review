@@ -55,13 +55,13 @@ public class NewsListActivity extends AppCompatActivity {
         //асинхронная загрузка списка новостей
         Observable.fromCallable(() -> {
             Log.d("addNews", "Generate news: " + Thread.currentThread().getName());
+            //асинхронное получение данных из списка новостей
             return new NewListCallable(NewsItemList.generateNews());
         })
                 //указываем поток, где будет исполняться код
                 .subscribeOn(Schedulers.io())
-                //указываем поток, куда приходят данные //всё, что ниже ObserveOn будет выполнять в шедулере, который указан выше
+                //указываем поток, куда приходят данные, все что ниже ObserveOn будет выполняться в потоке, который здесь прописан
                 .observeOn(AndroidSchedulers.mainThread())
-
                 .subscribe(news -> {
                     Log.d("addNews", "Subscribe: " + Thread.currentThread().getName());
                     getAdapter().add(news.data);
