@@ -45,7 +45,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                inflater.inflate(R.layout.cardview_layout, parent, false), clickListener
+                inflater.inflate(R.layout.cardview_layout, parent, false)
         );
     }
 
@@ -79,7 +79,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private TextView publishDateView;
 
         //----------------------------------------------------------------------------------------------
-        ViewHolder(@NonNull View itemView, @NonNull OnItemClickListener clickListener) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
