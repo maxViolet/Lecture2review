@@ -1,4 +1,5 @@
 package com.example.android.maximfialko;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,11 +24,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsListActivity extends AppCompatActivity {
 
+    @Nullable
     private NewsAdapter adapter;
+    @Nullable
+    private Disposable disposable;
 
     //переход на DetailedNewsActivity
     private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getItemId());
@@ -51,9 +56,11 @@ public class NewsListActivity extends AppCompatActivity {
         //add Margins to Recycler View
         Margins decoration = new Margins(24, 1);
         rv.addItemDecoration(decoration);
+    }
 
-        //асинхронная загрузка списка новостей
-        Observable.fromCallable(() -> {
+    //асинхронная загрузка списка новостей
+    private void loadItems() {
+        disposable = Observable.fromCallable(() -> {
             Log.d("addNews", "Generate news: " + Thread.currentThread().getName());
             //асинхронное получение данных из списка новостей
             return new NewListCallable(NewsItemList.generateNews());
@@ -68,6 +75,24 @@ public class NewsListActivity extends AppCompatActivity {
                 }, error -> {
                     Log.d("onError", error.toString());
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadItems();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disposable = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapter = null;
     }
 
     @Override
@@ -99,6 +124,7 @@ public class NewsListActivity extends AppCompatActivity {
         public NewListCallable(List<NewsItem> data) {
             this.data = data;
         }
+
         @Override
         public List<NewsItem> call() throws Exception {
             return data;
