@@ -16,7 +16,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-//--------------------------------------------------------------------------------------------------
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
     private List<NewsItem> news;
@@ -26,7 +25,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
     private final RequestManager imageLoader;
 
-    //----------------------------------------------------------------------------------------------
     public NewsAdapter(@NonNull Context context, @NonNull List<NewsItem> news,
                        @NonNull OnItemClickListener clickListener) {
         this.news = news;
@@ -39,7 +37,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .centerCrop();
         this.imageLoader = Glide.with(context).applyDefaultRequestOptions(imageOption);
     }
-    //----------------------------------------------------------------------------------------------
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,7 +64,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         void onItemClick(NewsItem item);
     }
 
-    //--------------------------------------------------------------------------------------------------
     class ViewHolder extends RecyclerView.ViewHolder {
         //private CardView cvView;
         private TextView categoryView;
@@ -77,7 +73,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private ImageView imageUrlView;
         private TextView publishDateView;
 
-        //----------------------------------------------------------------------------------------------
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {

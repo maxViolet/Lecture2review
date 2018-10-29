@@ -12,12 +12,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-//-------------------------------------------------------------------------------------------------
 public class AboutActivity extends AppCompatActivity {
 
     static final String title = "Maxim Fialko";
 
-    //-------------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,6 @@ public class AboutActivity extends AppCompatActivity {
         final Button previewEmail = findViewById(R.id.previewEmailButton);
         final EditText textInput = findViewById(R.id.textInput);
 
-        //-------------------------------------------------------------------------------------------------
         previewEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +49,6 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    //--------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -78,4 +74,3 @@ public class AboutActivity extends AppCompatActivity {
         PreviewEmailActivity.start(this, text);
     }
 }
-//-------------------------------------------------------------------------------------------------
