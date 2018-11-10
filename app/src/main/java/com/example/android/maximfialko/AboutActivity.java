@@ -30,22 +30,12 @@ public class AboutActivity extends AppCompatActivity {
         final Button previewEmail = findViewById(R.id.previewEmailButton);
         final EditText textInput = findViewById(R.id.textInput);
 
-        previewEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSecondActivity(textInput.getText().toString());
-            }
-        });
+        previewEmail.setOnClickListener(v -> openSecondActivity(textInput.getText().toString()));
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openSecondActivity(textInput.getText().toString());
-                }
-            });
+            fab.setOnClickListener(view -> openSecondActivity(textInput.getText().toString()));
         }
     }
 

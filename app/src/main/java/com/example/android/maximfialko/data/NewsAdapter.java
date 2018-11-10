@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.android.maximfialko.R;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
     private final RequestManager imageLoader;
 
-    public NewsAdapter(@NonNull Context context, @NonNull List<NewsItem> news,
+    public NewsAdapter(@NonNull Context context,
+                       @NonNull List<NewsItem> news,
                        @NonNull OnItemClickListener clickListener) {
         this.news = news;
         this.inflater = LayoutInflater.from(context);
@@ -37,6 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .centerCrop();
         this.imageLoader = Glide.with(context).applyDefaultRequestOptions(imageOption);
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -90,6 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             imageUrlView = (ImageView) itemView.findViewById(R.id.iv_imageUrl);
             publishDateView = (TextView) itemView.findViewById(R.id.tv_publishDate);
         }
+
         void bind(NewsItem newsItem) {
             imageLoader.load(newsItem.getImageUrl()).into(imageUrlView);
             categoryView.setText(newsItem.getCategory().getName());

@@ -1,16 +1,13 @@
 package com.example.android.maximfialko.data;
 
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.IntRange;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.android.maximfialko.Utils.DensityPixelMath;
 
 public class Margins extends RecyclerView.ItemDecoration {
     private final int columns;
@@ -32,6 +29,7 @@ public class Margins extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildLayoutPosition(view);
+
         //set right margin to all
         outRect.right = margin;
         //set bottom margin to all

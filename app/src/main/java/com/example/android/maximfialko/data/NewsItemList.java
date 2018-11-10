@@ -20,6 +20,12 @@ public class NewsItemList {
 
     public static List<NewsItem> generateNews() {
 
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Log.d("gg_wp", "in generating news: " + Thread.currentThread().getName() );
         final Category darwinAwards = new Category(1, "Darwin Awards");
         final Category criminal = new Category(2, "Criminal");

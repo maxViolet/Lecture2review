@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
+import com.example.android.maximfialko.Utils.DensityPixelMath;
+import com.example.android.maximfialko.Utils.Visibilty;
 import com.example.android.maximfialko.data.Margins;
 import com.example.android.maximfialko.data.NewsAdapter;
 import com.example.android.maximfialko.data.NewsItem;
@@ -15,6 +18,7 @@ import com.example.android.maximfialko.data.NewsItemList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,66 +37,70 @@ public class NewsListActivity extends AppCompatActivity {
     private NewsAdapter adapter;
     @Nullable
     private Disposable disposable;
-
-    //переход на DetailedNewsActivity
-    private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getItemId());
+    @Nullable
+    private ProgressBar progress;
+    @Nullable
+    private RecyclerView rv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_list_activity);
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
+        progress = (ProgressBar) findViewById(R.id.progress);
+        rv = (RecyclerView) findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(this, new ArrayList<>(), clickListener);
+
+        //ps to dp //util class
+        DensityPixelMath DPmath = new DensityPixelMath(getApplicationContext());
+        //add Margins to Recycler View
+        Margins decoration = new Margins((int) DPmath.dpFromPx(70), 1);
+
+        rv.addItemDecoration(decoration);
+        rv.setAdapter(adapter);
+
+        loadItems();
 
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             rv.setLayoutManager(new LinearLayoutManager(this));
         } else {
             rv.setLayoutManager(new GridLayoutManager(this, 2));
         }
-
-        rv.setAdapter(adapter);
-
-        //add Margins to Recycler View
-        Margins decoration = new Margins(24, 1);
-        rv.addItemDecoration(decoration);
     }
+
+    //переход на DetailedNewsActivity
+    private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getItemId());
 
     //асинхронная загрузка списка новостей
     private void loadItems() {
-        disposable = Observable.fromCallable(() -> {
+        showProgress(true);
+        disposable = Observable/*.timer(9000, TimeUnit.MILLISECONDS)*/.fromCallable(() -> {
+//            Thread.sleep(2000);
             Log.d("addNews", "Generate news: " + Thread.currentThread().getName());
             //асинхронное получение данных из списка новостей
             return new NewListCallable(NewsItemList.generateNews());
         })
                 //указываем поток, где будет исполняться код
                 .subscribeOn(Schedulers.io())
+//                .delay(2000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 //указываем поток, куда приходят данные, все что ниже ObserveOn будет выполняться в потоке, который здесь прописан
                 .observeOn(AndroidSchedulers.mainThread())
+
                 .subscribe(news -> {
                     Log.d("addNews", "Subscribe: " + Thread.currentThread().getName());
                     getAdapter().add(news.data);
-                }, error -> {
-                    Log.d("onError", error.toString());
-                });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        loadItems();
+                    Visibilty.setVisible(progress, false);
+                    Visibilty.setVisible(rv, true);
+                }, error -> Log.d("onError", error.toString()));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        disposable = null;
-    }
+        showProgress(false);
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        adapter = null;
+        disposable.dispose();
+        disposable = null;
     }
 
     @Override
@@ -112,7 +120,7 @@ public class NewsListActivity extends AppCompatActivity {
         }
     }
 
-    //метод перехода на активити DetaliedNews
+    //метод перехода на активити DetailedNews
     public void openDetailedNewsActivity(int id) {
         DetailedNewsActivity.start(this, id);
     }
@@ -133,6 +141,11 @@ public class NewsListActivity extends AppCompatActivity {
 
     public NewsAdapter getAdapter() {
         return adapter;
+    }
+
+    public void showProgress(boolean show) {
+        Visibilty.setVisible(progress, show);
+        Visibilty.setVisible(rv, !show);
     }
 }
 
