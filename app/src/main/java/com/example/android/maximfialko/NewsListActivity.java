@@ -76,8 +76,7 @@ public class NewsListActivity extends AppCompatActivity {
         loadItems("technology");
     }
 
-    //переход на DetailedNewsActivity
-    //TODO переделать на webview
+    //переход на DetailedNewsActivity через WebView
     private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getTextUrl());
 
     //асинхронная загрузка списка новостей
