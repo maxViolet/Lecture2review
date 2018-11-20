@@ -1,6 +1,7 @@
 package com.example.android.maximfialko.data;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .placeholder(R.drawable.avatar_placeholder)
                 .fallback(R.drawable.avatar_placeholder)
                 .centerCrop();
+       // Log.d ("glide", "glide start loading");
         this.imageLoader = Glide.with(context).applyDefaultRequestOptions(imageOption);
+      //  Log.d ("glide", "glide end loading");
     }
 
     @NonNull

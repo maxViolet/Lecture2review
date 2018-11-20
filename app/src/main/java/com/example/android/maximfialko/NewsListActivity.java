@@ -18,7 +18,6 @@ import com.example.android.maximfialko.data.NewsItemList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +53,7 @@ public class NewsListActivity extends AppCompatActivity {
         //ps to dp //util class
         DensityPixelMath DPmath = new DensityPixelMath(getApplicationContext());
         //add Margins to Recycler View
-        Margins decoration = new Margins((int) DPmath.dpFromPx(70), 1);
+        Margins decoration = new Margins((int) DPmath.dpFromPx(45), 1);
 
         rv.addItemDecoration(decoration);
         rv.setAdapter(adapter);
@@ -75,7 +74,7 @@ public class NewsListActivity extends AppCompatActivity {
     private void loadItems() {
         showProgress(true);
         disposable = Observable/*.timer(9000, TimeUnit.MILLISECONDS)*/.fromCallable(() -> {
-//            Thread.sleep(2000);
+            Thread.sleep(2000);
             Log.d("addNews", "Generate news: " + Thread.currentThread().getName());
             //асинхронное получение данных из списка новостей
             return new NewListCallable(NewsItemList.generateNews());
@@ -98,9 +97,7 @@ public class NewsListActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         showProgress(false);
-
         disposable.dispose();
-        disposable = null;
     }
 
     @Override
