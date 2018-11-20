@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 public class DensityPixelMath {
-     private Context dpContext;
+    private Context dpContext;
 
     public DensityPixelMath(Context context) {
         dpContext = context;
@@ -20,11 +20,11 @@ public class DensityPixelMath {
     }
 
     //static методы без контекста
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-    }
+//    public static int dpToPx(int dp) {
+//        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+//    }
+//
+//    public static int pxToDp(int px) {
+//        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+//    }
 }

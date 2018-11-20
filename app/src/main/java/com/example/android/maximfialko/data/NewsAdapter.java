@@ -12,6 +12,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.android.maximfialko.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
-    private List<NewsItem> news;
+    private List<NewsItem> news = new ArrayList<>();
     private final LayoutInflater inflater;
     @NonNull
     private final OnItemClickListener clickListener;
@@ -59,6 +60,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return news.size();
     }
 
+    public void replaceItems(@NonNull List<NewsItem> newItems) {
+        news.clear();
+        news.addAll(newItems);
+        notifyDataSetChanged();
+    }
+
     public void add(List<NewsItem> newsItems) {
         this.news.addAll(newsItems);
     }
@@ -78,13 +85,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        clickListener.onItemClick(news.get(position));
-                    }
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    clickListener.onItemClick(news.get(position));
                 }
             });
             categoryView = (TextView) itemView.findViewById(R.id.tv_cd_category);
@@ -96,9 +100,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         void bind(NewsItem newsItem) {
             imageLoader.load(newsItem.getImageUrl()).into(imageUrlView);
-            categoryView.setText(newsItem.getCategory().getName());
+            categoryView.setText(newsItem.getCategory());
             titleView.setText(newsItem.getTitle());
-            previewTextView.setText(newsItem.getPreviewText());
             previewTextView.setText(newsItem.getPreviewText());
         }
     }

@@ -2,26 +2,22 @@ package com.example.android.maximfialko.data;
 
 import java.util.Date;
 
-//--------------------------------------------------------------------------------------------------
 public class NewsItem {
 
     private final String title;
     private final String imageUrl;
-    private final Category category;
+    private final String category;
     private final Date publishDate;
     private final String previewText;
-    private final String fullText;
-    private final int itemId;
+    private final String textUrl;
 
-    //----------------------------------------------------------------------------------------------
-    public NewsItem(String title, String imageUrl, Category category, Date publishDate, String previewText, String fullText, int itemId) {
+    public NewsItem(String title, String imageUrl, String category, Date publishDate, String previewText, String textUrl) {
         this.title = title;
         this.imageUrl = imageUrl;
         this.category = category;
         this.publishDate = publishDate;
         this.previewText = previewText;
-        this.fullText = fullText;
-        this.itemId = itemId;
+        this.textUrl = textUrl;
     }
 
     public String getTitle() {
@@ -32,25 +28,20 @@ public class NewsItem {
         return imageUrl;
     }
 
-    public int getItemId() {return itemId; }
-
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public Date getPublishDate() {
-        //Date publishDate = Date.current;
-        return publishDate;
+    public String getTextUrl() {
+        return textUrl;
     }
+
+    public Date getPublishDate() { return publishDate; }
 
     public String getPreviewText() {
         return previewText;
     }
 
-    public String getFullText() {
-        return fullText;
-    }
 }
-//--------------------------------------------------------------------------------------------------
 
 

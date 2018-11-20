@@ -9,16 +9,16 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-//синглтон для работы с сетью
 public final class RestApi {
 
     private final String API_KEY = "108b235bac7941d2996ea017dac9fe44";
     private final String URL = "https://api.nytimes.com";
     private final int TIMEOUT_IN_SECONDS = 2;
 
-    private final Endpoint endpoint;
+    private final Endpoint topStoriesEndpoint;
     private static RestApi sRestApi;
 
+    //синглтон для работы с сетью
     public static synchronized RestApi getInstance() {
         if (sRestApi == null) {
             sRestApi = new RestApi();
@@ -30,8 +30,18 @@ public final class RestApi {
         final OkHttpClient httpClient = buildOkHttpClient();
         final Retrofit retrofit = buildRetrofitClient(httpClient);
 
-        //init endpoints here. It's can be more then one endpoint
-        endpoint = retrofit.create(Endpoint.class);
+        //init endpoints here. It's can be more then one topStoriesEndpoint
+        topStoriesEndpoint = retrofit.create(Endpoint.class);
+    }
+
+    @NonNull
+    private Retrofit buildRetrofitClient(@NonNull OkHttpClient client) {
+        return new Retrofit.Builder()
+                .baseUrl(URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
     }
 
     @NonNull
@@ -48,17 +58,9 @@ public final class RestApi {
                 .build();
     }
 
-    @NonNull
-    private Retrofit buildRetrofitClient(@NonNull OkHttpClient client) {
-        return new Retrofit.Builder()
-                .baseUrl(URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-    }
 
-    public Endpoint news() {
-        return endpoint;
+
+    public Endpoint topStoriesEndpoint() {
+        return topStoriesEndpoint;
     }
 }

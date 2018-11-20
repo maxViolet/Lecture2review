@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.data;
+package com.example.android.maximfialko.Utils;
 
 import android.content.Context;
 import android.graphics.Rect;
