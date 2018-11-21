@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.android.maximfialko.R;
+import com.example.android.maximfialko.Utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         void onItemClick(NewsItem item);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        //private CardView cvView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView categoryView;
         private TextView titleView;
         private TextView previewTextView;
-        //private TextView fullTextView;
         private ImageView imageUrlView;
         private TextView publishDateView;
 
@@ -103,6 +102,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             categoryView.setText(newsItem.getCategory());
             titleView.setText(newsItem.getTitle());
             previewTextView.setText(newsItem.getPreviewText());
+//            publishDateView.setText(newsItem.getPublishDate().toString());
+            publishDateView.setText(DateUtils.formatDateTime(itemView.getContext(),newsItem.getPublishDate()));
         }
     }
 }

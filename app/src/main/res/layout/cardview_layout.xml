@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/minx2"
             android:paddingEnd="@dimen/minx2"
-            android:textColor="@android:color/black"
             tools:text="@tools:sample/date/ddmmyy" />
 
     </LinearLayout>

@@ -4,7 +4,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-public class Visibilty {
+public class Visibility {
     public static void setVisible(@Nullable View view, boolean show) {
         if (view == null) return;
 

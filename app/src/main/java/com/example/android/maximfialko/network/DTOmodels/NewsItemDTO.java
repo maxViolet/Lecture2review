@@ -8,7 +8,7 @@ import java.util.Date;
 import androidx.annotation.Nullable;
 
 public class NewsItemDTO {
-    @SerializedName("subsection")
+    @SerializedName("section")
     @Nullable
     private String dto_category;
 
@@ -34,7 +34,7 @@ public class NewsItemDTO {
     }
 
     public String getTitle() {
-        return dto_category;
+        return dto_title;
     }
 
     public String getAbstract() {

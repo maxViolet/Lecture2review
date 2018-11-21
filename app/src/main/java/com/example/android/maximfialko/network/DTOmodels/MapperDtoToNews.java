@@ -1,9 +1,6 @@
-package com.example.android.maximfialko.Utils;
+package com.example.android.maximfialko.network.DTOmodels;
 
-import com.example.android.maximfialko.data.Category;
 import com.example.android.maximfialko.data.NewsItem;
-import com.example.android.maximfialko.network.DTOmodels.MultimediaDTO;
-import com.example.android.maximfialko.network.DTOmodels.NewsItemDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +17,12 @@ public class MapperDtoToNews {
         for (NewsItemDTO item_dto : listDto) {
             list.add(
                     new NewsItem(
-                            item_dto.getTitle(),
-                            mapImage(item_dto.getMultimedia()),
-                            item_dto.getSection(),
-                            item_dto.getPublishDate(),
-                            item_dto.getAbstract(),
-                            item_dto.getUrl()
+                            item_dto.getTitle(),        //title
+                            mapImage(item_dto.getMultimedia()), //imageUrl
+                            item_dto.getSection(),      //category
+                            item_dto.getPublishDate(),  //publishDate
+                            item_dto.getAbstract(),     //textPreview
+                            item_dto.getUrl()           //textUrl
                     )
             );
         }
