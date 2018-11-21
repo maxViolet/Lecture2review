@@ -40,7 +40,6 @@ public class NewsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        Log.d("http", "main onCREATE()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_list_activity);
 
@@ -66,14 +65,12 @@ public class NewsListActivity extends AppCompatActivity {
 
     //переход на DetailedNewsActivity через WebView
     private final NewsAdapter.OnItemClickListener clickListener = position -> {
-//        Log.d("http", "go to DETAILED ACTIVITY");
-        openDetailedNewsActivity(position.getTextUrl());};
+        openDetailedNewsActivity(position.getTextUrl());
+    };
 
     //асинхронная загрузка списка новостей
     private void loadItems(@NonNull String category) {
         showProgress(true);
-//        Log.d("http", "START showProgress");
-//        Log.d("http", "START HTTP QUERY");
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
                 .getNews(category)
@@ -81,18 +78,15 @@ public class NewsListActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(newsItems -> setupNews(newsItems), throwable -> NewsListActivity.this.handleError(throwable));
-//        showProgress(false);
-//        Log.d("http", "STOP HTTP QUERY");
 
         compositeDisposable.add(searchDisposable);
+        showProgress(false);
         Visibility.setVisible(rv, true);
-//        Log.d("http", "SHOW RECYCLER LIST");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-//        Log.d("http", "main onSTART()");
         //TODO: SpinnerAdapter for category usage
         loadItems("home");
     }
@@ -100,8 +94,6 @@ public class NewsListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        Log.d("http", " main onSTOP()");
-//        showProgress(false);
         compositeDisposable.dispose();
     }
 
@@ -114,14 +106,7 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     private void setupNews(List<NewsItem> newsItems) {
-//        Log.d("http", "setupNEWS");
-//        showProgress(false);
-
-//        updateItems(newsItems);
         if (adapter != null) adapter.replaceItems(newsItems);
-        Visibility.setVisible(rv, true);
-        showProgress(false);
-//        Log.d("http", "STOP showProgress");
     }
 
     //метод перехода на активити DetailedNews
@@ -136,9 +121,6 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     void showError(boolean show) {
-        /*if (show = true) Log.d("http", "showProgress");
-            else Log.d("http", "STOP showProgress");*/
-//        Log.d("http", "showProgress");
         Visibility.setVisible(progress, !show);
         Visibility.setVisible(rv, !show);
         Visibility.setVisible(error, show);
