@@ -15,8 +15,8 @@
             android:id="@+id/tv_cd_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/minx2"
-            android:paddingTop="@dimen/minx2"
+            android:paddingStart="30dp"
+            android:paddingTop="@dimen/min"
             android:paddingEnd="@dimen/minx2"
             android:textAllCaps="true"
             tools:text="@tools:sample/cities" />
@@ -74,6 +74,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/minx2"
             android:paddingEnd="@dimen/minx2"
+            android:paddingBottom="@dimen/min"
             tools:text="@tools:sample/date/ddmmyy" />
 
     </LinearLayout>

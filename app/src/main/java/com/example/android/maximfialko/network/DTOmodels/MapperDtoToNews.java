@@ -47,15 +47,4 @@ public class MapperDtoToNews {
         return multimedia.getUrl();
     }
 
-    /*static String checkAndReturnImageUrl() {
-        if (getMultimedia().size() != 0) {
-            for (MultimediaDTO multimedia : getMultimedia()) {
-                if (multimedia.getFormat().equals("thumbLarge")) {
-                    return multimedia.getUrl();
-                }
-            }
-        }
-        return "";
-    }*/
-
 }
