@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         android:fullBackupContent="true">
-        <activity android:name=".NewsListActivity">
+        <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +28,7 @@
         <activity
             android:name=".DetailedNewsActivity"
             android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".NewsListActivity" />
     </application>
 
 </manifest>
