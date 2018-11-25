@@ -30,7 +30,7 @@ public class IntroActivity extends AppCompatActivity {
         showLogo = initShowLogo();
 
         if (showLogo) {
-            saveShowLogo(false);
+            saveShowLogo(false); //false
             createSplashScreen();
             Disposable disposable = Completable.complete()
                     .delay(2, TimeUnit.SECONDS)

@@ -25,6 +25,7 @@ import com.example.android.maximfialko.network.RestApi;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +46,6 @@ public class NewsListActivity extends AppCompatActivity {
     private View error;
     private Spinner spinner;
 
-
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -60,16 +60,12 @@ public class NewsListActivity extends AppCompatActivity {
 
         adapter = new NewsAdapter(this, new ArrayList<>(), clickListener);
 
+        setupSpinner();
 
         //ps to dp //util class
         DensityPixelMath DPmath = new DensityPixelMath(getApplicationContext());
         //add Margins to Recycler View
         Margins decoration = new Margins((int) DPmath.dpFromPx(44), 1);
-
-        //spinner setup/declaration
-//      final Category[] categoriesNews = Category.values();
-
-        setupSpinner();
 
         rv.addItemDecoration(decoration);
         rv.setAdapter(adapter);
@@ -84,18 +80,18 @@ public class NewsListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //TODO: SpinnerAdapter for category usage
-        loadItems("home");
+        loadItems(spinner.getSelectedItem().toString());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        compositeDisposable.dispose();
+        compositeDisposable.clear();
     }
 
     private void setupSpinner() {
-        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
+        ArrayAdapter<String> spinner_adapter =
+                new ArrayAdapter<String>(this, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinner_adapter);
 
@@ -103,8 +99,9 @@ public class NewsListActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                loadItems( spinner.getSelectedItem().toString());
+                loadItems(spinner.getSelectedItem().toString());
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
@@ -133,10 +130,8 @@ public class NewsListActivity extends AppCompatActivity {
 
     private void handleError(Throwable throwable) {
         if (throwable instanceof IOException) {
-//            showError(true);
             return;
         }
-//        showError(true);
         Visibility.setVisible(rv, false);
         Visibility.setVisible(progress, false);
         Visibility.setVisible(error, true);
@@ -158,19 +153,13 @@ public class NewsListActivity extends AppCompatActivity {
         Visibility.setVisible(error, !show);
     }
 
-//    void showError(boolean show) {
-//        Visibility.setVisible(progress, !show);
-//        Visibility.setVisible(rv, !show);
-//        Visibility.setVisible(error, show);
-//    }
-
-    @Override //for MENU toolbar
+    @Override //for AboutActivity MENU toolbar
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
 
-    @Override //for MENU toolbar
+    @Override //for AboutActivity MENU toolbar
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_switch:
@@ -180,139 +169,6 @@ public class NewsListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-//    private NewsAdapter adapter;
-//    private ProgressBar progress;
-//    private RecyclerView rv;
-//    private View error;
-//
-//    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-//
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.news_list_activity);
-//
-//        progress = (ProgressBar) findViewById(R.id.progress);
-//        rv = (RecyclerView) findViewById(R.id.recycler_view);
-//        error = (View) findViewById(R.id.lt_error);
-//
-//        adapter = new NewsAdapter(this, new ArrayList<>(), clickListener);
-//
-//        //ps to dp //util class
-//        DensityPixelMath DPmath = new DensityPixelMath(getApplicationContext());
-//        //add Margins to Recycler View
-//        Margins decoration = new Margins((int) DPmath.dpFromPx(44), 1);
-//
-//        rv.addItemDecoration(decoration);
-//        rv.setAdapter(adapter);
-//
-//        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            rv.setLayoutManager(new LinearLayoutManager(this));
-//        } else {
-//            rv.setLayoutManager(new GridLayoutManager(this, 2));
-//        }
-//    }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        //TODO: SpinnerAdapter for category usage
-//        loadItems("home");
-//    }
-//
-//    //переход на DetailedNewsActivity через WebView
-//    private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getTextUrl());
-//
-//    //асинхронная загрузка списка новостей
-//    private void loadItems(@NonNull String category) {
-//        showProgress(true);
-//        final Disposable searchDisposable = RestApi.getInstance()
-//                .topStoriesEndpoint()
-//                .getNews(category)
-//                .map(response -> MapperDtoToNews.map(response.getNews()))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(newsItems -> setupNews(newsItems), throwable -> handleError(throwable));
-//        compositeDisposable.add(searchDisposable);
-//        Visibility.setVisible(rv, true);
-//    }
-//
-////    private void transformResponse(@NonNull Response<TopStoriesResponse<List<NewsItemDTO>>> response) {
-////
-////        final TopStoriesResponse<List<NewsItemDTO>> body = response.body();
-////        assert body != null;
-////        final List<NewsItemDTO> data = body.getData();
-////
-////        adapter.replaceItems(data);
-////    }
-//
-//    private void handleError(Throwable throwable) {
-//        if (throwable instanceof IOException) {
-//            showError(true);
-//            return;
-//        }
-//        showError(true);
-//    }
-//
-//    private void setupNews(List<NewsItem> newsItems) {
-//        showProgress(false);
-//        updateItems(newsItems);
-//    }
-//
-//    private void updateItems(@Nullable List<NewsItem> news) {
-//        if (adapter != null) adapter.replaceItems(news);
-//
-//        Visibility.setVisible(rv, true);
-//        Visibility.setVisible(progress, false);
-//        Visibility.setVisible(error, false);
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        showProgress(false);
-//        compositeDisposable.dispose();
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_list, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_switch:
-//                startActivity(new Intent(this, AboutActivity.class));
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-//
-//    //метод перехода на активити DetailedNews
-//    public void openDetailedNewsActivity(String url) {
-//        DetailedNewsActivity.start(this, url);
-//    }
-//
-//    public NewsAdapter getAdapter() {
-//        return adapter;
-//    }
-//
-//    public void showProgress(boolean show) {
-//        Visibility.setVisible(progress, show);
-//        Visibility.setVisible(rv, !show);
-//        Visibility.setVisible(error, !show);
-//    }
-//
-//    void showError(boolean show) {
-//        Visibility.setVisible(progress, !show);
-//        Visibility.setVisible(rv, !show);
-//        Visibility.setVisible(error, show);
-//    }
 }
 
 
