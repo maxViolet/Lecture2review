@@ -33,6 +33,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="64dp"
-        android:background="@color/dimOrange"
         android:text="@string/email" />
 </RelativeLayout>
