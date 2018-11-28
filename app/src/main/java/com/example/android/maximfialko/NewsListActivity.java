@@ -68,7 +68,7 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     //переход на DetailedNewsActivity
-    private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getItemId());
+    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getItemId());
 
     //асинхронная загрузка списка новостей
     private void loadItems() {
