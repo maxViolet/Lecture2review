@@ -24,13 +24,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<NewsItem> news = new ArrayList<>();
     private final LayoutInflater inflater;
     @NonNull
-    private final OnItemClickListener clickListener;
+    private final newsItemClickListener clickListener;
     @NonNull
     private final RequestManager imageLoader;
 
     public NewsAdapter(@NonNull Context context,
                        @NonNull List<NewsItem> news,
-                       @NonNull OnItemClickListener clickListener) {
+                       @NonNull newsItemClickListener clickListener) {
         this.news = news;
         this.inflater = LayoutInflater.from(context);
         this.clickListener = clickListener;
@@ -71,7 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.news.addAll(newsItems);
     }
 
-    public interface OnItemClickListener {
+    public interface newsItemClickListener {
         void onItemClick(NewsItem item);
     }
 
