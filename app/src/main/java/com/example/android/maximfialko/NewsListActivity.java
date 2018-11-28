@@ -3,7 +3,6 @@ package com.example.android.maximfialko;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.maximfialko.Utils.DensityPixelMath;
-import com.example.android.maximfialko.data.Category;
 import com.example.android.maximfialko.network.DTOmodels.MapperDtoToNews;
 import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.Utils.Margins;
@@ -25,7 +23,6 @@ import com.example.android.maximfialko.network.RestApi;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,9 +106,7 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     //переход на DetailedNewsActivity через WebView
-    private final NewsAdapter.OnItemClickListener clickListener = position -> {
-        openDetailedNewsActivity(position.getTextUrl());
-    };
+    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getTextUrl());
 
     //асинхронная загрузка списка новостей
     private void loadItems(@NonNull String category) {
