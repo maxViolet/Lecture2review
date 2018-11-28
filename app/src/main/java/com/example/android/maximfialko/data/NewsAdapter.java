@@ -16,19 +16,17 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-//--------------------------------------------------------------------------------------------------
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
     private List<NewsItem> news;
     private final LayoutInflater inflater;
     @NonNull
-    private final OnItemClickListener clickListener;
+    private final newItemClickListener clickListener;
     @NonNull
     private final RequestManager imageLoader;
 
-    //----------------------------------------------------------------------------------------------
     public NewsAdapter(@NonNull Context context, @NonNull List<NewsItem> news,
-                       @NonNull OnItemClickListener clickListener) {
+                       @NonNull newItemClickListener clickListener) {
         this.news = news;
         this.inflater = LayoutInflater.from(context);
         this.clickListener = clickListener;
@@ -63,11 +61,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.news.addAll(newsItems);
     }
 
-    public interface OnItemClickListener {
+    public interface newItemClickListener {
         void onItemClick(NewsItem item);
     }
 
-    //--------------------------------------------------------------------------------------------------
     class ViewHolder extends RecyclerView.ViewHolder {
         //private CardView cvView;
         private TextView categoryView;
@@ -77,7 +74,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private ImageView imageUrlView;
         private TextView publishDateView;
 
-        //----------------------------------------------------------------------------------------------
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {

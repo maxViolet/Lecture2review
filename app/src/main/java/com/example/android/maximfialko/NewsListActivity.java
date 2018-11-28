@@ -2,23 +2,13 @@ package com.example.android.maximfialko;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.maximfialko.data.Margins;
-import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.data.NewsItemList;
 import com.example.android.maximfialko.data.NewsAdapter;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.WeakHashMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +22,7 @@ public class NewsListActivity extends AppCompatActivity{
     private NewsAdapter adapter;
 
     //переход на DetailedNewsActivity
-    private final NewsAdapter.OnItemClickListener clickListener = position -> openDetailedNewsActivity(position.getItemId());
+    private final NewsAdapter.newItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getItemId());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
