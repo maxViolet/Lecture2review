@@ -1,8 +1,16 @@
 <resources>
-    <string name="app_name">Maxim Fialko</string>
+    <string name="app_name">New-York Times</string>
+
     <string name="enter_a_message">Enter a message…</string>
     <string name="send_message">SEND MESSAGE</string>
     <string name="blablabla">This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
         This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
          This is a test text. This is a test text. This is a test text. This is a test text. This is a test text. This is a
         test text.</string>
@@ -103,4 +111,36 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="action_switch">test text2</string>
+    <string name="error_network">error network</string>
+    <string name="btn_try_again">try again</string>
+
+    <string-array name="categoryList">
+        <item>home</item>
+        <item>opinion</item>
+        <item>world</item>
+        <item>national</item>
+        <item>politics</item>
+        <item>upshot</item>
+        <item>business</item>
+        <item>technology</item>
+        <item>science</item>
+        <item>health</item>
+        <item>arts</item>
+        <item>books</item>
+        <item>movies</item>
+        <item>theater</item>
+        <item>sundayreview</item>
+        <item>fashion</item>
+        <item>tmagazine</item>
+        <item>food</item>
+        <item>travel</item>
+        <item>magazine</item>
+        <item>realestate</item>
+        <item>automobiles</item>
+        <item>obituaries</item>
+        <item>insider</item>
+    </string-array>
+
 </resources>
