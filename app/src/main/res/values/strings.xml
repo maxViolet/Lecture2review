@@ -1,8 +1,16 @@
 <resources>
-    <string name="app_name">Maxim Fialko</string>
+    <string name="app_name">New-York Times</string>
+
     <string name="enter_a_message">Enter a message…</string>
     <string name="send_message">SEND MESSAGE</string>
     <string name="blablabla">This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
+        This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
         This is a test text. This is a test text. This is a test text. This is a test text. This is a test text.
          This is a test text. This is a test text. This is a test text. This is a test text. This is a test text. This is a
         test text.</string>
@@ -103,4 +111,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="action_switch">test text2</string>
+
 </resources>
