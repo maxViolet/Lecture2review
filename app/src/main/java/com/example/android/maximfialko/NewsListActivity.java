@@ -19,6 +19,11 @@ import com.example.android.maximfialko.Utils.Margins;
 import com.example.android.maximfialko.data.NewsAdapter;
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.RestApi;
+import com.example.android.maximfialko.network.TopStoriesResponse;
+import com.example.android.maximfialko.room.MapperDbToNewsItem;
+import com.example.android.maximfialko.room.MapperDtoToDb;
+import com.example.android.maximfialko.room.NewsItemDB;
+import com.example.android.maximfialko.room.NewsItemRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsListActivity extends AppCompatActivity {
@@ -42,6 +48,7 @@ public class NewsListActivity extends AppCompatActivity {
     private RecyclerView rv;
     private View error;
     private Spinner spinner;
+    private NewsItemRepository newsRepository;
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -56,6 +63,9 @@ public class NewsListActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
 
         adapter = new NewsAdapter(this, new ArrayList<>(), clickListener);
+
+        newsRepository = new NewsItemRepository(getApplicationContext());
+        subscribeToData();
 
         setupSpinner();
 
@@ -88,7 +98,7 @@ public class NewsListActivity extends AppCompatActivity {
 
     private void setupSpinner() {
         ArrayAdapter<String> spinner_adapter =
-                new ArrayAdapter<String>(this, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
+                new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinner_adapter);
 
@@ -105,22 +115,33 @@ public class NewsListActivity extends AppCompatActivity {
         });
     }
 
-    //переход на DetailedNewsActivity через WebView
-    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getTextUrl());
-
     //асинхронная загрузка списка новостей
     private void loadItems(@NonNull String category) {
         showProgress(true);
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
                 .getNews(category)
-                .map(response -> MapperDtoToNews.map(response.getNews()))
+                .map(response -> MapperDtoToDb.map(response.getNews()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(newsItems -> setupNews(newsItems), throwable -> NewsListActivity.this.handleError(throwable));
+                .subscribe(newsItemDBlist -> newsRepository.saveData(newsItemDBlist), throwable -> handleError(throwable));
+//                .subscribe(new Consumer<TopStoriesResponse>() {
+//                    @Override
+//                    public void accept(TopStoriesResponse topStoriesResponse) throws Exception {
+//                        MapperDtoToDb.map(topStoriesResponse)
+//                    }
+//                });
         compositeDisposable.add(searchDisposable);
         showProgress(false);
         Visibility.setVisible(rv, true);
+    }
+
+    public void subscribeToData() {
+        Disposable disposable = newsRepository.getNewsObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> adapter.replaceItems(MapperDbToNewsItem.map(items)), throwable -> {
+                });
     }
 
     private void handleError(Throwable throwable) {
@@ -141,6 +162,10 @@ public class NewsListActivity extends AppCompatActivity {
     public void openDetailedNewsActivity(String url) {
         DetailedNewsActivity.start(this, url);
     }
+
+    //clickListener на DetailedNewsActivity через WebView
+    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getTextUrl());
+
 
     public void showProgress(boolean show) {
         Visibility.setVisible(progress, show);

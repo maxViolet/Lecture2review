@@ -8,15 +8,14 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "newsItem")
-public class NewsItem {
+@Entity(tableName = "newsItemDB")
+public class NewsItemDB {
 
-    public NewsItem() {
-    }
+//    public NewsItemDB() {
+//    }
 
-    @Ignore
-    public NewsItem(@NonNull int id, String title, String imageUrl, String category, Date publishDate, String previewText, String textUrl) {
-        this.id = id;
+    //    @Ignore
+    public NewsItemDB(@NonNull String title, String imageUrl, String category, String publishDate, String previewText, String textUrl) {
         this.title = title;
         this.imageUrl = imageUrl;
         this.category = category;
@@ -29,22 +28,16 @@ public class NewsItem {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
-
     @ColumnInfo(name = "title")
     private String title;
-
     @ColumnInfo(name = "imageUrl")
     private String imageUrl;
-
     @ColumnInfo(name = "category")
     private String category;
-
     @ColumnInfo(name = "publishDate")
-    private Date publishDate;
-
+    private String publishDate;
     @ColumnInfo(name = "previewText")
     private String previewText;
-
     @ColumnInfo(name = "textUrl")
     private String textUrl;
 
@@ -61,10 +54,10 @@ public class NewsItem {
     }
 
     public String getCategory() {
-        return imageUrl;
+        return category;
     }
 
-    public Date getPublishDate() {
+    public String getPublishDate() {
         return publishDate;
     }
 
@@ -76,5 +69,31 @@ public class NewsItem {
         return textUrl;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
+    }
+
+    public void setTextUrl(String textUrl) {
+        this.textUrl = textUrl;
+    }
 }

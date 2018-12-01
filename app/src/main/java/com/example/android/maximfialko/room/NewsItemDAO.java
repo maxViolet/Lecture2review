@@ -6,31 +6,35 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import io.reactivex.Observable;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface NewsItemDAO {
 
-    @Query("SELECT * FROM newsItem")
-    List<NewsItem> getAll();
+    @Query("SELECT * FROM NewsItemDB")
+    List<NewsItemDB> getAll();
+
+    @Query("SELECT * FROM newsItemDB")
+    Observable<List<NewsItemDB>> getAllObservables();
 
     @Insert(onConflict = REPLACE)
-    void insertAll(NewsItem... newsItems);
+    void insertAll(NewsItemDB... newsItemDBs);
 
     @Delete
-    void delete(NewsItem newsItem);
+    void delete(NewsItemDB newsItemDB);
 
-    @Query("DELETE FROM newsItem")
+    @Query("DELETE FROM NewsItemDB")
     void deleteAll();
 
-    @Query("SELECT * FROM newsItem WHERE id = :id")
-    NewsItem findNewsById(int id);
+    @Query("SELECT * FROM NewsItemDB WHERE id = :id")
+    NewsItemDB findNewsById(int id);
 
-    @Query("SELECT * FROM newsItem WHERE title LIKE :title LIMIT 1")
-    NewsItem findNewsById(String title);
+    @Query("SELECT * FROM NewsItemDB WHERE title LIKE :title LIMIT 1")
+    NewsItemDB findNewsById(String title);
 
-    @Query("SELECT * FROM newsItem WHERE title IN (:titles)")
-    List<NewsItem> loadAllByTitles(String[] titles);
+    @Query("SELECT * FROM NewsItemDB WHERE title IN (:titles)")
+    List<NewsItemDB> loadAllByTitles(String[] titles);
 
 }

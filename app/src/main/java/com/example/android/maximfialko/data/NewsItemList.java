@@ -9,7 +9,7 @@
 //public class NewsItemList {
 //
 //
-//    public static List<NewsItem> generateNews() {
+//    public static List<NewsItemDB> generateNews() {
 //
 ////        try {
 ////            Thread.sleep(3000);
@@ -23,8 +23,8 @@
 //        final Category animals = new Category(3, "Animals");
 //        final Category music = new Category(4, "Music");
 //
-//        List<NewsItem> news = new ArrayList<>();
-//        news.add(new NewsItem(
+//        List<NewsItemDB> news = new ArrayList<>();
+//        news.add(new NewsItemDB(
 //                "Tourist filmed sitting on 5m-long crocodile",
 //                "https://e3.365dm.com/18/09/736x414/skynews-crocodile-australia_4433218.jpg",
 //                darwinAwards,
@@ -43,7 +43,7 @@
 //                        + " time, sat down again, turned towards the camera, smiled and put this thumb in the air.\n\n"
 //                        + "Mr Jensen admitted he took life in his hands by sitting on a live crocodile for the first time."
 //        ));
-//        news.add(new NewsItem(
+//        news.add(new NewsItemDB(
 //                "Police warn daredevil cliff jumpers who are 'risking their lives for likes'",
 //                "https://e3.365dm.com/18/09/2048x1152/skynews-cliff-jumping-greg-milam_4433647.jpg",
 //                criminal,
@@ -61,7 +61,7 @@
 //                        + "dozens of risky selfie videos. Two men were recently rescued after being injured while being filmed at "
 //                        + "Hermit Falls."
 //        ));
-//        news.add(new NewsItem(
+//        news.add(new NewsItemDB(
 //                "Bear saved after getting his head stuck in milk can",
 //                "https://e3.365dm.com/18/09/2048x1152/skynews-bear-minnesota_4419111.jpg",
 //                animals,
@@ -78,7 +78,7 @@
 //                        + "accident victims - and a spreader to pry the can off.\n\n"
 //                        + "After being released, the seemingly healthy bear ran off into the woods."
 //        ));
-//        news.add(new NewsItem(
+//        news.add(new NewsItemDB(
 //                "Nearly $18m of cocaine seized in donated boxes of bananas",
 //                "https://e3.365dm.com/18/09/2048x1152/skynews-texas-bananas-drugs_4430760.jpg",
 //                criminal,
@@ -98,7 +98,7 @@
 //                        + "\"They immediately notified port authorities and awaited their instruction.\""
 //                        + "US Customs arrived and tested the substance, which confirmed the powder was cocaine."
 //        ));
-//        news.add(new NewsItem(
+//        news.add(new NewsItemDB(
 //                "US government hacker jailed after losing secrets",
 //                "https://e3.365dm.com/17/09/736x414/d55722dc4eb37f6959d2e047c14710d586aab99f90aa1e4acfd9f992125294f5_4107038.jpg",
 //                criminal,
@@ -122,7 +122,7 @@
 //                        + " that an NSA employee had actually been hacked when he downloaded pirate software and disabled "
 //                        + "Kaspersky's anti-virus."
 //        ));
-//        news.add(new NewsItem(
+//        news.add(new NewsItemDB(
 //                "Wet Wet Wet announce Liberty X star Kevin Simm as new frontman",
 //                "https://e3.365dm.com/18/09/2048x1152/skynews-wet-wet-wet-kevin-simm_4433314.jpg",
 //                music,

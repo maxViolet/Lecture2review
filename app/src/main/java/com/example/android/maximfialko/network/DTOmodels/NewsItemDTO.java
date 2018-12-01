@@ -54,17 +54,6 @@ public class NewsItemDTO {
         return multimedia;
     }
 
-    /*public String checkAndReturnImageUrl() {
-        if (getMultimedia().size() != 0) {
-            for (MultimediaDTO multimedia : getMultimedia()) {
-                if (multimedia.getFormat().equals("thumbLarge")) {
-                    return multimedia.getUrl();
-                }
-            }
-        }
-        return "";
-    }*/
-
     //TODO gson date converter // look: https://stackoverflow.com/questions/23095793/custom-gson-deserializer-for-date-never-gets-called?rq=1
 //    Gson gsonDate = new GsonBuilder()
 //            .setDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz").create();
