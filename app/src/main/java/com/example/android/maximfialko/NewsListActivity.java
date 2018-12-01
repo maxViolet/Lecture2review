@@ -3,6 +3,7 @@ package com.example.android.maximfialko;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,13 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.maximfialko.Utils.DensityPixelMath;
-import com.example.android.maximfialko.network.DTOmodels.MapperDtoToNews;
 import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.Utils.Margins;
 import com.example.android.maximfialko.data.NewsAdapter;
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.RestApi;
-import com.example.android.maximfialko.network.TopStoriesResponse;
 import com.example.android.maximfialko.room.MapperDbToNewsItem;
 import com.example.android.maximfialko.room.MapperDtoToDb;
 import com.example.android.maximfialko.room.NewsItemDB;
@@ -65,7 +64,7 @@ public class NewsListActivity extends AppCompatActivity {
         adapter = new NewsAdapter(this, new ArrayList<>(), clickListener);
 
         newsRepository = new NewsItemRepository(getApplicationContext());
-        subscribeToData();
+        subscribeToDataFromDb();
 
         setupSpinner();
 
@@ -87,7 +86,7 @@ public class NewsListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loadItems(spinner.getSelectedItem().toString());
+       // loadItems(spinner.getSelectedItem().toString());
     }
 
     @Override
@@ -117,6 +116,7 @@ public class NewsListActivity extends AppCompatActivity {
 
     //асинхронная загрузка списка новостей
     private void loadItems(@NonNull String category) {
+        Log.d("room", "start loadNews");
         showProgress(true);
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
@@ -124,24 +124,38 @@ public class NewsListActivity extends AppCompatActivity {
                 .map(response -> MapperDtoToDb.map(response.getNews()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(newsItemDBlist -> newsRepository.saveData(newsItemDBlist), throwable -> handleError(throwable));
-//                .subscribe(new Consumer<TopStoriesResponse>() {
-//                    @Override
-//                    public void accept(TopStoriesResponse topStoriesResponse) throws Exception {
-//                        MapperDtoToDb.map(topStoriesResponse)
-//                    }
-//                });
+                .subscribe(new Consumer<List<NewsItemDB>>() {
+                    @Override
+                    public void accept(List<NewsItemDB> newsItemDBlist) throws Exception {
+                        newsRepository.saveData(newsItemDBlist);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        NewsListActivity.this.handleError(throwable);
+                    }
+                });
+        Log.d("room", "items saved to bd");
         compositeDisposable.add(searchDisposable);
         showProgress(false);
         Visibility.setVisible(rv, true);
     }
 
-    public void subscribeToData() {
+    public void subscribeToDataFromDb() {
         Disposable disposable = newsRepository.getNewsObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> adapter.replaceItems(MapperDbToNewsItem.map(items)), throwable -> {
+//                .map(MapperDbToNewsItem.map())
+//                .subscribe(items -> setupNews(MapperDbToNewsItem.map(items)), throwable -> {
+//                });
+                .subscribe(new Consumer<List<NewsItemDB>>() {
+                    @Override
+                    public void accept(List<NewsItemDB> items) throws Exception {
+                        adapter.replaceItems(MapperDbToNewsItem.map(items));
+                        Log.d("room", items.toString());
+                    }
                 });
+        Log.d("room", "subscribed");
     }
 
     private void handleError(Throwable throwable) {

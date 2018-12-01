@@ -1,6 +1,7 @@
 package com.example.android.maximfialko.data;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +63,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public void replaceItems(@NonNull List<NewsItem> newItems) {
+        Log.d("room", "items updated in recycler1");
         news.clear();
         news.addAll(newItems);
         notifyDataSetChanged();
+        Log.d("room", "items updated in recycler2");
     }
 
     public void add(List<NewsItem> newsItems) {
