@@ -1,5 +1,7 @@
 package com.example.android.maximfialko.room;
 
+import android.util.Log;
+
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.DTOmodels.MultimediaDTO;
 import com.example.android.maximfialko.network.DTOmodels.NewsItemDTO;
@@ -15,20 +17,25 @@ public class MapperDtoToDb {
     public static List<NewsItemDB> map(List<NewsItemDTO> listDto) {
 
         final List<NewsItemDB> list = new ArrayList<>();
+        Log.d("room","items converted, START");
 
         for (NewsItemDTO item_dto : listDto) {
+
             list.add(
                     new NewsItemDB(
-                            item_dto.getTitle(),        //title
+                            item_dto.getTitle(),                //title
                             mapImage(item_dto.getMultimedia()), //imageUrl
-                            item_dto.getSection(),      //category
+                            item_dto.getSection(),              //category
                             item_dto.getPublishDate().toString(),  //publishDate
-                            item_dto.getAbstract(),     //textPreview
-                            item_dto.getUrl()           //textUrl
+                            item_dto.getAbstract(),             //textPreview
+                            item_dto.getUrl()                   //textUrl
                     )
             );
+            Log.d("room","items converted, " + item_dto.getSection() + ", " +
+                    item_dto.getPublishDate().toString() + ", " + item_dto.getTitle());
         }
 
+        Log.d("room","items converted, END");
         return list;
     }
 

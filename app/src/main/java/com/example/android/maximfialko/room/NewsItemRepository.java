@@ -1,6 +1,7 @@
 package com.example.android.maximfialko.room;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -17,17 +18,12 @@ public class NewsItemRepository {
         this.mContext = mContext;
     }
 
-//    private AppDatabase db;
-//
-//    public NewsItemRepository(Context mContext) {
-//        db = AppDatabase.getAppDatabase(mContext);
-//    }
-
     public Completable saveData(final List<NewsItemDB> newsItemDBlist) {
+        Log.d("room", "SAVE DATA to DB");
         return Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-            AppDatabase db = AppDatabase.getAppDatabase(mContext);
+                AppDatabase db = AppDatabase.getAppDatabase(mContext);
 
                 NewsItemDB[] items = newsItemDBlist.toArray(new NewsItemDB[newsItemDBlist.size()]);
 
@@ -35,20 +31,18 @@ public class NewsItemRepository {
                 return null;
             }
         });
+
     }
 
+    //источник данных из бд, на который можно подписаться
     public Single<List<NewsItemDB>> getData() {
+        return Single.fromCallable(new Callable<List<NewsItemDB>>() {
+            @Override
+            public List<NewsItemDB> call() throws Exception {
+                AppDatabase db = AppDatabase.getAppDatabase(mContext);
 
-        return Single.fromCallable(() -> {
-            AppDatabase db = AppDatabase.getAppDatabase(mContext);
-
-            return db.newsItemDAO().getAll();
+                return db.newsItemDAO().getAll();
+            }
         });
-    }
-
-    public Observable<List<NewsItemDB>> getNewsObservable() {
-        AppDatabase db = AppDatabase.getAppDatabase(mContext);
-
-        return db.newsItemDAO().getAllObservables();
     }
 }

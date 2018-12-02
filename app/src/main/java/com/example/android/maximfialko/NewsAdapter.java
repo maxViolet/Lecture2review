@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.data;
+package com.example.android.maximfialko;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.android.maximfialko.R;
 import com.example.android.maximfialko.Utils.DateUtils;
+import com.example.android.maximfialko.data.NewsItem;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
-    private List<NewsItem> news = new ArrayList<>();
+    private List<NewsItem> news;
     private final LayoutInflater inflater;
     @NonNull
     private final newsItemClickListener clickListener;
@@ -63,11 +63,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public void replaceItems(@NonNull List<NewsItem> newItems) {
-        Log.d("room", "items updated in recycler1");
+        Log.d("room", "replaceItems START");
         news.clear();
         news.addAll(newItems);
         notifyDataSetChanged();
-        Log.d("room", "items updated in recycler2");
+        Log.d("room", "replaceItems END");
     }
 
     public void add(List<NewsItem> newsItems) {
@@ -79,6 +79,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private int id;
         private TextView categoryView;
         private TextView titleView;
         private TextView previewTextView;
@@ -101,6 +102,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
         void bind(NewsItem newsItem) {
+            id = newsItem.getId();
+            Log.d("room", "ADAPTER: id binded");
             imageLoader.load(newsItem.getImageUrl()).into(imageUrlView);
             categoryView.setText(newsItem.getCategory());
             titleView.setText(newsItem.getTitle());

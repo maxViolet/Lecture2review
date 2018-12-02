@@ -7,6 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
 
@@ -17,7 +18,7 @@ public interface NewsItemDAO {
     List<NewsItemDB> getAll();
 
     @Query("SELECT * FROM newsItemDB")
-    Observable<List<NewsItemDB>> getAllObservables();
+    Single<List<NewsItemDB>> getAllSingle();
 
     @Insert(onConflict = REPLACE)
     void insertAll(NewsItemDB... newsItemDBs);
