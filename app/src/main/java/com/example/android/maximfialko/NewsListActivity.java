@@ -105,7 +105,7 @@ public class NewsListActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 Log.d("room", "CATEGORY is selected in spinner");
-                loadItems(spinner.getSelectedItem().toString());
+                loadItemsToDb(spinner.getSelectedItem().toString());
             }
 
             @Override
@@ -115,26 +115,26 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     //асинхронная загрузка списка новостей
-    private void loadItems(@NonNull String category) {
+    private void loadItemsToDb(@NonNull String category) {
         Log.d("room", "loadNews START");
-//        showProgress(true);
+        showProgress(true);
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
                 .getNews(category)
                 .map(response -> MapperDtoToDb.map(response.getNews()))
+                .map(news -> newsRepository.saveData(news))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<NewsItemDB>>() {
                     @Override
                     public void accept(List<NewsItemDB> newsItemDBlist) throws Exception {
-                        newsRepository.saveData(newsItemDBlist);
-//                        setupNews(MapperDbToNewsItem.map(newsItemDBlist));
+//                        newsRepository.saveData(newsItemDBlist);
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        NewsListActivity.this.handleError(throwable);
-                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        NewsListActivity.this.handleError(throwable);
+//                    }
                 });
         Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);
@@ -149,9 +149,9 @@ public class NewsListActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(List<NewsItemDB> newsItemDBS) {
                         setupNews(MapperDbToNewsItem.map(newsItemDBS));
-                        for (NewsItem items : MapperDbToNewsItem.map(newsItemDBS)) {
-                            Log.d("room", "ON SUCCESS" + items.getId() + items.getTitle());
-                        }
+//                        for (NewsItem items : MapperDbToNewsItem.map(newsItemDBS)) {
+//                            Log.d("room", "ON SUCCESS" + items.getId() + items.getTitle());
+//                        }
                     }
 
                     @Override

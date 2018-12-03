@@ -36,13 +36,10 @@ public class NewsItemRepository {
 
     //источник данных из бд, на который можно подписаться
     public Single<List<NewsItemDB>> getData() {
-        return Single.fromCallable(new Callable<List<NewsItemDB>>() {
-            @Override
-            public List<NewsItemDB> call() throws Exception {
-                AppDatabase db = AppDatabase.getAppDatabase(mContext);
+        return Single.fromCallable((Callable<List<NewsItemDB>>) () -> {
+            AppDatabase db = AppDatabase.getAppDatabase(mContext);
 
-                return db.newsItemDAO().getAll();
-            }
+            return db.newsItemDAO().getAll();
         });
     }
 }

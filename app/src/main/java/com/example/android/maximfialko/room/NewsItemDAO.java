@@ -14,7 +14,7 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface NewsItemDAO {
 
-    @Query("SELECT * FROM NewsItemDB")
+    @Query("SELECT * FROM newsItemDB")
     List<NewsItemDB> getAll();
 
     @Query("SELECT * FROM newsItemDB")
