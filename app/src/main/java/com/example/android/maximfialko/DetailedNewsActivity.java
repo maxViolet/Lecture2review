@@ -10,13 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+import com.example.android.maximfialko.room.NewsItemRepository;
+
 public class DetailedNewsActivity extends AppCompatActivity {
 
-    private static final String URL_EXTRAS = "url_extras";
+    private NewsItemRepository newsRepository;
+    private static final String ID_EXTRAS = "id_extras";
 
-    public static void start(Activity activity, String url) {
+    public static void start(Activity activity, int id) {
         Intent intent = new Intent(activity, DetailedNewsActivity.class);
-        intent.putExtra(URL_EXTRAS,url);
+        intent.putExtra(ID_EXTRAS, id);
         activity.startActivity(intent);
     }
 
@@ -26,10 +29,10 @@ public class DetailedNewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_news);
         setTheme(R.style.AppThemeNoActionBar);
 
-        final String Url = getIntent().getStringExtra(URL_EXTRAS);
+        int Id = Integer.valueOf(getIntent().getStringExtra(ID_EXTRAS));
 
-        final WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.loadUrl(Url);
+//        final WebView webView = (WebView) findViewById(R.id.web_view);
+//        webView.loadUrl(Id);
     }
 
     @Override

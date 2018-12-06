@@ -20,6 +20,9 @@ public interface NewsItemDAO {
     @Query("SELECT * FROM newsItemDB")
     Single<List<NewsItemDB>> getAllSingle();
 
+    @Query("SELECT * FROM newsItemDB")
+    Observable<List<NewsItemDB>> getAllObservable();
+
     @Insert(onConflict = REPLACE)
     void insertAll(NewsItemDB... newsItemDBs);
 

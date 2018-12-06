@@ -14,10 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.maximfialko.Utils.DensityPixelMath;
-import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.Utils.Margins;
+import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.RestApi;
+import com.example.android.maximfialko.network.TopStoriesResponse;
 import com.example.android.maximfialko.room.MapperDbToNewsItem;
 import com.example.android.maximfialko.room.MapperDtoToDb;
 import com.example.android.maximfialko.room.NewsItemDB;
@@ -37,7 +38,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsListActivity extends AppCompatActivity {
@@ -65,6 +66,8 @@ public class NewsListActivity extends AppCompatActivity {
 
         newsRepository = new NewsItemRepository(getApplicationContext());
 
+        subscribeToDataFromDb();
+
         setupSpinner();
 
         //ps to dp //util class
@@ -85,7 +88,6 @@ public class NewsListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        subscribeToDataFromDb();
     }
 
     @Override
@@ -118,24 +120,14 @@ public class NewsListActivity extends AppCompatActivity {
     private void loadItemsToDb(@NonNull String category) {
         Log.d("room", "loadNews START");
         showProgress(true);
-        final Disposable searchDisposable = RestApi.getInstance()
-                .topStoriesEndpoint()
-                .getNews(category)
-                .map(response -> MapperDtoToDb.map(response.getNews()))
-                .map(news -> newsRepository.saveData(news))
+        final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
+                .topStoriesEndpoint()   //return topStoriesEndpoint
+                .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
+                .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
+                .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<NewsItemDB>>() {
-                    @Override
-                    public void accept(List<NewsItemDB> newsItemDBlist) throws Exception {
-//                        newsRepository.saveData(newsItemDBlist);
-                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        NewsListActivity.this.handleError(throwable);
-//                    }
-                });
+                .subscribe();
         Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);
         showProgress(false);
@@ -144,25 +136,12 @@ public class NewsListActivity extends AppCompatActivity {
 
     public void subscribeToDataFromDb() {
         Log.d("room", "subscribeToDataFromDb()");
-        Disposable disposable = newsRepository.getData()
-                .subscribeWith(new DisposableSingleObserver<List<NewsItemDB>>() {
-                    @Override
-                    public void onSuccess(List<NewsItemDB> newsItemDBS) {
-                        setupNews(MapperDbToNewsItem.map(newsItemDBS));
-//                        for (NewsItem items : MapperDbToNewsItem.map(newsItemDBS)) {
-//                            Log.d("room", "ON SUCCESS" + items.getId() + items.getTitle());
-//                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("room", e.toString());
-                    }
-                });
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(newsItemDBlist -> setupNews(MapperDbToNewsItem.map(newsItemDBlist)),
-//                        throwable -> Log.d("room", throwable.toString()));
+        Disposable disposable = newsRepository.getDataObservable()
+                .map(newsItemDBS -> MapperDbToNewsItem.map(newsItemDBS))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(newsItems -> setupNews(newsItems),
+                        throwable -> Log.d("room", throwable.toString()));
         compositeDisposable.add(disposable);
     }
 
@@ -182,12 +161,12 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     //метод перехода на активити DetailedNews
-    public void openDetailedNewsActivity(String url) {
-        DetailedNewsActivity.start(this, url);
+    public void openDetailedNewsActivity(int id) {
+        DetailedNewsActivity.start(this, id);
     }
 
     //clickListener на DetailedNewsActivity через WebView
-    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getTextUrl());
+    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
 
 
     public void showProgress(boolean show) {

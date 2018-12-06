@@ -25,21 +25,27 @@ public class NewsItemRepository {
             public Void call() throws Exception {
                 AppDatabase db = AppDatabase.getAppDatabase(mContext);
 
+                db.newsItemDAO().deleteAll();
+
                 NewsItemDB[] items = newsItemDBlist.toArray(new NewsItemDB[newsItemDBlist.size()]);
 
                 db.newsItemDAO().insertAll(items);
                 return null;
             }
         });
-
     }
 
     //источник данных из бд, на который можно подписаться
     public Single<List<NewsItemDB>> getData() {
-        return Single.fromCallable((Callable<List<NewsItemDB>>) () -> {
+        return Single.fromCallable(() -> {
             AppDatabase db = AppDatabase.getAppDatabase(mContext);
 
             return db.newsItemDAO().getAll();
         });
+    }
+
+    public Observable<List<NewsItemDB>> getDataObservable() {
+        AppDatabase db = AppDatabase.getAppDatabase(mContext);
+        return db.newsItemDAO().getAllObservable();
     }
 }

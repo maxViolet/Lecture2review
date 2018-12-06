@@ -28,7 +28,7 @@ public class MapperDbToNewsItem {
                             item_db.getTextUrl()                         //textUrl
                     )
             );
-            Log.d("room","CONVERTED DB -> NewsItems");
+//            Log.d("room","CONVERTED DB -> NewsItems");
 //            Log.d("room","items converted, " + item_db.getCategory() + ", " +
 //                    item_db.getPublishDate() + ", " + item_db.getTitle());
         }
@@ -44,7 +44,7 @@ public class MapperDbToNewsItem {
             return dateFormat.parse(publishedDate);
         } catch (ParseException e) {
 //            Log.d("room", "formatDateFromDb returned NULL");
-            return null;
+            return new Date(11, 11, 11);
         }
     }
 }
