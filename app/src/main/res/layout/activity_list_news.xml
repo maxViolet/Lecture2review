@@ -40,7 +40,7 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:context=".NewsListActivity"
-            tools:listitem="@layout/cardview_layout" />
+            tools:listitem="@layout/cardview_news_item" />
     </FrameLayout>
 
     <!--Handle Error layout-->

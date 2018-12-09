@@ -26,7 +26,7 @@ public class PreviewEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.preview_email_activity);
+        setContentView(R.layout.activity_email);
 
         final Button email = (Button) findViewById(R.id.emailButton);
         final TextView messageView = (TextView) findViewById(R.id.textOutput);

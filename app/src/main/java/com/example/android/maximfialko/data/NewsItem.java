@@ -8,11 +8,11 @@ public class NewsItem {
     private final String title;
     private final String imageUrl;
     private final String category;
-    private final Date publishDate;
+    private final String publishDate;
     private final String previewText;
     private final String textUrl;
 
-    public NewsItem(int id, String title, String imageUrl, String category, Date publishDate, String previewText, String textUrl) {
+    public NewsItem(int id, String title, String imageUrl, String category, String publishDate, String previewText, String textUrl) {
         this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
@@ -42,7 +42,7 @@ public class NewsItem {
         return textUrl;
     }
 
-    public Date getPublishDate() {
+    public String getPublishDate() {
         return publishDate;
     }
 

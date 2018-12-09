@@ -25,4 +25,16 @@ public class DateUtils {
         );
     }
 
+    public static Date formatDateFromDb(String publishedDate) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss",
+                Locale.ENGLISH);
+        try {
+            return dateFormat.parse(publishedDate);
+        } catch (ParseException e) {
+            return new Date(11, 11, 11);
+        }
+    }
+
 }

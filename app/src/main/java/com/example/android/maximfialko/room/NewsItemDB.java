@@ -11,10 +11,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "newsItemDB")
 public class NewsItemDB {
 
-//    public NewsItemDB() {
-//    }
-
-    //    @Ignore
     public NewsItemDB(@NonNull String title, String imageUrl, String category, String publishDate, String previewText, String textUrl) {
         this.title = title;
         this.imageUrl = imageUrl;

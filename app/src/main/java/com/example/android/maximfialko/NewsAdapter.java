@@ -14,11 +14,16 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.android.maximfialko.Utils.DateUtils;
 import com.example.android.maximfialko.data.NewsItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull
@@ -47,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                inflater.inflate(R.layout.cardview_layout, parent, false)
+                inflater.inflate(R.layout.cardview_news_item, parent, false)
         );
     }
 
@@ -103,12 +108,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         void bind(NewsItem newsItem) {
             id = newsItem.getId();
-            Log.d("room", "ADAPTER: id binded");
+//            Log.d("room", "ADAPTER: id binded");
             imageLoader.load(newsItem.getImageUrl()).into(imageUrlView);
             categoryView.setText(newsItem.getCategory());
             titleView.setText(newsItem.getTitle());
             previewTextView.setText(newsItem.getPreviewText());
-            publishDateView.setText(DateUtils.formatDateTime(itemView.getContext(),newsItem.getPublishDate()));
+            publishDateView.setText(DateUtils.formatDateTime(
+                    itemView.getContext(),
+                    formatDateFromDb(newsItem.getPublishDate())
+            ));
         }
     }
+
+
 }

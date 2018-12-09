@@ -48,4 +48,12 @@ public class NewsItemRepository {
         AppDatabase db = AppDatabase.getAppDatabase(mContext);
         return db.newsItemDAO().getAllObservable();
     }
+
+    public Single<NewsItemDB> getNewsById(int id) {
+        return Single.fromCallable(() -> {
+            AppDatabase db = AppDatabase.getAppDatabase(mContext);
+
+            return db.newsItemDAO().findNewsById(id);
+        });
+    }
 }

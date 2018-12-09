@@ -36,7 +36,7 @@ public interface NewsItemDAO {
     NewsItemDB findNewsById(int id);
 
     @Query("SELECT * FROM NewsItemDB WHERE title LIKE :title LIMIT 1")
-    NewsItemDB findNewsById(String title);
+    NewsItemDB findNewsByTitle(String title);
 
     @Query("SELECT * FROM NewsItemDB WHERE title IN (:titles)")
     List<NewsItemDB> loadAllByTitles(String[] titles);

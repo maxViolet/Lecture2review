@@ -1,5 +1,7 @@
 package com.example.android.maximfialko.network.DTOmodels;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class NewsItemDTO {
     private String dto_url;
 
     @SerializedName("published_date")
-    private Date dto_published_date;
+    private String dto_published_date;
 
     @SerializedName("multimedia")
     @Nullable
@@ -45,7 +47,8 @@ public class NewsItemDTO {
         return dto_url;
     }
 
-    public Date getPublishDate() {
+    public String getPublishDate() {
+        Log.d("room", "DTO ITEMS original date: " + dto_published_date);
         return dto_published_date;
     }
 
@@ -53,9 +56,4 @@ public class NewsItemDTO {
     public ArrayList<MultimediaDTO> getMultimedia() {
         return multimedia;
     }
-
-    //TODO gson date converter // look: https://stackoverflow.com/questions/23095793/custom-gson-deserializer-for-date-never-gets-called?rq=1
-//    Gson gsonDate = new GsonBuilder()
-//            .setDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz").create();
-
 }

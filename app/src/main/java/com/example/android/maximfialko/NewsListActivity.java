@@ -18,10 +18,8 @@ import com.example.android.maximfialko.Utils.Margins;
 import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.RestApi;
-import com.example.android.maximfialko.network.TopStoriesResponse;
 import com.example.android.maximfialko.room.MapperDbToNewsItem;
 import com.example.android.maximfialko.room.MapperDtoToDb;
-import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 
 import java.io.IOException;
@@ -37,8 +35,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsListActivity extends AppCompatActivity {
@@ -55,7 +51,7 @@ public class NewsListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.news_list_activity);
+        setContentView(R.layout.activity_list_news);
 
         progress = (ProgressBar) findViewById(R.id.progress);
         rv = (RecyclerView) findViewById(R.id.recycler_view);
@@ -87,13 +83,28 @@ public class NewsListActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        Log.d("lifecycle", "_____________onSTART");
         super.onStart();
     }
 
     @Override
     protected void onStop() {
+        Log.d("lifecycle", "_____________onSTOP");
         super.onStop();
         compositeDisposable.clear();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("lifecycle", "_____________onRESUME");
+        super.onResume();
+        subscribeToDataFromDb();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("lifecycle", "_____________onDESTROY");
+        super.onDestroy();
     }
 
     private void setupSpinner() {
@@ -145,15 +156,6 @@ public class NewsListActivity extends AppCompatActivity {
         compositeDisposable.add(disposable);
     }
 
-    private void handleError(Throwable throwable) {
-        if (throwable instanceof IOException) {
-            return;
-        }
-        Visibility.setVisible(rv, false);
-        Visibility.setVisible(progress, false);
-        Visibility.setVisible(error, true);
-    }
-
     private void setupNews(List<NewsItem> newsItems) {
         showProgress(false);
         Log.d("room", "UPDATE RV: setupNews");
@@ -161,13 +163,13 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     //метод перехода на активити DetailedNews
+
     public void openDetailedNewsActivity(int id) {
         DetailedNewsActivity.start(this, id);
     }
-
     //clickListener на DetailedNewsActivity через WebView
-    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
 
+    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
 
     public void showProgress(boolean show) {
         Visibility.setVisible(progress, show);
@@ -190,6 +192,15 @@ public class NewsListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void handleError(Throwable throwable) {
+        if (throwable instanceof IOException) {
+            return;
+        }
+        Visibility.setVisible(rv, false);
+        Visibility.setVisible(progress, false);
+        Visibility.setVisible(error, true);
     }
 }
 

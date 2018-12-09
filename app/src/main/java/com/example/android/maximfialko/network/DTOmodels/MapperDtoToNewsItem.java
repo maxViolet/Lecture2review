@@ -7,7 +7,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class MapperDtoToNews {
+public class MapperDtoToNewsItem {
     private static final String MULTIMEDIA_TYPE_IMAGE = "image";
 
     public static List<NewsItem> map(List<NewsItemDTO> listDto) {

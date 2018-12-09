@@ -17,25 +17,24 @@ public class MapperDtoToDb {
     public static List<NewsItemDB> map(List<NewsItemDTO> listDto) {
 
         final List<NewsItemDB> list = new ArrayList<>();
-        Log.d("room","items converted, START");
 
         for (NewsItemDTO item_dto : listDto) {
-
             list.add(
                     new NewsItemDB(
                             item_dto.getTitle(),                //title
                             mapImage(item_dto.getMultimedia()), //imageUrl
                             item_dto.getSection(),              //category
+                            //date example Sun Dec 09 01:59:31 GMT+00:00 2018
                             item_dto.getPublishDate().toString(),  //publishDate
                             item_dto.getAbstract(),             //textPreview
                             item_dto.getUrl()                   //textUrl
                     )
             );
-            Log.d("room","items converted, " + item_dto.getSection() + ", " +
-                    item_dto.getPublishDate().toString() + ", " + item_dto.getTitle());
+            Log.d("room", "items converted, " + item_dto.getSection() + ", "
+                    + "[ " + item_dto.getPublishDate().toString() + " ]" + ", " + item_dto.getTitle());
         }
 
-        Log.d("room","items converted, END");
+        Log.d("room", "items converted, END");
         return list;
     }
 

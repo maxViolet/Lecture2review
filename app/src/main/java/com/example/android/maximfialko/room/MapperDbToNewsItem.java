@@ -23,29 +23,15 @@ public class MapperDbToNewsItem {
                             item_db.getTitle(),                          //title
                             item_db.getImageUrl(),                       //imageUrl
                             item_db.getCategory(),                       //category
-                            formatDateFromDb(item_db.getPublishDate()),  //publishDate
+                            item_db.getPublishDate(),  //publishDate
                             item_db.getPreviewText(),                    //textPreview
                             item_db.getTextUrl()                         //textUrl
                     )
             );
 //            Log.d("room","CONVERTED DB -> NewsItems");
-//            Log.d("room","items converted, " + item_db.getCategory() + ", " +
-//                    item_db.getPublishDate() + ", " + item_db.getTitle());
+//            Log.d("room", "________________date from db: " + item_db.getPublishDate());
         }
-
         return list;
-
-    }
-
-    public static Date formatDateFromDb(String publishedDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-        try {
-//            Log.d("room", dateFormat.parse(publishedDate).toString());
-            return dateFormat.parse(publishedDate);
-        } catch (ParseException e) {
-//            Log.d("room", "formatDateFromDb returned NULL");
-            return new Date(11, 11, 11);
-        }
     }
 }
 

@@ -115,6 +115,7 @@
     <string name="action_switch">test text2</string>
     <string name="error_network">error network</string>
     <string name="btn_try_again">try again</string>
+    <string name="go_to_source">go to Source</string>
 
     <string-array name="categoryList">
         <item>home</item>

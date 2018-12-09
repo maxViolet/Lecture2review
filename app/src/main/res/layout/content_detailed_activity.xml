@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.android.maximfialko.AboutActivity"
+    tools:context="com.example.android.maximfialko.DetailedNewsActivity"
     tools:showIn="@layout/activity_detailed_news">
 
     <LinearLayout
@@ -15,18 +15,31 @@
         android:padding="@dimen/minx2">
 
         <TextView
+            android:id="@+id/tv_cont_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/min"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/textSize15"
+            android:textStyle="italic"
+            tools:text="@tools:sample/cities" />
+
+        <TextView
             android:id="@+id/tv_cont_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="@dimen/textSize15"
+            android:textStyle="bold"
+
             tools:text="@tools:sample/cities" />
 
         <TextView
             android:id="@+id/tv_cont_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:layout_marginBottom="@dimen/minx2"
+            android:textColor="@android:color/darker_gray"
             android:textSize="@dimen/text_size"
             tools:text="@tools:sample/date/ddmmyy" />
 
@@ -37,5 +50,14 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size"
             tools:text="@tools:sample/cities" />
+
+        <Button
+            android:id="@+id/button_goToSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/min"
+            android:paddingEnd="@dimen/min"
+            android:layout_marginTop="@dimen/minx2"
+            android:text="@string/go_to_source" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
