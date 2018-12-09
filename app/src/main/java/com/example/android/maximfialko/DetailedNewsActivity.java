@@ -20,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.android.maximfialko.Utils.DateUtils;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
+
+import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 
 public class DetailedNewsActivity extends AppCompatActivity {
 
@@ -125,13 +128,19 @@ public class DetailedNewsActivity extends AppCompatActivity {
 
         category.setText(item.getCategory());
         title.setText(item.getTitle());
-        date.setText(item.getPublishDate());
+        date.setText(
+                DateUtils.formatDateTime(
+                        getApplicationContext(),
+                        formatDateFromDb(item.getPublishDate())
+                )
+        );
+
         fullText.setText(item.getPreviewText());
 
         buttonSource.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
     }
 
     public void openSourceActivity(String url) {
-
+        SourceActivity.start(this, url);
     }
 }
