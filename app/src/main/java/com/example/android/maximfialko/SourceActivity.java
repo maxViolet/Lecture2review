@@ -11,6 +11,10 @@ public class SourceActivity extends AppCompatActivity {
     private static final String URL_EXTRAS = "url_extras";
     private String url;
 
+    public void start() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

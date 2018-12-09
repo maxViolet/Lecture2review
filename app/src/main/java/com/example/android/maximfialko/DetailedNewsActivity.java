@@ -127,5 +127,11 @@ public class DetailedNewsActivity extends AppCompatActivity {
         title.setText(item.getTitle());
         date.setText(item.getPublishDate());
         fullText.setText(item.getPreviewText());
+
+        buttonSource.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
+    }
+
+    public void openSourceActivity(String url) {
+
     }
 }
