@@ -29,7 +29,7 @@
             android:name=".DetailedNewsActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".NewsListActivity" />
-        <activity android:name=".SourceActivity"></activity>
+        <activity android:name=".SourceActivity" />
     </application>
 
 </manifest>
