@@ -21,6 +21,7 @@ import com.example.android.maximfialko.network.RestApi;
 import com.example.android.maximfialko.room.MapperDbToNewsItem;
 import com.example.android.maximfialko.room.MapperDtoToDb;
 import com.example.android.maximfialko.room.NewsItemRepository;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class NewsListActivity extends AppCompatActivity {
     private RecyclerView rv;
     private View error;
     private Spinner spinner;
+    private FloatingActionButton fabResfresh;
+
     private NewsItemRepository newsRepository;
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -65,6 +68,7 @@ public class NewsListActivity extends AppCompatActivity {
         subscribeToDataFromDb();
 
         setupSpinner();
+        setupFab();
 
         //ps to dp //util class
         DensityPixelMath DPmath = new DensityPixelMath(getApplicationContext());
@@ -192,6 +196,11 @@ public class NewsListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setupFab() {
+        fabResfresh = (FloatingActionButton) findViewById(R.id.fab_refresh);
+        fabResfresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 
     private void handleError(Throwable throwable) {
