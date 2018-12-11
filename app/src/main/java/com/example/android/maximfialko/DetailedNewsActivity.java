@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 public class DetailedNewsActivity extends AppCompatActivity {
 
     private static final String ID_EXTRAS = "id_extras";
+    private Boolean miniFabShow = false;
 
     private Toolbar toolbar;
     private ImageView photo;
@@ -39,6 +41,9 @@ public class DetailedNewsActivity extends AppCompatActivity {
     private TextView fullText;
     private Button buttonSource;
     private FloatingActionButton fabOptions;
+    private FloatingActionButton fab1;
+    private FloatingActionButton fab2;
+    private FloatingActionButton fab3;
 
     private NewsItemRepository newsRepository;
 
@@ -146,7 +151,36 @@ public class DetailedNewsActivity extends AppCompatActivity {
 
     public void setupFab() {
         fabOptions = (FloatingActionButton) findViewById(R.id.fab_refresh);
-        fabOptions.setOnClickListener(v -> Log.d("", ""));
+        fab1 = (FloatingActionButton) findViewById(R.id.fab_1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab_2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab_3);
+
+        fabOptions.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!miniFabShow) {
+                            miniFabShow = true;
+                            DetailedNewsActivity.this.showMiniFabs();
+                        } else {
+                            miniFabShow = false;
+                            DetailedNewsActivity.this.hideMiniFabs();
+                        }
+                    }
+                }
+        );
+    }
+
+    public void showMiniFabs() {
+        fab1.show();
+        fab2.show();
+        fab3.show();
+    }
+
+    public void hideMiniFabs() {
+        fab1.hide();
+        fab2.hide();
+        fab3.hide();
     }
 
     public void openSourceActivity(String url) {
