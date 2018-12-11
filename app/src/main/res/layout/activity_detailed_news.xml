@@ -45,7 +45,17 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_detailed_activity" />
+    <include layout="@layout/content_detailed_activity" />'
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/brightness_7"
+        />
+
+    <include layout="@layout/minifab_layout"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

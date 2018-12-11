@@ -37,15 +37,17 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:context=".NewsListActivity"
-            tools:listitem="@layout/cardview_news_item" />
+            tools:listitem="@layout/cardview_news_item"
+            android:paddingBottom="35dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/baseline_refresh_24"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp"
+            android:src="@drawable/baseline_refresh_24" />
+
     </FrameLayout>
 
     <!--Handle Error layout-->

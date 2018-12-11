@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.android.maximfialko.Utils.DateUtils;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 
@@ -37,6 +38,7 @@ public class DetailedNewsActivity extends AppCompatActivity {
     private TextView date;
     private TextView fullText;
     private Button buttonSource;
+    private FloatingActionButton fabOptions;
 
     private NewsItemRepository newsRepository;
 
@@ -63,6 +65,8 @@ public class DetailedNewsActivity extends AppCompatActivity {
 
         newsRepository = new NewsItemRepository(getApplicationContext());
         initViews();
+        setupFab();
+
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
@@ -138,6 +142,11 @@ public class DetailedNewsActivity extends AppCompatActivity {
         fullText.setText(item.getPreviewText());
 
         buttonSource.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
+    }
+
+    public void setupFab() {
+        fabOptions = (FloatingActionButton) findViewById(R.id.fab_refresh);
+        fabOptions.setOnClickListener(v -> Log.d("", ""));
     }
 
     public void openSourceActivity(String url) {
