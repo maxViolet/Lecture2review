@@ -11,12 +11,13 @@ import io.reactivex.schedulers.Schedulers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,14 +37,17 @@ public class DetailedNewsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView photo;
     private TextView category;
-    private TextView title;
+    private EditText title;
     private TextView date;
-    private TextView fullText;
+    private EditText fullText;
     private Button buttonSource;
+    private Drawable originalDrawable;
     private FloatingActionButton fabOptions;
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
     private FloatingActionButton fab3;
+
+    private NewsItemDB item;
 
     private NewsItemRepository newsRepository;
 
@@ -62,23 +66,18 @@ public class DetailedNewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_news);
         setTheme(R.style.AppThemeNoActionBar);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("test");
-        }
-
         newsRepository = new NewsItemRepository(getApplicationContext());
+
         initViews();
-        setupFab();
 
         Bundle bundle = getIntent().getExtras();
-
         if (bundle != null) {
             int Id = getIntent().getExtras().getInt(ID_EXTRAS);
             Log.d("room", String.valueOf(Id));
             loadNewsItemFromDb(Id);
         }
+
+        setupFab();
     }
 
     @Override
@@ -116,12 +115,17 @@ public class DetailedNewsActivity extends AppCompatActivity {
         date = findViewById(R.id.tv_cont_date);
         fullText = findViewById(R.id.tv_cont_fulltext);
         buttonSource = findViewById(R.id.button_goToSource);
+        toolbar = findViewById(R.id.toolbar);
+
+        makeLookLikeTextView(title);
+        makeLookLikeTextView(fullText);
     }
 
     public void loadNewsItemFromDb(int id) {
         Disposable disposable = newsRepository.getNewsById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map(NewsItemDB -> item = NewsItemDB)
                 .subscribe(newsItemDB -> setupViews(newsItemDB),
                         throwable -> Log.d("room", throwable.toString()));
 
@@ -130,6 +134,11 @@ public class DetailedNewsActivity extends AppCompatActivity {
     }
 
     public void setupViews(NewsItemDB item) {
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(item.getCategory());
+        }
 
         Glide.with(getApplicationContext())
                 .load(item.getImageUrl())
@@ -156,19 +165,60 @@ public class DetailedNewsActivity extends AppCompatActivity {
         fab3 = (FloatingActionButton) findViewById(R.id.fab_3);
 
         fabOptions.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!miniFabShow) {
-                            miniFabShow = true;
-                            DetailedNewsActivity.this.showMiniFabs();
-                        } else {
-                            miniFabShow = false;
-                            DetailedNewsActivity.this.hideMiniFabs();
-                        }
+                v -> {
+                    if (!miniFabShow) {
+                        miniFabShow = true;
+                        showMiniFabs();
+                    } else {
+                        miniFabShow = false;
+                        hideMiniFabs();
                     }
                 }
         );
+
+        setup_Fab1_Clicklistener();
+        setup_Fab2_Clicklistener();
+        setup_Fab3_Clicklistener();
+    }
+
+    public void setup_Fab1_Clicklistener() {
+        fab1.setClickable(true);
+        fab1.setOnClickListener(v -> deleteFromDb());
+    }
+
+    public void setup_Fab2_Clicklistener() {
+        fab1.setClickable(true);
+        fab1.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
+    }
+
+    public void setup_Fab3_Clicklistener() {
+        fab1.setClickable(true);
+        fab1.setOnClickListener(v -> updateDb());
+        makeLookLikeEditText(title, originalDrawable);
+        makeLookLikeEditText(fullText, originalDrawable);
+    }
+
+    private void deleteFromDb() {
+        if (item != null) {
+            Disposable disposable = newsRepository.deleteNews(item)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+            compositeDisposable.add(disposable);
+            finish();
+        }
+    }
+
+    private void updateDb() {
+        if (item != null) {
+            item.setTitle(title.getText().toString());
+            item.setPreviewText(fullText.getText().toString());
+            Disposable disposable = newsRepository.updateNews(item)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+            compositeDisposable.add(disposable);
+        }
     }
 
     public void showMiniFabs() {
@@ -185,5 +235,19 @@ public class DetailedNewsActivity extends AppCompatActivity {
 
     public void openSourceActivity(String url) {
         SourceActivity.start(this, url);
+    }
+
+    private void makeLookLikeTextView(EditText editText) {
+        editText.setFocusable(false);
+        editText.setFocusableInTouchMode(false);
+        editText.setLongClickable(false);
+        editText.setBackground(null);
+    }
+
+    private void makeLookLikeEditText(EditText editText, Drawable original) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.setLongClickable(true);
+        editText.setBackground(original);
     }
 }

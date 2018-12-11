@@ -24,7 +24,7 @@
             android:textStyle="italic"
             tools:text="@tools:sample/cities" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_cont_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:textSize="@dimen/text_size"
             tools:text="@tools:sample/date/ddmmyy" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_cont_fulltext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

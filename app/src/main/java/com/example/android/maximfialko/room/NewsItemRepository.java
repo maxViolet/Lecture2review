@@ -56,4 +56,14 @@ public class NewsItemRepository {
             return db.newsItemDAO().findNewsById(id);
         });
     }
+
+    public Completable deleteNews(final NewsItemDB newsItemDB) {
+        AppDatabase db = AppDatabase.getAppDatabase(mContext);
+        return Completable.fromAction(() -> { db.newsItemDAO().delete(newsItemDB); });
+    }
+
+    public Completable updateNews(final NewsItemDB newsItemDB) {
+        AppDatabase db = AppDatabase.getAppDatabase(mContext);
+        return Completable.fromAction(() -> {db.newsItemDAO().updateNews(newsItemDB);});
+    }
 }
