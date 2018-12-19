@@ -18,6 +18,18 @@ public class NewsItemRepository {
         this.mContext = mContext;
     }
 
+    //источник данных из бд, на который можно подписаться
+    public Single<List<NewsItemDB>> getData() {
+        return Single.fromCallable(new Callable<List<NewsItemDB>>() {
+            @Override
+            public List<NewsItemDB> call() throws Exception {
+                AppDatabase db = AppDatabase.getAppDatabase(mContext);
+
+                return db.newsItemDAO().getAll();
+            }
+        });
+    }
+
     public Completable saveData(final List<NewsItemDB> newsItemDBlist) {
         Log.d("room", "SAVE DATA to DB");
         return Completable.fromCallable(new Callable<Void>() {
@@ -35,25 +47,19 @@ public class NewsItemRepository {
         });
     }
 
-    //источник данных из бд, на который можно подписаться
-    public Single<List<NewsItemDB>> getData() {
-        return Single.fromCallable(() -> {
-            AppDatabase db = AppDatabase.getAppDatabase(mContext);
-
-            return db.newsItemDAO().getAll();
-        });
-    }
-
     public Observable<List<NewsItemDB>> getDataObservable() {
         AppDatabase db = AppDatabase.getAppDatabase(mContext);
         return db.newsItemDAO().getAllObservable();
     }
 
     public Single<NewsItemDB> getNewsById(int id) {
-        return Single.fromCallable(() -> {
-            AppDatabase db = AppDatabase.getAppDatabase(mContext);
+        return Single.fromCallable(new Callable<NewsItemDB>() {
+            @Override
+            public NewsItemDB call() throws Exception {
+                AppDatabase db = AppDatabase.getAppDatabase(mContext);
 
-            return db.newsItemDAO().findNewsById(id);
+                return db.newsItemDAO().findNewsById(id);
+            }
         });
     }
 

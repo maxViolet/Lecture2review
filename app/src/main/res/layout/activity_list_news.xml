@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -26,7 +27,8 @@
             android:id="@+id/progress"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            />
 
         <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,10 +38,9 @@
             android:layout_height="match_parent"
             android:clipToPadding="true"
             android:orientation="vertical"
+            android:paddingBottom="35dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".NewsListActivity"
-            tools:listitem="@layout/cardview_news_item"
-            android:paddingBottom="35dp"/>
+            tools:listitem="@layout/cardview_news_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_refresh"
@@ -48,7 +49,7 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:src="@drawable/baseline_refresh_24"
-            app:maxImageSize="35dp"/>
+            app:maxImageSize="35dp" />
 
     </FrameLayout>
 

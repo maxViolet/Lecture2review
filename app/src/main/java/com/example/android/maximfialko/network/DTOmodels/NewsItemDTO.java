@@ -48,7 +48,7 @@ public class NewsItemDTO {
     }
 
     public String getPublishDate() {
-        Log.d("room", "DTO ITEMS original date: " + dto_published_date);
+//        Log.d("room", "DTO ITEMS original date: " + dto_published_date);
         return dto_published_date;
     }
 

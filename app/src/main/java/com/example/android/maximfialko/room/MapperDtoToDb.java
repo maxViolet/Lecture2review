@@ -25,7 +25,7 @@ public class MapperDtoToDb {
                             mapImage(item_dto.getMultimedia()), //imageUrl
                             item_dto.getSection(),              //category
                             //date example Sun Dec 09 01:59:31 GMT+00:00 2018
-                            item_dto.getPublishDate().toString(),  //publishDate
+                            item_dto.getPublishDate(),  //publishDate
                             item_dto.getAbstract(),             //textPreview
                             item_dto.getUrl()                   //textUrl
                     )

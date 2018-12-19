@@ -3,6 +3,7 @@ package com.example.android.maximfialko;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,7 +30,12 @@ public class AboutActivity extends AppCompatActivity {
         final Button previewEmail = findViewById(R.id.previewEmailButton);
         final EditText textInput = findViewById(R.id.textInput);
 
-        previewEmail.setOnClickListener(v -> openSecondActivity(textInput.getText().toString()));
+        previewEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutActivity.this.openSecondActivity(textInput.getText().toString());
+            }
+        });
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -1,14 +1,18 @@
 package com.example.android.maximfialko;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -27,10 +31,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,8 +46,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class NewsListActivity extends AppCompatActivity {
+public class NewsList_Fragment extends android.app.Fragment {
 
+    private Activity activity;
     private NewsAdapter adapter;
     private ProgressBar progress;
     private RecyclerView rv;
@@ -54,75 +60,96 @@ public class NewsListActivity extends AppCompatActivity {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    static NewsList_Fragment newInstance() {
+        return new NewsList_Fragment();
+    }
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_news);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d("lifecycle", "_____________onATTACH");
+    }
 
-        Log.d("lifecycle", "_____________onCREATE");
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        Log.d("lifecycle", "_____________onCREATEView");
 
-        progress = (ProgressBar) findViewById(R.id.progress);
-        rv = (RecyclerView) findViewById(R.id.recycler_view);
-        error = (View) findViewById(R.id.lt_error);
-        spinner = (Spinner) findViewById(R.id.spinner);
+        activity = getActivity();
 
-        adapter = new NewsAdapter(this, new ArrayList<>(), clickListener);
+        View view = inflater.inflate(R.layout.activity_list_news, null);
 
-        newsRepository = new NewsItemRepository(getApplicationContext());
+        progress = (ProgressBar) view.findViewById(R.id.progress);
+        error = (View) view.findViewById(R.id.lt_error);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        newsRepository = new NewsItemRepository(activity);
 
         subscribeToDataFromDb();
 
         setupSpinner();
-        setupFab();
+        setupFab(view);
+        setupRecycler(view);
 
-        //ps to dp //util class
-        DensityPixelMath DPmath = new DensityPixelMath(getApplicationContext());
-        //add Margins to Recycler View
-        Margins decoration = new Margins((int) DPmath.dpFromPx(44), 1);
-
-        rv.addItemDecoration(decoration);
-        rv.setAdapter(adapter);
-
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rv.setLayoutManager(new LinearLayoutManager(this));
-        } else {
-            rv.setLayoutManager(new GridLayoutManager(this, 2));
-        }
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         Log.d("lifecycle", "_____________onSTART");
         super.onStart();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         Log.d("lifecycle", "_____________onSTOP");
         super.onStop();
         compositeDisposable.clear();
+        activity = null;
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         Log.d("lifecycle", "_____________onRESUME");
         super.onResume();
         subscribeToDataFromDb();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         Log.d("lifecycle", "_____________onDESTROY");
         super.onDestroy();
     }
 
+    public void setupRecycler(View view) {
+
+        rv = (RecyclerView) view.findViewById(R.id.recycler_view);
+        adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), clickListener);
+
+        //ps to dp //util class
+        DensityPixelMath DPmath = new DensityPixelMath(view.getContext());
+        //add Margins to Recycler View
+        Margins decoration = new Margins((int) DPmath.dpFromPx(44), 1);
+
+        rv.setAdapter(adapter);
+        rv.addItemDecoration(decoration);
+
+        if (view.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        } else {
+            rv.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+        }
+
+    }
+
     private void setupSpinner() {
         ArrayAdapter<String> spinner_adapter =
-                new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
+                new ArrayAdapter<>(activity, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinner_adapter);
 
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
@@ -143,23 +170,19 @@ public class NewsListActivity extends AppCompatActivity {
         final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
                 .topStoriesEndpoint()   //return topStoriesEndpoint
                 .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
+                .delay(2, TimeUnit.SECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
-                .flatMapCompletable(new Function<List<NewsItemDB>, CompletableSource>() {
-                    @Override
-                    public CompletableSource apply(List<NewsItemDB> NewsItemDB) throws Exception {
-                        return newsRepository.saveData(NewsItemDB);
-                    }
-                })
+                .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
         Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);
         showProgress(false);
-        Visibility.setVisible(rv, true);
+//        Visibility.setVisible(rv, true);
     }
 
-    public void subscribeToDataFromDb() {
+    private void subscribeToDataFromDb() {
         Log.d("room", "subscribeToDataFromDb()");
         Disposable disposable = newsRepository.getDataObservable()
                 .map(newsItemDBS -> MapperDbToNewsItem.map(newsItemDBS))
@@ -171,46 +194,27 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     private void setupNews(List<NewsItem> newsItems) {
-        showProgress(false);
+//        showProgress(false);
         Log.d("room", "UPDATE RV: setupNews");
         if (adapter != null) adapter.replaceItems(newsItems);
     }
 
     //метод перехода на активити DetailedNews
-
     public void openDetailedNewsActivity(int id) {
-        DetailedNewsActivity.start(this, id);
+        DetailedNewsActivity.start(activity, id);
     }
-    //clickListener на DetailedNewsActivity через WebView
 
     private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
+
+    public void setupFab(View view) {
+        fabResfresh = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
+        fabResfresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
+    }
 
     public void showProgress(boolean show) {
         Visibility.setVisible(progress, show);
         Visibility.setVisible(rv, !show);
         Visibility.setVisible(error, !show);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_switch:
-                startActivity(new Intent(this, AboutActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void setupFab() {
-        fabResfresh = (FloatingActionButton) findViewById(R.id.fab_refresh);
-        fabResfresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 
     private void handleError(Throwable throwable) {
@@ -222,5 +226,3 @@ public class NewsListActivity extends AppCompatActivity {
         Visibility.setVisible(error, true);
     }
 }
-
-
