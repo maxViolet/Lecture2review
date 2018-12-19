@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.maximfialko.Utils.DetailNews_Fragment;
 import com.example.android.maximfialko.Utils.Navigator;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,14 +57,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-   /* @Override
-    public void openNextFragment(Fragment fragment) {
-//TODO Fragment with Arguments
-//        https://guides.codepath.com/android/creating-and-using-fragments
-    }
 
-    @Override
-    public  getContextFrom(Activity activity) {
-        return activity.getApplicationContext();
-    }*/
+
+//    @Override
+//    public  getContextFrom(Activity activity) {
+//        return activity.getApplicationContext();
+//    }
 }

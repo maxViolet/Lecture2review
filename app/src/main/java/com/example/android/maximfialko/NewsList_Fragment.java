@@ -2,6 +2,7 @@ package com.example.android.maximfialko;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.maximfialko.Utils.DensityPixelMath;
+import com.example.android.maximfialko.Utils.DetailNews_Fragment;
 import com.example.android.maximfialko.Utils.Margins;
 import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.data.NewsItem;
@@ -49,6 +51,9 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsList_Fragment extends android.app.Fragment {
 
     private Activity activity;
+    private DetailNews_Fragment detailNews_fragment;
+
+
     private NewsAdapter adapter;
     private ProgressBar progress;
     private RecyclerView rv;
@@ -201,10 +206,11 @@ public class NewsList_Fragment extends android.app.Fragment {
 
     //метод перехода на активити DetailedNews
     public void openDetailedNewsActivity(int id) {
-        DetailedNewsActivity.start(activity, id);
+        openDetails(id);
     }
 
-    private final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
+
+    public final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
 
     public void setupFab(View view) {
         fabResfresh = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
@@ -217,12 +223,25 @@ public class NewsList_Fragment extends android.app.Fragment {
         Visibility.setVisible(error, !show);
     }
 
-    private void handleError(Throwable throwable) {
-        if (throwable instanceof IOException) {
-            return;
-        }
-        Visibility.setVisible(rv, false);
-        Visibility.setVisible(progress, false);
-        Visibility.setVisible(error, true);
+//    public void handleError(Throwable throwable) {
+//        if (throwable instanceof IOException) {
+//            return;
+//        }
+//        Visibility.setVisible(rv, false);
+//        Visibility.setVisible(progress, false);
+//        Visibility.setVisible(error, true);
+//    }
+
+    public void openDetails(int id) {
+        detailNews_fragment = DetailNews_Fragment.newInstance(id);
+
+        activity.getFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, detailNews_fragment, "tag")
+                .addToBackStack(null)
+                .commit();
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(R.id.main_frame, detailNews_fragment, "tag");
+//        transaction.addToBackStack(null);
+//        transaction.commit();
     }
 }

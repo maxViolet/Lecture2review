@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -53,7 +54,7 @@ public class DetailNews_Fragment extends android.app.Fragment {
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    static DetailNews_Fragment newInstance(int id) {
+    public static DetailNews_Fragment newInstance(int id) {
         DetailNews_Fragment detailNews_fragment = new DetailNews_Fragment();
         Bundle arg = new Bundle();
         arg.putInt(ID_EXTRAS, id);
@@ -65,11 +66,10 @@ public class DetailNews_Fragment extends android.app.Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-             Id = getArguments().getInt(ID_EXTRAS);
-            Log.d("room", String.valueOf(Id));
-        }
+        Id = getArguments().getInt(ID_EXTRAS);
+        Log.d("room", String.valueOf(Id));
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -91,6 +91,7 @@ public class DetailNews_Fragment extends android.app.Fragment {
     public void onStop() {
         super.onStop();
         compositeDisposable.clear();
+        activity = null;
     }
 
     public void initViews(View view) {
