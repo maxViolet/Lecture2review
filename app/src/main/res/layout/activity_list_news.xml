@@ -37,7 +37,6 @@
             android:layout_height="match_parent"
             android:clipToPadding="true"
             android:orientation="vertical"
-            android:paddingBottom="35dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/cardview_news_item" />
 

@@ -126,7 +126,7 @@ public class NewsList_Fragment extends android.app.Fragment {
         //ps to dp //util class
         DensityPixelMath DPmath = new DensityPixelMath(view.getContext());
         //add Margins to Recycler View
-        Margins decoration = new Margins((int) DPmath.dpFromPx(44), 1);
+        Margins decoration = new Margins((int) DPmath.dpFromPx(20), 1);
 
         rv.setAdapter(adapter);
         rv.addItemDecoration(decoration);

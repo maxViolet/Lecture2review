@@ -1,6 +1,7 @@
 package com.example.android.maximfialko.Utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ public class DateUtils {
         try {
             return dateFormat.parse(publishedDate);
         } catch (ParseException e) {
+            Log.d("error date","error on transforming date: " + publishedDate);
             return new Date(11, 11, 11);
         }
     }

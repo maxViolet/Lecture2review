@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
-            android:paddingTop="@dimen/min"
-            android:paddingEnd="@dimen/minx2"
+            android:paddingTop="4dp"
             android:textAllCaps="true"
             tools:text="@tools:sample/cities" />
 
@@ -25,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="@dimen/halfmin">
+            >
 
 
             <LinearLayout
@@ -34,17 +33,16 @@
                 android:layout_toStartOf="@+id/iv_imageUrl"
                 android:orientation="vertical">
 
-                <TextView
+                <TextView xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/tv_cd_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-
                     android:padding="4dp"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold"
-                    tools:text="@string/blablabla" />
+                    tools:text="@tools:sample/cities"  />
 
                 <TextView
                     android:id="@+id/tv_previewText"
@@ -53,7 +51,7 @@
                     android:maxLines="5"
                     android:padding="4dp"
                     android:textColor="@android:color/black"
-                    tools:text="@string/blablabla" />
+                    tools:text="@tools:sample/lorem" />
             </LinearLayout>
 
             <ImageView
@@ -61,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/avatars" />
