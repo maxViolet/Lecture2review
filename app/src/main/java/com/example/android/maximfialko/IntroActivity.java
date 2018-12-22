@@ -43,7 +43,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void startMainActivity() {
-        startActivity(new Intent(this, NewsListActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

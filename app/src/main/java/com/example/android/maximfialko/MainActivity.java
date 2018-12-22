@@ -18,26 +18,38 @@ import com.example.android.maximfialko.Utils.Navigator;
 
 public class MainActivity extends AppCompatActivity {
 
-    NewsList_Fragment newsList_Fragment;
+    private boolean isTwoPanel;
+    private NewsList_Fragment newsList_Fragment;
 
     static final String TAG_LIST_FRAGMENT = "recycler_fragment";
+    static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_acitivity);
+        isTwoPanel = findViewById(R.id.frame_detail) != null;
 
         if (savedInstanceState == null) {
             newsList_Fragment = NewsList_Fragment.newInstance();
 
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.add(R.id.main_frame, newsList_Fragment, TAG_LIST_FRAGMENT);
-//        transaction.addToBackStack(null);
-            transaction.commit();
-        } else { }
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_frame, newsList_Fragment, TAG_LIST_FRAGMENT)
+                    .commit();
 
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.main_frame, newsList_Fragment, TAG_LIST_FRAGMENT).addToBackStack(TAG_LIST_FRAGMENT).commit();
+            if (isTwoPanel) {
+            DetailNews_Fragment detailNews_fragment = new DetailNews_Fragment();
+                getSupportFragmentManager().popBackStack(TAG_DETAIL_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                Bundle arg = new Bundle();
+                arg.putInt(DetailNews_Fragment.ID_EXTRAS, 0);
+                detailNews_fragment.setArguments(arg);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame, detailNews_fragment, TAG_DETAIL_FRAGMENT)
+                        .commit();
+            }
+        }
     }
 
     @Override
@@ -56,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
 //    @Override
 //    public  getContextFrom(Activity activity) {

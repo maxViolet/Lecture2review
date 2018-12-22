@@ -77,7 +77,6 @@ public class DetailedNewsActivity extends AppCompatActivity {
             Log.d("room", String.valueOf(Id));
             loadNewsItemFromDb(Id);
         }
-
         setupFab();
     }
 
@@ -136,10 +135,10 @@ public class DetailedNewsActivity extends AppCompatActivity {
 
     public void setupViews(NewsItemDB item) {
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(item.getCategory());
-        }
+//        setSupportActionBar(toolbar);
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setTitle(item.getCategory());
+//        }
 
         Glide.with(getApplicationContext())
                 .load(item.getImageUrl())

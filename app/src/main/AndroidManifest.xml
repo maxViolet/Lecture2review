@@ -28,7 +28,6 @@
         <activity
             android:name=".DetailedNewsActivity"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name=".NewsListActivity" />
         <activity android:name=".SourceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".IntroActivity" />

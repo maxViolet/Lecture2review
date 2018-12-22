@@ -33,7 +33,7 @@ import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 public class DetailNews_Fragment extends android.app.Fragment {
 
     private Activity activity;
-    private static final String ID_EXTRAS = "id_extras";
+    public static final String ID_EXTRAS = "id_extras";
     private static int Id;
     private Boolean miniFabShow = false;
 

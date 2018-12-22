@@ -1,16 +1,11 @@
 package com.example.android.maximfialko;
 
 import android.app.Activity;
-import android.app.Application;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,42 +21,38 @@ import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.RestApi;
 import com.example.android.maximfialko.room.MapperDbToNewsItem;
 import com.example.android.maximfialko.room.MapperDtoToDb;
-import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.CompletableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsList_Fragment extends android.app.Fragment {
 
+    static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
+
     private Activity activity;
     private DetailNews_Fragment detailNews_fragment;
-
-
     private NewsAdapter adapter;
     private ProgressBar progress;
     private RecyclerView rv;
-    private View error;
+    //    private View error;
     private Spinner spinner;
     private FloatingActionButton fabResfresh;
 
     private NewsItemRepository newsRepository;
+
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -86,7 +77,7 @@ public class NewsList_Fragment extends android.app.Fragment {
         View view = inflater.inflate(R.layout.activity_list_news, null);
 
         progress = (ProgressBar) view.findViewById(R.id.progress);
-        error = (View) view.findViewById(R.id.lt_error);
+//        error = (View) view.findViewById(R.id.lt_error);
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
         newsRepository = new NewsItemRepository(activity);
@@ -140,11 +131,11 @@ public class NewsList_Fragment extends android.app.Fragment {
         rv.setAdapter(adapter);
         rv.addItemDecoration(decoration);
 
-        if (view.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        } else {
-            rv.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
-        }
+//        if (view.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        } else {
+//            rv.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+//        }
 
     }
 
@@ -168,22 +159,28 @@ public class NewsList_Fragment extends android.app.Fragment {
         });
     }
 
-    //асинхронная загрузка списка новостей
     private void loadItemsToDb(@NonNull String category) {
         Log.d("room", "loadNews START");
-        showProgress(true);
+//        showProgress(true);
+        progress.setVisibility(View.VISIBLE);
+        rv.setVisibility(View.GONE);
         final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
                 .topStoriesEndpoint()   //return topStoriesEndpoint
                 .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
-                .delay(2, TimeUnit.SECONDS)
+//                .delay(2, TimeUnit.SECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
+//                .delay(2, TimeUnit.SECONDS)
+//                .delay(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+//                .delay(2, TimeUnit.SECONDS)
                 .subscribe();
         Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);
-        showProgress(false);
+//        showProgress(false);
+        progress.setVisibility(View.GONE);
+        rv.setVisibility(View.VISIBLE);
 //        Visibility.setVisible(rv, true);
     }
 
@@ -204,13 +201,12 @@ public class NewsList_Fragment extends android.app.Fragment {
         if (adapter != null) adapter.replaceItems(newsItems);
     }
 
-    //метод перехода на активити DetailedNews
-    public void openDetailedNewsActivity(int id) {
-        openDetails(id);
-    }
-
-
-    public final NewsAdapter.newsItemClickListener clickListener = newsItem -> openDetailedNewsActivity(newsItem.getId());
+    public final NewsAdapter.newsItemClickListener clickListener = new NewsAdapter.newsItemClickListener() {
+        @Override
+        public void onItemClick(NewsItem newsItem) {
+            NewsList_Fragment.this.openDetailedNewsActivity(newsItem.getId());
+        }
+    };
 
     public void setupFab(View view) {
         fabResfresh = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
@@ -220,7 +216,7 @@ public class NewsList_Fragment extends android.app.Fragment {
     public void showProgress(boolean show) {
         Visibility.setVisible(progress, show);
         Visibility.setVisible(rv, !show);
-        Visibility.setVisible(error, !show);
+//        Visibility.setVisible(error, !show);
     }
 
 //    public void handleError(Throwable throwable) {
@@ -232,16 +228,17 @@ public class NewsList_Fragment extends android.app.Fragment {
 //        Visibility.setVisible(error, true);
 //    }
 
-    public void openDetails(int id) {
+    //метод перехода на активити DetailedNews
+    public void openDetailedNewsActivity(int id) {
+        openDetailsMethod(id);
+    }
+
+    public void openDetailsMethod(int id) {
         detailNews_fragment = DetailNews_Fragment.newInstance(id);
 
-        activity.getFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, detailNews_fragment, "tag")
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, detailNews_fragment, TAG_DETAIL_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.replace(R.id.main_frame, detailNews_fragment, "tag");
-//        transaction.addToBackStack(null);
-//        transaction.commit();
     }
 }
