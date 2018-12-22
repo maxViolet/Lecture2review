@@ -15,17 +15,16 @@
             android:id="@+id/tv_cd_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="30dp"
-            android:paddingTop="4dp"
+            android:paddingStart="32dp"
+            android:paddingTop="@dimen/halfmin"
             android:textAllCaps="true"
+            tools:ignore="RtlSymmetry"
             tools:text="@tools:sample/cities" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold"
-                    tools:text="@tools:sample/cities"  />
+                    tools:text="@tools:sample/cities" />
 
                 <TextView
                     android:id="@+id/tv_previewText"
@@ -52,6 +51,7 @@
                     android:padding="4dp"
                     android:textColor="@android:color/black"
                     tools:text="@tools:sample/lorem" />
+
             </LinearLayout>
 
             <ImageView
@@ -64,7 +64,6 @@
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/avatars" />
 
-
         </RelativeLayout>
 
         <TextView
@@ -73,7 +72,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/minx2"
             android:paddingEnd="@dimen/minx2"
-            android:paddingBottom="@dimen/min"
+            android:paddingBottom="@dimen/halfmin"
             tools:text="@tools:sample/date/ddmmyy" />
 
     </LinearLayout>

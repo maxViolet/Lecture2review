@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.maximfialko.Utils.DetailNews_Fragment;
-import com.example.android.maximfialko.Utils.Navigator;
+//import com.example.android.maximfialko.Utils.Navigator;
 
 public class MainActivity extends AppCompatActivity {
 

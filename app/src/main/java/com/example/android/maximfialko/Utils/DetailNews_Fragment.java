@@ -32,9 +32,10 @@ import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 
 public class DetailNews_Fragment extends android.app.Fragment {
 
-    private Activity activity;
     public static final String ID_EXTRAS = "id_extras";
     private static int Id;
+
+    private Activity activity;
     private Boolean miniFabShow = false;
 
     private ImageView photo;
