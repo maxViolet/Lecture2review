@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.android.maximfialko.DetailedNewsActivity"
+    tools:context="com.example.android.maximfialko.NewsDetailedActivity"
     tools:showIn="@layout/activity_detailed_news">
 
     <LinearLayout
@@ -31,7 +31,6 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/textSize15"
             android:textStyle="bold"
-
             tools:text="@tools:sample/cities" />
 
         <TextView
@@ -58,6 +57,7 @@
             android:layout_marginTop="@dimen/minx2"
             android:paddingStart="@dimen/min"
             android:paddingEnd="@dimen/min"
-            android:text="@string/go_to_source" />
+            android:text="@string/go_to_source"
+            android:visibility="gone" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

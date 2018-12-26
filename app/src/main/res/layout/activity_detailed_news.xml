@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.maximfialko.DetailedNewsActivity">
+    tools:context="com.example.android.maximfialko.NewsDetailedActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/det_app_bar"
@@ -50,7 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:src="@drawable/brightness_7" />
+        android:src="@drawable/brightness_7"
+        android:visibility="gone" />
 
     <include layout="@layout/minifab_layout" />
 

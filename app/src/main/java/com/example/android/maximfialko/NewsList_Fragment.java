@@ -2,7 +2,6 @@ package com.example.android.maximfialko;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.maximfialko.Utils.DensityPixelMath;
-import com.example.android.maximfialko.Utils.DetailNews_Fragment;
 import com.example.android.maximfialko.Utils.Margins;
 import com.example.android.maximfialko.Utils.Visibility;
 import com.example.android.maximfialko.data.NewsItem;
@@ -30,8 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -41,9 +37,11 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsList_Fragment extends android.app.Fragment {
 
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
+    private static int MARGIN = 22;
 
-    private Activity activity;
-    private DetailNews_Fragment detailNews_fragment;
+    private boolean isTwoPanel;
+    private Activity activityInstance;
+    private NewsDetail_Fragment detailNews_fragment;
     private NewsAdapter adapter;
     private ProgressBar progress;
     private RecyclerView rv;
@@ -56,6 +54,10 @@ public class NewsList_Fragment extends android.app.Fragment {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    public interface DetailFragmentListener {
+        void openDetailFragment(int id);
+    }
+
     static NewsList_Fragment newInstance() {
         return new NewsList_Fragment();
     }
@@ -63,58 +65,81 @@ public class NewsList_Fragment extends android.app.Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d("lifecycle", "_____________onATTACH");
+        Log.d("lifecycle", "listFragment_____________onATTACH");
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("lifecycle", "listFragment_____________onCREATE");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.d("lifecycle", "_____________onCREATEView");
+        Log.d("lifecycle", "listFragment_____________onCREATE_VIEW");
 
-        activity = getActivity();
+        activityInstance = getActivity();
 
-        View view = inflater.inflate(R.layout.activity_list_news, null);
+        View view = inflater.inflate(R.layout.fragment_list_news, null);
 
         progress = (ProgressBar) view.findViewById(R.id.progress);
 //        error = (View) view.findViewById(R.id.lt_error);
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
-        newsRepository = new NewsItemRepository(activity);
+        newsRepository = new NewsItemRepository(activityInstance);
 
         subscribeToDataFromDb();
 
         setupSpinner();
         setupFab(view);
         setupRecycler(view);
+        isTwoPanel = view.findViewById(R.id.frame_detail) != null;
+        Log.d("TABLET MODE", "list: " + isTwoPanel);
 
         return view;
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("lifecycle", "listFragment_____________onACTIVITY_CREATED");
+        isTwoPanel = ((MainActivity)getActivity()).getIsTwoPanel();
+        if (isTwoPanel) MARGIN = 4;
+    }
+
+    @Override
     public void onStart() {
-        Log.d("lifecycle", "_____________onSTART");
+        Log.d("lifecycle", "listFragment_____________onSTART");
         super.onStart();
     }
 
     @Override
-    public void onStop() {
-        Log.d("lifecycle", "_____________onSTOP");
-        super.onStop();
-        compositeDisposable.clear();
-        activity = null;
-    }
-
-    @Override
     public void onResume() {
-        Log.d("lifecycle", "_____________onRESUME");
+        Log.d("lifecycle", "listFragment_____________onRESUME");
         super.onResume();
         subscribeToDataFromDb();
     }
 
     @Override
+    public void onPause() {
+        Log.d("lifecycle", "listFragment_____________onPAUSE");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("lifecycle", "listFragment_____________onSTOP");
+        super.onStop();
+        compositeDisposable.clear();
+        activityInstance = null;
+    }
+
+    @Override
     public void onDestroy() {
-        Log.d("lifecycle", "_____________onDESTROY");
+        Log.d("lifecycle", "listFragment_____________onDESTROY");
         super.onDestroy();
     }
 
@@ -126,22 +151,15 @@ public class NewsList_Fragment extends android.app.Fragment {
         //ps to dp //util class
         DensityPixelMath DPmath = new DensityPixelMath(view.getContext());
         //add Margins to Recycler View
-        Margins decoration = new Margins((int) DPmath.dpFromPx(22), 1);
+        Margins decoration = new Margins((int) DPmath.dpFromPx(MARGIN), 1);
 
         rv.setAdapter(adapter);
         rv.addItemDecoration(decoration);
-
-//        if (view.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        } else {
-//            rv.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
-//        }
-
     }
 
     private void setupSpinner() {
         ArrayAdapter<String> spinner_adapter =
-                new ArrayAdapter<>(activity, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
+                new ArrayAdapter<>(activityInstance, R.layout.spinner_item, getResources().getStringArray(R.array.categoryList));
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinner_adapter);
 
@@ -149,7 +167,6 @@ public class NewsList_Fragment extends android.app.Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                Log.d("room", "CATEGORY is selected in spinner");
                 loadItemsToDb(spinner.getSelectedItem().toString());
             }
 
@@ -161,13 +178,13 @@ public class NewsList_Fragment extends android.app.Fragment {
 
     private void loadItemsToDb(@NonNull String category) {
         Log.d("room", "loadNews START");
-//        showProgress(true);
+        showProgress(true);
         progress.setVisibility(View.VISIBLE);
         rv.setVisibility(View.GONE);
         final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
                 .topStoriesEndpoint()   //return topStoriesEndpoint
                 .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
-//                .delay(2, TimeUnit.SECONDS)
+                .delay(3, TimeUnit.SECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
 //                .delay(2, TimeUnit.SECONDS)
@@ -178,9 +195,9 @@ public class NewsList_Fragment extends android.app.Fragment {
                 .subscribe();
         Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);
-//        showProgress(false);
-        progress.setVisibility(View.GONE);
-        rv.setVisibility(View.VISIBLE);
+        showProgress(false);
+//        progress.setVisibility(View.GONE);
+//        rv.setVisibility(View.VISIBLE);
 //        Visibility.setVisible(rv, true);
     }
 
@@ -204,7 +221,7 @@ public class NewsList_Fragment extends android.app.Fragment {
     public final NewsAdapter.newsItemClickListener clickListener = new NewsAdapter.newsItemClickListener() {
         @Override
         public void onItemClick(NewsItem newsItem) {
-            NewsList_Fragment.this.openDetailedNewsActivity(newsItem.getId());
+            NewsList_Fragment.this.openDetailsMethod(newsItem.getId());
         }
     };
 
@@ -228,17 +245,24 @@ public class NewsList_Fragment extends android.app.Fragment {
 //        Visibility.setVisible(error, true);
 //    }
 
-    //метод перехода на активити DetailedNews
-    public void openDetailedNewsActivity(int id) {
-        openDetailsMethod(id);
+    public void openDetailsMethod(int id) {
+        if (isTwoPanel) {
+            detailNews_fragment = NewsDetail_Fragment.newInstance(id);
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
+                    .commit();
+        } else {
+            detailNews_fragment = NewsDetail_Fragment.newInstance(id);
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.frame_list, detailNews_fragment, TAG_DETAIL_FRAGMENT)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
-    public void openDetailsMethod(int id) {
-        detailNews_fragment = DetailNews_Fragment.newInstance(id);
-
-        getFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, detailNews_fragment, TAG_DETAIL_FRAGMENT)
-                .addToBackStack(null)
-                .commit();
+    public int getFirstItemId() {
+        return adapter.getFirstItemId();
     }
 }

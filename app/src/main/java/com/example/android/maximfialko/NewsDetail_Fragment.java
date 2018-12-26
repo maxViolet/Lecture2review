@@ -1,21 +1,13 @@
 package com.example.android.maximfialko;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,14 +19,23 @@ import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
 
-public class DetailedNewsActivity extends AppCompatActivity {
+public class NewsDetail_Fragment extends android.app.Fragment {
 
-    private static final String ID_EXTRAS = "id_extras";
+    public static final String ID_EXTRAS = "id_extras";
+    private static int Id;
+
+    private Activity activity;
     private Boolean miniFabShow = false;
 
-    private Toolbar toolbar;
     private ImageView photo;
     private TextView category;
     private TextView date;
@@ -49,73 +50,66 @@ public class DetailedNewsActivity extends AppCompatActivity {
     private FloatingActionButton fab3;
 
     private NewsItemDB item;
-
     private NewsItemRepository newsRepository;
-
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public static void start(Activity activity, int id) {
-        Intent intent = new Intent(activity, DetailedNewsActivity.class);
-        intent.putExtra(ID_EXTRAS, id);
-        Log.d("room", String.valueOf(id));
-        activity.startActivity(intent);
+    public static NewsDetail_Fragment newInstance(int id) {
+        NewsDetail_Fragment detailNews_fragment = new NewsDetail_Fragment();
+        Bundle arg = new Bundle();
+        arg.putInt(ID_EXTRAS, id);
+        detailNews_fragment.setArguments(arg);
+        return detailNews_fragment;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d("lifecycle", "detailFragment_____________onATTACH");
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_news);
-        setTheme(R.style.AppThemeNoActionBar);
+        Log.d("lifecycle", "detailFragment_____________onCREATE");
 
-        newsRepository = new NewsItemRepository(getApplicationContext());
+        Id = getArguments().getInt(ID_EXTRAS);
+        Log.d("room", String.valueOf(Id));
+    }
 
-        initViews();
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            int Id = getIntent().getExtras().getInt(ID_EXTRAS);
-            Log.d("room", String.valueOf(Id));
-            loadNewsItemFromDb(Id);
-        }
-        setupFab();
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        Log.d("lifecycle", "detailFragment_____________onCREATE_VIEW");
+        activity = getActivity();
+
+        View view = inflater.inflate(R.layout.activity_detailed_news, null);
+        newsRepository = new NewsItemRepository(activity);
+
+        initViews(view);
+        setupFab(view);
+        loadNewsItemFromDb(Id);
+
+        return view;
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
+        Log.d("lifecycle", "detailFragment_____________onSTOP");
+
         compositeDisposable.clear();
+        activity = null;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_switch:
-                startActivity(new Intent(this, AboutActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void initViews() {
-        category = findViewById(R.id.tv_cont_category);
-        photo = findViewById(R.id.iv_det_photo);
-        title = findViewById(R.id.tv_cont_title);
-        date = findViewById(R.id.tv_cont_date);
-        fullText = findViewById(R.id.tv_cont_fulltext);
-        buttonSource = findViewById(R.id.button_goToSource);
-        toolbar = findViewById(R.id.toolbar);
+    public void initViews(View view) {
+        category = view.findViewById(R.id.tv_cont_category);
+        photo = view.findViewById(R.id.iv_det_photo);
+        title = view.findViewById(R.id.tv_cont_title);
+        date = view.findViewById(R.id.tv_cont_date);
+        fullText = view.findViewById(R.id.tv_cont_fulltext);
+        buttonSource = view.findViewById(R.id.button_goToSource);
 
         makeLookLikeTextView(title);
         makeLookLikeTextView(fullText);
@@ -135,12 +129,7 @@ public class DetailedNewsActivity extends AppCompatActivity {
 
     public void setupViews(NewsItemDB item) {
 
-//        setSupportActionBar(toolbar);
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setTitle(item.getCategory());
-//        }
-
-        Glide.with(getApplicationContext())
+        Glide.with(activity)
                 .load(item.getImageUrl())
                 .into(photo);
 
@@ -148,21 +137,21 @@ public class DetailedNewsActivity extends AppCompatActivity {
         title.setText(item.getTitle());
         date.setText(
                 DateUtils.formatDateTime(
-                        getApplicationContext(),
+                        activity,
                         formatDateFromDb(item.getPublishDate())
                 )
         );
-
         fullText.setText(item.getPreviewText());
-
+        buttonSource.setVisibility(View.VISIBLE);
         buttonSource.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
     }
 
-    public void setupFab() {
-        fabOptions = (FloatingActionButton) findViewById(R.id.fab_refresh);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab_1);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab_2);
-        fab3 = (FloatingActionButton) findViewById(R.id.fab_3);
+    public void setupFab(View view) {
+        fabOptions = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
+        fabOptions.setVisibility(View.VISIBLE);
+        fab1 = (FloatingActionButton) view.findViewById(R.id.fab_1);
+        fab2 = (FloatingActionButton) view.findViewById(R.id.fab_2);
+        fab3 = (FloatingActionButton) view.findViewById(R.id.fab_3);
 
         fabOptions.setOnClickListener(
                 v -> {
@@ -205,7 +194,9 @@ public class DetailedNewsActivity extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
             compositeDisposable.add(disposable);
-            finish();
+//            finish();
+//            activity.getFragmentManager().popBackStack();
+            activity.onBackPressed();
         }
     }
 
@@ -234,7 +225,7 @@ public class DetailedNewsActivity extends AppCompatActivity {
     }
 
     public void openSourceActivity(String url) {
-        SourceActivity.start(this, url);
+        SourceActivity.start(activity, url);
     }
 
     private void makeLookLikeTextView(EditText editText) {
@@ -249,5 +240,9 @@ public class DetailedNewsActivity extends AppCompatActivity {
         editText.setFocusableInTouchMode(true);
         editText.setLongClickable(true);
         editText.setBackground(original);
+    }
+
+    public int getItemId() {
+        return item.getId();
     }
 }

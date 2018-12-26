@@ -3,19 +3,19 @@ package com.example.android.maximfialko;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.example.android.maximfialko.Utils.DetailNews_Fragment;
 //import com.example.android.maximfialko.Utils.Navigator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsList_Fragment.DetailFragmentListener {
 
     private boolean isTwoPanel;
-    private NewsList_Fragment newsList_Fragment;
+//    private NewsList_Fragment newsList_Fragment;
+//    private NewsDetail_Fragment detailNews_fragment;
 
     static final String TAG_LIST_FRAGMENT = "recycler_fragment";
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
@@ -23,29 +23,64 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_acitivity);
+        setContentView(R.layout.main_activity);
+        Log.d("lifecycle", "main_____________onCREATE");
+
         isTwoPanel = findViewById(R.id.frame_detail) != null;
+        Log.d("TABLET MODE", "main: " + isTwoPanel);
+//        Log.d("TABLET MODE", " " + (int) (getResources().getDisplayMetrics().density * 160f));
 
         if (savedInstanceState == null) {
-            newsList_Fragment = NewsList_Fragment.newInstance();
+            NewsList_Fragment newsList_Fragment = NewsList_Fragment.newInstance();
 
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.main_frame, newsList_Fragment, TAG_LIST_FRAGMENT)
+                    .replace(R.id.frame_list, newsList_Fragment, TAG_LIST_FRAGMENT)
                     .commit();
 
             if (isTwoPanel) {
-            DetailNews_Fragment detailNews_fragment = new DetailNews_Fragment();
-                getSupportFragmentManager().popBackStack(TAG_DETAIL_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                Bundle arg = new Bundle();
-                arg.putInt(DetailNews_Fragment.ID_EXTRAS, 0);
-                detailNews_fragment.setArguments(arg);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.main_frame, detailNews_fragment, TAG_DETAIL_FRAGMENT)
-                        .commit();
+//                int id = newsList_Fragment.getId();
+                openDetailFragment(0);
+//                NewsDetail_Fragment detailNews_fragment = NewsDetail_Fragment.newInstance(id);
+//                getFragmentManager().beginTransaction()
+//                        .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
+//                        .commit();
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        Log.d("lifecycle", "main_____________onSTART");
+        super.onStart();
+//        if (isTwoPanel) {
+//            int id = newsList_Fragment.getFirstItemId();
+//            openDetailFragment(id);
+//        }
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("lifecycle", "main_____________onRESUME");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("lifecycle", "main_____________onPAUSE");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("lifecycle", "main_____________onSTOP");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("lifecycle", "main_____________onDESTROY");
+        super.onDestroy();
     }
 
     @Override
@@ -63,6 +98,20 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public boolean getIsTwoPanel() {
+        return isTwoPanel;
+    }
+
+    @Override
+    public void openDetailFragment(int id) {
+        NewsDetail_Fragment newsDetailFragment = NewsDetail_Fragment.newInstance(id);
+        int frameId = isTwoPanel ? R.id.frame_detail : R.id.frame_list;
+        getFragmentManager().beginTransaction()
+                .replace(frameId, newsDetailFragment, TAG_DETAIL_FRAGMENT)
+                .addToBackStack(TAG_DETAIL_FRAGMENT)
+                .commit();
     }
 
 //    @Override

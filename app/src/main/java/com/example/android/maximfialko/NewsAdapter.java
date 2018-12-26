@@ -67,6 +67,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return news.size();
     }
 
+    public int getFirstItemId() {
+        return news.get(0).getId();
+    }
+
     public void replaceItems(@NonNull List<NewsItem> newItems) {
         Log.d("room", "replaceItems START");
         news.clear();
@@ -91,6 +95,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private ImageView imageUrlView;
         private TextView publishDateView;
 
+        public int returnID() {
+            return id;
+        }
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(view -> {
@@ -107,8 +115,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
         void bind(NewsItem newsItem) {
-            id = newsItem.getId();
 //            Log.d("room", "ADAPTER: id binded");
+            id = newsItem.getId();
             imageLoader.load(newsItem.getImageUrl()).into(imageUrlView);
             categoryView.setText(newsItem.getCategory());
             titleView.setText(newsItem.getTitle());

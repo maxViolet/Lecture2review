@@ -13,4 +13,7 @@
     <dimen name="fab_size">40dp</dimen>
     <dimen name="indent_portrait">50dp</dimen>
     <dimen name="app_bar_height">400dp</dimen>
+    <dimen name="first_panel">335dp</dimen>
+    <dimen name="sw600">600dp</dimen>
+
 </resources>
