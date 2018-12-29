@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+import android.os.Message;
 
 import com.example.android.maximfialko.R;
 
@@ -38,5 +39,7 @@ public class NotificationBuilder {
         return mBuilder.build();
     }
 
+    public static void showResultNotification (Context context, Message message) {
 
+    }
 }
