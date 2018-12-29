@@ -1,13 +1,10 @@
-package com.example.android.maximfialko.Utils;
+package com.example.android.maximfialko.utils;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 
 import androidx.annotation.IntRange;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.android.maximfialko.Utils.DensityPixelMath;
 
 public class Margins extends RecyclerView.ItemDecoration {
     private final int columns;

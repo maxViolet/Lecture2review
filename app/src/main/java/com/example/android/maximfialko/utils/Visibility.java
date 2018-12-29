@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.Utils;
+package com.example.android.maximfialko.utils;
 
 import android.view.View;
 

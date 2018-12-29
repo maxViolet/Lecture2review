@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.maximfialko">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,13 +28,13 @@
         <activity
             android:name=".AboutActivity"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".NewsDetailedActivity"
-            android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".SourceActivity" />
         <activity android:name=".IntroActivity_Fragment" />
-        <activity android:name=".IntroActivity" />
 
+        <service
+            android:name=".service.NewsUpdateService"
+            android:exported="false" />
     </application>
+
 
 </manifest>

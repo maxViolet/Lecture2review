@@ -1,7 +1,6 @@
-package com.example.android.maximfialko.Utils;
+package com.example.android.maximfialko.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 public class DensityPixelMath {
     private Context dpContext;

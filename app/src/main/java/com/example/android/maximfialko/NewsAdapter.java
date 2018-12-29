@@ -11,19 +11,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.android.maximfialko.Utils.DateUtils;
+import com.example.android.maximfialko.utils.DateUtils;
 import com.example.android.maximfialko.data.NewsItem;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
+import static com.example.android.maximfialko.utils.DateUtils.formatDateFromDb;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @NonNull

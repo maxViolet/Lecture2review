@@ -1,13 +1,10 @@
-package com.example.android.maximfialko.Utils;
+package com.example.android.maximfialko.utils;
 
 import android.content.Context;
 import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 

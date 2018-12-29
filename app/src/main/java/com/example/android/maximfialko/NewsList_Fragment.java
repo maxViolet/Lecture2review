@@ -12,9 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import com.example.android.maximfialko.Utils.DensityPixelMath;
-import com.example.android.maximfialko.Utils.Margins;
-import com.example.android.maximfialko.Utils.Visibility;
+import com.example.android.maximfialko.utils.DensityPixelMath;
+import com.example.android.maximfialko.utils.Margins;
+import com.example.android.maximfialko.utils.Visibility;
 import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.network.RestApi;
 import com.example.android.maximfialko.room.MapperDbToNewsItem;
@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsList_Fragment extends android.app.Fragment {
 
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
-    private static int MARGIN = 22;
+    private static int MARGIN = 16;
 
     private boolean isTwoPanel;
     private Activity activityInstance;
@@ -50,7 +50,6 @@ public class NewsList_Fragment extends android.app.Fragment {
     private FloatingActionButton fabResfresh;
 
     private NewsItemRepository newsRepository;
-
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -106,8 +105,7 @@ public class NewsList_Fragment extends android.app.Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("lifecycle", "listFragment_____________onACTIVITY_CREATED");
-        isTwoPanel = ((MainActivity)getActivity()).getIsTwoPanel();
-        if (isTwoPanel) MARGIN = 4;
+        isTwoPanel = ((MainActivity) getActivity()).getIsTwoPanel();
     }
 
     @Override
@@ -144,7 +142,6 @@ public class NewsList_Fragment extends android.app.Fragment {
     }
 
     public void setupRecycler(View view) {
-
         rv = (RecyclerView) view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), clickListener);
 
@@ -184,7 +181,7 @@ public class NewsList_Fragment extends android.app.Fragment {
         final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
                 .topStoriesEndpoint()   //return topStoriesEndpoint
                 .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
-                .delay(3, TimeUnit.SECONDS)
+//                .delay(3, TimeUnit.SECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
 //                .delay(2, TimeUnit.SECONDS)

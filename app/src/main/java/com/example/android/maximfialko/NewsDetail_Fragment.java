@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.maximfialko.Utils.DateUtils;
+import com.example.android.maximfialko.utils.DateUtils;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,7 +26,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.example.android.maximfialko.Utils.DateUtils.formatDateFromDb;
+import static com.example.android.maximfialko.utils.DateUtils.formatDateFromDb;
 
 public class NewsDetail_Fragment extends android.app.Fragment {
 
