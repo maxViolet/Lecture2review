@@ -68,7 +68,7 @@ public class NewsUpdateService extends Service {
                 .subscribe();
                 /*.subscribe(new Consumer<Object>() {
                                NotificationUtils.showResultNotification(NewsLoadService.this,
-                                NewsLoadService.this.getString(R.string.sucess_message));
+                                NewsLoadService.this.getString(R.string.sucсess_message));
                         NewsLoadService.this.stopSelf();
                     }
                 }, new Consumer<Throwable>() {
