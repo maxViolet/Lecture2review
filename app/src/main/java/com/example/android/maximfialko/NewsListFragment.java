@@ -24,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,20 +33,20 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class NewsList_Fragment extends android.app.Fragment {
+public class NewsListFragment extends android.app.Fragment {
 
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
-    private static int MARGIN = 16;
+    private static int MARGIN = 30;
 
     private boolean isTwoPanel;
     private Activity activityInstance;
-    private NewsDetail_Fragment detailNews_fragment;
+    private NewsDetailFragment detailNews_fragment;
     private NewsAdapter adapter;
     private ProgressBar progress;
     private RecyclerView rv;
     //    private View error;
     private Spinner spinner;
-    private FloatingActionButton fabResfresh;
+    private FloatingActionButton fabRefresh;
 
     private NewsItemRepository newsRepository;
 
@@ -57,8 +56,8 @@ public class NewsList_Fragment extends android.app.Fragment {
         void openDetailFragment(int id);
     }
 
-    static NewsList_Fragment newInstance() {
-        return new NewsList_Fragment();
+    static NewsListFragment newInstance() {
+        return new NewsListFragment();
     }
 
     @Override
@@ -218,13 +217,13 @@ public class NewsList_Fragment extends android.app.Fragment {
     public final NewsAdapter.newsItemClickListener clickListener = new NewsAdapter.newsItemClickListener() {
         @Override
         public void onItemClick(NewsItem newsItem) {
-            NewsList_Fragment.this.openDetailsMethod(newsItem.getId());
+            NewsListFragment.this.openDetailsMethod(newsItem.getId());
         }
     };
 
     public void setupFab(View view) {
-        fabResfresh = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
-        fabResfresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
+        fabRefresh = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
+        fabRefresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 
     public void showProgress(boolean show) {
@@ -244,13 +243,13 @@ public class NewsList_Fragment extends android.app.Fragment {
 
     public void openDetailsMethod(int id) {
         if (isTwoPanel) {
-            detailNews_fragment = NewsDetail_Fragment.newInstance(id);
+            detailNews_fragment = NewsDetailFragment.newInstance(id);
 
             getFragmentManager().beginTransaction()
                     .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
                     .commit();
         } else {
-            detailNews_fragment = NewsDetail_Fragment.newInstance(id);
+            detailNews_fragment = NewsDetailFragment.newInstance(id);
 
             getFragmentManager().beginTransaction()
                     .replace(R.id.frame_list, detailNews_fragment, TAG_DETAIL_FRAGMENT)

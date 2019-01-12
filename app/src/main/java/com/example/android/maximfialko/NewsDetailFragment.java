@@ -28,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.example.android.maximfialko.utils.DateUtils.formatDateFromDb;
 
-public class NewsDetail_Fragment extends android.app.Fragment {
+public class NewsDetailFragment extends android.app.Fragment {
 
     public static final String ID_EXTRAS = "id_extras";
     private static int Id;
@@ -53,8 +53,8 @@ public class NewsDetail_Fragment extends android.app.Fragment {
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public static NewsDetail_Fragment newInstance(int id) {
-        NewsDetail_Fragment detailNews_fragment = new NewsDetail_Fragment();
+    public static NewsDetailFragment newInstance(int id) {
+        NewsDetailFragment detailNews_fragment = new NewsDetailFragment();
         Bundle arg = new Bundle();
         arg.putInt(ID_EXTRAS, id);
         detailNews_fragment.setArguments(arg);

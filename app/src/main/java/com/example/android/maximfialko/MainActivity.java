@@ -5,17 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 //import com.example.android.maximfialko.Utils.Navigator;
 
-public class MainActivity extends AppCompatActivity implements NewsList_Fragment.DetailFragmentListener {
+public class MainActivity extends AppCompatActivity implements NewsListFragment.DetailFragmentListener {
 
     private boolean isTwoPanel;
-//    private NewsList_Fragment newsList_Fragment;
-//    private NewsDetail_Fragment detailNews_fragment;
+//    private NewsListFragment newsList_Fragment;
+//    private NewsDetailFragment detailNews_fragment;
 
     static final String TAG_LIST_FRAGMENT = "recycler_fragment";
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements NewsList_Fragment
 //        Log.d("TABLET MODE", " " + (int) (getResources().getDisplayMetrics().density * 160f));
 
         if (savedInstanceState == null) {
-            NewsList_Fragment newsList_Fragment = NewsList_Fragment.newInstance();
+            NewsListFragment newsList_Fragment = NewsListFragment.newInstance();
 
             getFragmentManager()
                     .beginTransaction()
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NewsList_Fragment
             if (isTwoPanel) {
 //                int id = newsList_Fragment.getId();
                 openDetailFragment(0);
-//                NewsDetail_Fragment detailNews_fragment = NewsDetail_Fragment.newInstance(id);
+//                NewsDetailFragment detailNews_fragment = NewsDetailFragment.newInstance(id);
 //                getFragmentManager().beginTransaction()
 //                        .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
 //                        .commit();
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NewsList_Fragment
 
     @Override
     public void openDetailFragment(int id) {
-        NewsDetail_Fragment newsDetailFragment = NewsDetail_Fragment.newInstance(id);
+        NewsDetailFragment newsDetailFragment = NewsDetailFragment.newInstance(id);
         int frameId = isTwoPanel ? R.id.frame_detail : R.id.frame_list;
         getFragmentManager().beginTransaction()
                 .replace(frameId, newsDetailFragment, TAG_DETAIL_FRAGMENT)

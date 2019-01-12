@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
-public class IntroActivity_Fragment extends FragmentActivity {
+public class IntroActivityFragment extends FragmentActivity {
 
     ViewPager pager;
     PagerAdapter pagerAdapter;
@@ -62,7 +62,7 @@ public class IntroActivity_Fragment extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return IntroPage_Fragment.newInstance(position);
+            return IntroPageFragment.newInstance(position);
         }
 
         @Override

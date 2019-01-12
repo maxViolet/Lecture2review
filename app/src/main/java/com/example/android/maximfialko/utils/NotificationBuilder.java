@@ -66,7 +66,7 @@ public class NotificationBuilder {
         }
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID_RESULT)
-                .setSmallIcon(R.drawable.ic_question)
+                .setSmallIcon(R.drawable.sharp_done_24)
                 .setContentTitle("NY Times")
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)

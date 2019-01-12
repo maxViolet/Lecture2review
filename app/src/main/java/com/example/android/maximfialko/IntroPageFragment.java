@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class IntroPage_Fragment extends Fragment {
+public class IntroPageFragment extends Fragment {
 
     public ImageView imageView;
     public TextView textView;
@@ -23,8 +23,8 @@ public class IntroPage_Fragment extends Fragment {
     static final String FACE_STRING = "Welcome!";
     static final String PAGE_NUMBER = "page_number";
 
-    static IntroPage_Fragment newInstance(int page) {
-        IntroPage_Fragment introPage_fragment = new IntroPage_Fragment();
+    static IntroPageFragment newInstance(int page) {
+        IntroPageFragment introPage_fragment = new IntroPageFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(PAGE_NUMBER, page);
         introPage_fragment.setArguments(arguments);
@@ -36,7 +36,9 @@ public class IntroPage_Fragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments().getInt(PAGE_NUMBER) != 0) {  pageNumber = getArguments().getInt(PAGE_NUMBER);}
+        if (getArguments().getInt(PAGE_NUMBER) != 0) {
+            pageNumber = getArguments().getInt(PAGE_NUMBER);
+        }
     }
 
     @Nullable
