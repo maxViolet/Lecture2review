@@ -47,9 +47,7 @@ public class NewsListFragment extends android.app.Fragment {
     //    private View error;
     private Spinner spinner;
     private FloatingActionButton fabRefresh;
-
     private NewsItemRepository newsRepository;
-
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public interface DetailFragmentListener {
@@ -60,18 +58,17 @@ public class NewsListFragment extends android.app.Fragment {
         return new NewsListFragment();
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d("lifecycle", "listFragment_____________onATTACH");
+    }*/
 
-    }
-
-    @Override
+    /*@Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("lifecycle", "listFragment_____________onCREATE");
-    }
+    }*/
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -95,23 +92,23 @@ public class NewsListFragment extends android.app.Fragment {
         setupFab(view);
         setupRecycler(view);
         isTwoPanel = view.findViewById(R.id.frame_detail) != null;
-        Log.d("TABLET MODE", "list: " + isTwoPanel);
-
         return view;
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("lifecycle", "listFragment_____________onACTIVITY_CREATED");
+        //check for tablet twopanel mode
         isTwoPanel = ((MainActivity) getActivity()).getIsTwoPanel();
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         Log.d("lifecycle", "listFragment_____________onSTART");
         super.onStart();
-    }
+    }*/
 
     @Override
     public void onResume() {
@@ -120,11 +117,17 @@ public class NewsListFragment extends android.app.Fragment {
         subscribeToDataFromDb();
     }
 
-    @Override
+    /*@Override
     public void onPause() {
         Log.d("lifecycle", "listFragment_____________onPAUSE");
         super.onPause();
-    }
+    }*/
+
+    /*@Override
+    public void onDestroy() {
+        Log.d("lifecycle", "listFragment_____________onDESTROY");
+        super.onDestroy();
+    }*/
 
     @Override
     public void onStop() {
@@ -132,12 +135,6 @@ public class NewsListFragment extends android.app.Fragment {
         super.onStop();
         compositeDisposable.clear();
         activityInstance = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.d("lifecycle", "listFragment_____________onDESTROY");
-        super.onDestroy();
     }
 
     public void setupRecycler(View view) {
@@ -180,14 +177,10 @@ public class NewsListFragment extends android.app.Fragment {
         final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
                 .topStoriesEndpoint()   //return topStoriesEndpoint
                 .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
-//                .delay(3, TimeUnit.SECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
-//                .delay(2, TimeUnit.SECONDS)
-//                .delay(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-//                .delay(2, TimeUnit.SECONDS)
                 .subscribe();
         Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);

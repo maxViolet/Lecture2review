@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
         if (savedInstanceState == null) {
             NewsListFragment newsList_Fragment = NewsListFragment.newInstance();
 
+//            getSupportFragmentManager()
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_list, newsList_Fragment, TAG_LIST_FRAGMENT)
