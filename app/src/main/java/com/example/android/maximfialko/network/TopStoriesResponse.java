@@ -12,7 +12,6 @@ public class TopStoriesResponse {
     @SerializedName("results")
     private List<NewsItemDTO> news;
 
-
     public String getStatus() {
         return status;
     }

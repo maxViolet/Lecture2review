@@ -18,18 +18,19 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".PreviewEmailActivity" />
         <activity
             android:name=".AboutActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".SourceActivity" />
-        <activity android:name=".IntroActivityFragment" />
+        <activity android:name=".IntroActivityFragment" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".service.NewsUpdateService"

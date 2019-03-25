@@ -13,7 +13,6 @@ import android.util.Log;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class IntroActivityFragment extends FragmentActivity {
-
     ViewPager pager;
     PagerAdapter pagerAdapter;
     InkPageIndicator inkPageIndicator;
@@ -31,9 +30,9 @@ public class IntroActivityFragment extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_fragmentactivity);
 
-        inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
+        inkPageIndicator = findViewById(R.id.indicator);
 
-        pager = (ViewPager) findViewById(R.id.viewpager);
+        pager = findViewById(R.id.viewpager);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         inkPageIndicator.setViewPager(pager);

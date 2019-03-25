@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RestApi {
 
-    private final String API_KEY = "108b235bac7941d2996ea017dac9fe44";
+    private final String API_KEY = "qmrfMfNl5hRhJGiMXaSXLGe25jPGIn0T";
     private final String URL = "https://api.nytimes.com";
     private final int TIMEOUT_IN_SECONDS = 2;
 
@@ -55,8 +55,6 @@ public final class RestApi {
                 .addInterceptor(networkLogInterceptor)
                 .build();
     }
-
-
 
     public Endpoint topStoriesEndpoint() {
         return topStoriesEndpoint;
