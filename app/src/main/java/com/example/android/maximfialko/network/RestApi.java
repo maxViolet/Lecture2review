@@ -18,7 +18,6 @@ public final class RestApi {
     private final Endpoint topStoriesEndpoint;
     private static RestApi sRestApi;
 
-    //синглтон для работы с сетью
     public static synchronized RestApi getInstance() {
         if (sRestApi == null) {
             sRestApi = new RestApi();

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class PreviewEmailActivity extends AppCompatActivity {
 
-    ActionBar actionBar;
+//    ActionBar actionBar;
     private static final String EXTRA_MESSAGE = "message";
     private static final String SUBJECT = "homework";
 
@@ -28,8 +28,8 @@ public class PreviewEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
 
-        final Button email = (Button) findViewById(R.id.emailButton);
-        final TextView messageView = (TextView) findViewById(R.id.textOutput);
+        final Button email = findViewById(R.id.emailButton);
+        final TextView messageView = findViewById(R.id.textOutput);
 
         //получить текст письма через Extras и заполнить соотв-й TextView
         final String message = getIntent().getStringExtra(EXTRA_MESSAGE);

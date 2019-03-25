@@ -83,9 +83,9 @@ public class NewsListFragment extends android.app.Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list_news, null);
 
-        progress = (ProgressBar) view.findViewById(R.id.progress);
+        progress = view.findViewById(R.id.progress);
 //        error = (View) view.findViewById(R.id.lt_error);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
+        spinner = view.findViewById(R.id.spinner);
 
         newsRepository = new NewsItemRepository(activityInstance);
 
@@ -141,7 +141,7 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     public void setupRecycler(View view) {
-        rv = (RecyclerView) view.findViewById(R.id.recycler_view);
+        rv = view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), clickListener);
 
         //ps to dp //util class
@@ -222,7 +222,7 @@ public class NewsListFragment extends android.app.Fragment {
     };
 
     public void setupFab(View view) {
-        fabRefresh = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
+        fabRefresh = view.findViewById(R.id.fab_refresh);
         fabRefresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 
@@ -258,7 +258,7 @@ public class NewsListFragment extends android.app.Fragment {
         }
     }
 
-    public int getFirstItemId() {
-        return adapter.getFirstItemId();
-    }
+//    public int getFirstItemId() {
+//        return adapter.getFirstItemId();
+//    }
 }

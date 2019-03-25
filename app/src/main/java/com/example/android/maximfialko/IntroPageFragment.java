@@ -15,12 +15,14 @@ import androidx.fragment.app.Fragment;
 
 public class IntroPageFragment extends Fragment {
 
-    public ImageView imageView;
-    public TextView textView;
+    public ImageView intro_imageView;
+    public TextView intro_textView;
+    public TextView intro_textView2;
 
     public int pageNumber;
 
     static final String FACE_STRING = "Welcome!";
+    static final String FACE_STRING2 = "tap to continue";
     static final String PAGE_NUMBER = "page_number";
 
     static IntroPageFragment newInstance(int page) {
@@ -48,27 +50,28 @@ public class IntroPageFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.intro_fragment, null);
-        imageView = (ImageView) view.findViewById(R.id.page_iv);
-        textView = (TextView) view.findViewById(R.id.page_tv);
+        intro_imageView = view.findViewById(R.id.page_iv);
+        intro_textView = view.findViewById(R.id.page_tv);
+        intro_textView2 = view.findViewById(R.id.page_tv2);
 
         loadPageImage(pageNumber);
-        textView.setText(FACE_STRING);
+        intro_textView.setText(FACE_STRING);
+        intro_textView2.setText(FACE_STRING2);
 
-        imageView.setOnClickListener(v -> startMainActivity());
-
+        intro_imageView.setOnClickListener(v -> startMainActivity());
         return view;
     }
 
     private void loadPageImage(int page) {
         switch (page) {
             case 0:
-                imageView.setImageResource(R.drawable.intro_page1);
+                intro_imageView.setImageResource(R.drawable.intro_page1);
                 break;
             case 1:
-                imageView.setImageResource(R.drawable.intro_page2);
+                intro_imageView.setImageResource(R.drawable.intro_page2);
                 break;
             case 2:
-                imageView.setImageResource(R.drawable.intro_page3);
+                intro_imageView.setImageResource(R.drawable.intro_page3);
                 break;
         }
     }

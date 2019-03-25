@@ -27,7 +27,7 @@ public class SourceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_source);
 
-        webView = (WebView) findViewById(R.id.web_source);
+        webView = findViewById(R.id.web_source);
         url = getIntent().getStringExtra(URL_EXTRAS);
 
         webView.loadUrl(url);

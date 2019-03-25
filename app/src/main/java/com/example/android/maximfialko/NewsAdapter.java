@@ -91,9 +91,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private ImageView imageUrlView;
         private TextView publishDateView;
 
-        public int returnID() {
-            return id;
-        }
+//        public int returnID() {
+//            return id;
+//        }
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,15 +103,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     clickListener.onItemClick(news.get(position));
                 }
             });
-            categoryView = (TextView) itemView.findViewById(R.id.tv_cd_category);
-            titleView = (TextView) itemView.findViewById(R.id.tv_cd_title);
-            previewTextView = (TextView) itemView.findViewById(R.id.tv_previewText);
-            imageUrlView = (ImageView) itemView.findViewById(R.id.iv_imageUrl);
-            publishDateView = (TextView) itemView.findViewById(R.id.tv_publishDate);
+            categoryView = itemView.findViewById(R.id.tv_cd_category);
+            titleView = itemView.findViewById(R.id.tv_cd_title);
+            previewTextView = itemView.findViewById(R.id.tv_previewText);
+            imageUrlView = itemView.findViewById(R.id.iv_imageUrl);
+            publishDateView = itemView.findViewById(R.id.tv_publishDate);
         }
 
         void bind(NewsItem newsItem) {
-//            Log.d("room", "ADAPTER: id binded");
             id = newsItem.getId();
             imageLoader.load(newsItem.getImageUrl()).into(imageUrlView);
             categoryView.setText(newsItem.getCategory());

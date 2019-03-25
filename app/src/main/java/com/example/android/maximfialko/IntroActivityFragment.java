@@ -22,6 +22,7 @@ public class IntroActivityFragment extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //exit app if backpressed after Intro
         finish();
     }
 
@@ -33,7 +34,7 @@ public class IntroActivityFragment extends FragmentActivity {
         inkPageIndicator = findViewById(R.id.indicator);
 
         pager = findViewById(R.id.viewpager);
-        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         inkPageIndicator.setViewPager(pager);
 
@@ -53,9 +54,9 @@ public class IntroActivityFragment extends FragmentActivity {
         });
     }
 
-    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+    private class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        public MyFragmentPagerAdapter(FragmentManager manager) {
+        public CustomFragmentPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
