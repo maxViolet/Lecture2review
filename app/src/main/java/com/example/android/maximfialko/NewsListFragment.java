@@ -1,7 +1,6 @@
 package com.example.android.maximfialko;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +21,10 @@ import com.example.android.maximfialko.room.MapperDtoToDb;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,8 +44,8 @@ public class NewsListFragment extends android.app.Fragment {
     private NewsDetailFragment detailNews_fragment;
     private NewsAdapter adapter;
     private ProgressBar progress;
-    private RecyclerView rv;
-    //    private View error;
+    private RecyclerView recyclerView;
+    private View error;
     private Spinner spinner;
     private FloatingActionButton fabRefresh;
     private NewsItemRepository newsRepository;
@@ -74,14 +75,13 @@ public class NewsListFragment extends android.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.d("lifecycle", "listFragment_____________onCREATE_VIEW");
-
+//        Log.d("lifecycle", "NewsListFragment_____________onCREATE_VIEW");
         activityInstance = getActivity();
 
         View view = inflater.inflate(R.layout.fragment_list_news, null);
 
         progress = view.findViewById(R.id.progress);
-//        error = (View) view.findViewById(R.id.lt_error);
+        error = view.findViewById(R.id.lt_error);
         spinner = view.findViewById(R.id.spinner);
 
         newsRepository = new NewsItemRepository(activityInstance);
@@ -91,43 +91,25 @@ public class NewsListFragment extends android.app.Fragment {
         setupSpinner();
         setupFab(view);
         setupRecycler(view);
+
         isTwoPanel = view.findViewById(R.id.frame_detail) != null;
         return view;
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("lifecycle", "listFragment_____________onACTIVITY_CREATED");
+//        Log.d("lifecycle", "listFragment_____________onACTIVITY_CREATED");
         //check for tablet twopanel mode
         isTwoPanel = ((MainActivity) getActivity()).getIsTwoPanel();
     }
 
-    /*@Override
-    public void onStart() {
-        Log.d("lifecycle", "listFragment_____________onSTART");
-        super.onStart();
-    }*/
-
     @Override
     public void onResume() {
-        Log.d("lifecycle", "listFragment_____________onRESUME");
+//        Log.d("lifecycle", "listFragment_____________onRESUME");
         super.onResume();
         subscribeToDataFromDb();
     }
-
-    /*@Override
-    public void onPause() {
-        Log.d("lifecycle", "listFragment_____________onPAUSE");
-        super.onPause();
-    }*/
-
-    /*@Override
-    public void onDestroy() {
-        Log.d("lifecycle", "listFragment_____________onDESTROY");
-        super.onDestroy();
-    }*/
 
     @Override
     public void onStop() {
@@ -138,7 +120,7 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     public void setupRecycler(View view) {
-        rv = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), clickListener);
 
         //ps to dp //util class
@@ -146,8 +128,8 @@ public class NewsListFragment extends android.app.Fragment {
         //add Margins to Recycler View
         Margins decoration = new Margins((int) DPmath.dpFromPx(MARGIN), 1);
 
-        rv.setAdapter(adapter);
-        rv.addItemDecoration(decoration);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(decoration);
     }
 
     private void setupSpinner() {
@@ -170,10 +152,10 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void loadItemsToDb(@NonNull String category) {
-        Log.d("room", "loadNews START");
+//        Log.d("room", "loadNews START");
         showProgress(true);
-        progress.setVisibility(View.VISIBLE);
-        rv.setVisibility(View.GONE);
+//        progress.setVisibility(View.VISIBLE);
+//        recyclerView.setVisibility(View.GONE);
         final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
                 .topStoriesEndpoint()   //return topStoriesEndpoint
                 .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
@@ -182,16 +164,16 @@ public class NewsListFragment extends android.app.Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
-        Log.d("room", "loadNews END");
+//        Log.d("room", "loadNews END");
         compositeDisposable.add(searchDisposable);
         showProgress(false);
 //        progress.setVisibility(View.GONE);
-//        rv.setVisibility(View.VISIBLE);
-//        Visibility.setVisible(rv, true);
+//        recyclerView.setVisibility(View.VISIBLE);
+//        Visibility.setVisible(recyclerView, true);
     }
 
     private void subscribeToDataFromDb() {
-        Log.d("room", "subscribeToDataFromDb()");
+//        Log.d("room", "subscribeToDataFromDb()");
         Disposable disposable = newsRepository.getDataObservable()
                 .map(newsItemDBS -> MapperDbToNewsItem.map(newsItemDBS))
                 .subscribeOn(Schedulers.io())
@@ -203,14 +185,14 @@ public class NewsListFragment extends android.app.Fragment {
 
     private void setupNews(List<NewsItem> newsItems) {
 //        showProgress(false);
-        Log.d("room", "UPDATE RV: setupNews");
+//        Log.d("room", "UPDATE RV: setupNews");
         if (adapter != null) adapter.replaceItems(newsItems);
     }
 
     public final NewsAdapter.newsItemClickListener clickListener = new NewsAdapter.newsItemClickListener() {
         @Override
         public void onItemClick(NewsItem newsItem) {
-            NewsListFragment.this.openDetailsMethod(newsItem.getId());
+            NewsListFragment.this.openNewsDetails(newsItem.getId());
         }
     };
 
@@ -221,20 +203,20 @@ public class NewsListFragment extends android.app.Fragment {
 
     public void showProgress(boolean show) {
         Visibility.setVisible(progress, show);
-        Visibility.setVisible(rv, !show);
-//        Visibility.setVisible(error, !show);
+        Visibility.setVisible(recyclerView, !show);
+        Visibility.setVisible(error, !show);
     }
 
-//    public void handleError(Throwable throwable) {
-//        if (throwable instanceof IOException) {
-//            return;
-//        }
-//        Visibility.setVisible(rv, false);
-//        Visibility.setVisible(progress, false);
-//        Visibility.setVisible(error, true);
-//    }
+    public void handleError(Throwable throwable) {
+        if (throwable instanceof IOException) {
+            return;
+        }
+        Visibility.setVisible(recyclerView, false);
+        Visibility.setVisible(progress, false);
+        Visibility.setVisible(error, true);
+    }
 
-    public void openDetailsMethod(int id) {
+    public void openNewsDetails(int id) {
         if (isTwoPanel) {
             detailNews_fragment = NewsDetailFragment.newInstance(id);
 
@@ -254,4 +236,23 @@ public class NewsListFragment extends android.app.Fragment {
 //    public int getFirstItemId() {
 //        return adapter.getFirstItemId();
 //    }
+
+    /*@Override
+    public void onStart() {
+        Log.d("lifecycle", "listFragment_____________onSTART");
+        super.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("lifecycle", "listFragment_____________onPAUSE");
+        super.onPause();
+    }
+
+    /*@Override
+    public void onDestroy() {
+        Log.d("lifecycle", "listFragment_____________onDESTROY");
+        super.onDestroy();
+    }*/
+
 }

@@ -52,9 +52,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         );
     }
 
-    @Override //указывает содержимое каждого элемента RecyclerView
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // get our custom object from our dataset at this position
         holder.bind(news.get(position));
     }
 
@@ -68,11 +67,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public void replaceItems(@NonNull List<NewsItem> newItems) {
-        Log.d("room", "replaceItems START");
         news.clear();
         news.addAll(newItems);
         notifyDataSetChanged();
-        Log.d("room", "replaceItems END");
     }
 
     public void add(List<NewsItem> newsItems) {

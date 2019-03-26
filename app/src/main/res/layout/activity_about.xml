@@ -25,7 +25,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="bottom"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed|snap"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/collapsing_toolbar">
 
             <ImageView
                 android:id="@+id/iv_photo"
@@ -37,13 +37,13 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <!--<androidx.appcompat.widget.Toolbar
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_collapseMode="pin"
-                app:titleTextColor="@android:color/white" />
+                app:titleTextColor="@android:color/white" />-->
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

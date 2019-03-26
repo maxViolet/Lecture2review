@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
 //        }
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         Log.d("lifecycle", "main_____________onRESUME");
         super.onResume();
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
     protected void onDestroy() {
         Log.d("lifecycle", "main_____________onDESTROY");
         super.onDestroy();
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
