@@ -38,8 +38,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.clickListener = clickListener;
 
         RequestOptions imageOption = new RequestOptions()
-                .placeholder(R.drawable.avatar_placeholder)
-                .fallback(R.drawable.avatar_placeholder)
+                .placeholder(R.drawable.nyt_logo_black)
+                .fallback(R.drawable.nyt_logo_black)
                 .centerCrop();
         this.imageLoader = Glide.with(context).applyDefaultRequestOptions(imageOption);
     }

@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsListFragment extends android.app.Fragment {
 
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
-    private static int MARGIN = 30;
+    private static int MARGIN = 22;
 
     private boolean isTwoPanel;
     private Activity activityInstance;
@@ -113,7 +113,7 @@ public class NewsListFragment extends android.app.Fragment {
 
     @Override
     public void onStop() {
-        Log.d("lifecycle", "listFragment_____________onSTOP");
+//        Log.d("lifecycle", "listFragment_____________onSTOP");
         super.onStop();
         compositeDisposable.clear();
         activityInstance = null;

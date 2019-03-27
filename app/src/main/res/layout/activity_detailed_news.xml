@@ -30,7 +30,7 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5"
                 tools:ignore="ContentDescription"
-                tools:src="@drawable/avatar_placeholder" />
+                tools:src="@drawable/nyt_logo_black" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/det_toolbar"
@@ -49,8 +49,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
+        android:backgroundTint="@color/design_default_color_primary"
         android:src="@drawable/brightness_7"
-        android:visibility="gone" />
+        android:tint="@color/white"
+        app:borderWidth="0dp"
+        app:maxImageSize="37dp" />
 
     <include layout="@layout/minifab_layout" />
 

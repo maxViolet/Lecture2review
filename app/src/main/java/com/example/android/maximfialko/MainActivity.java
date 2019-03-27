@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
 //    private NewsListFragment newsList_Fragment;
 //    private NewsDetailFragment detailNews_fragment;
 
-    static final String TAG_LIST_FRAGMENT = "recycler_fragment";
+    static final String TAG_LIST_FRAGMENT = "mainList_fragment";
     static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
 
     @Override

@@ -44,6 +44,7 @@
     <string name="channel_description">updating news</string>
 
     <string-array name="categoryList">
+        <item>travel</item>
         <item>home</item>
         <item>opinion</item>
         <item>world</item>
@@ -62,7 +63,7 @@
         <item>fashion</item>
         <item>tmagazine</item>
         <item>food</item>
-        <item>travel</item>
+       <!-- <item>travel</item>-->
         <item>magazine</item>
         <item>realestate</item>
         <item>automobiles</item>
