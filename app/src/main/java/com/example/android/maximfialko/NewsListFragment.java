@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -45,8 +46,10 @@ public class NewsListFragment extends android.app.Fragment {
     private NewsDetailFragment detailNews_fragment;
     private NewsAdapter adapter;
     private ProgressBar progress;
+    private View progress_container;
     private RecyclerView recyclerView;
-    private View error;
+    private View recycler_container;
+    private View error_container;
     private Spinner spinner;
     private FloatingActionButton fabRefresh;
     private NewsItemRepository newsRepository;
@@ -70,7 +73,9 @@ public class NewsListFragment extends android.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_list_news, null);
 
         progress = view.findViewById(R.id.progress);
-        error = view.findViewById(R.id.error_layout);
+        progress_container = view.findViewById(R.id.progress_container);
+        recycler_container = view.findViewById(R.id.recycler_container);
+        error_container = view.findViewById(R.id.error_container);
         spinner = view.findViewById(R.id.spinner);
 
         newsRepository = new NewsItemRepository(activityInstance);
@@ -141,13 +146,11 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void loadItemsToDb(@NonNull String category) {
-//        showProgress(true);
-        recyclerView.setVisibility(View.INVISIBLE);
-        progress.setVisibility(View.VISIBLE);
+        showProgress(true);
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
                 .getNews(category)
-                .delay(4, TimeUnit.SECONDS)
+                .delay(600, TimeUnit.MILLISECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
                 .subscribeOn(Schedulers.io())
@@ -157,8 +160,8 @@ public class NewsListFragment extends android.app.Fragment {
                 }, throwable -> showError(throwable));
         compositeDisposable.add(searchDisposable);
 //        showProgress(false);
-        progress.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.GONE);
+//        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void subscribeToDataFromDb() {
@@ -188,30 +191,24 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     public void showNews(boolean show) {
-        Visibility.setVisible(progress, !show);
-        Visibility.setVisible(recyclerView, show);
-        Visibility.setVisible(error, !show);
+        Visibility.setVisible(progress_container, !show);
+        Visibility.setVisible(recycler_container, show);
+        Visibility.setVisible(error_container, !show);
     }
 
     public void showProgress(boolean show) {
-        Visibility.setVisible(progress, show);
-        Visibility.setVisible(recyclerView, !show);
-        Visibility.setVisible(error, !show);
+        Visibility.setVisible(progress_container, show);
+        Visibility.setVisible(recycler_container, !show);
+        Visibility.setVisible(error_container, !show);
     }
 
     public void showError(Throwable throwable) {
         if (throwable instanceof IOException) {
             return;
         }
-        Visibility.setVisible(recyclerView, false);
-        Visibility.setVisible(progress, false);
-        Visibility.setVisible(error, true);
-    }
-
-    public void showError() {
-        Visibility.setVisible(recyclerView, false);
-        Visibility.setVisible(progress, false);
-        Visibility.setVisible(error, true);
+        Visibility.setVisible(progress_container, false);
+        Visibility.setVisible(recycler_container, false);
+        Visibility.setVisible(error_container, true);
     }
 
     public void openNewsDetails(int id) {
