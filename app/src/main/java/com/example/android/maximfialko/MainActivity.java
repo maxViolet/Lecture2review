@@ -59,30 +59,6 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
 //        }
     }
 
-    /*@Override
-    public void onResume() {
-        Log.d("lifecycle", "main_____________onRESUME");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("lifecycle", "main_____________onPAUSE");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.d("lifecycle", "main_____________onSTOP");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("lifecycle", "main_____________onDESTROY");
-        super.onDestroy();
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list, menu);

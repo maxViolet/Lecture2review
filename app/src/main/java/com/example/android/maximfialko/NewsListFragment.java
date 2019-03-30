@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsListFragment extends android.app.Fragment {
@@ -59,18 +60,6 @@ public class NewsListFragment extends android.app.Fragment {
         return new NewsListFragment();
     }
 
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d("lifecycle", "listFragment_____________onATTACH");
-    }*/
-
-    /*@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("lifecycle", "listFragment_____________onCREATE");
-    }*/
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -81,7 +70,7 @@ public class NewsListFragment extends android.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_list_news, null);
 
         progress = view.findViewById(R.id.progress);
-        error = view.findViewById(R.id.lt_error);
+        error = view.findViewById(R.id.error_layout);
         spinner = view.findViewById(R.id.spinner);
 
         newsRepository = new NewsItemRepository(activityInstance);
@@ -123,7 +112,7 @@ public class NewsListFragment extends android.app.Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), clickListener);
 
-        //ps to dp //util class
+        //ps to dp
         DensityPixelMath DPmath = new DensityPixelMath(view.getContext());
         //add Margins to Recycler View
         Margins decoration = new Margins((int) DPmath.dpFromPx(MARGIN), 1);
@@ -142,7 +131,7 @@ public class NewsListFragment extends android.app.Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                loadItemsToDb(spinner.getSelectedItem().toString());
+//                loadItemsToDb(spinner.getSelectedItem().toString());
             }
 
             @Override
@@ -152,28 +141,27 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void loadItemsToDb(@NonNull String category) {
-//        Log.d("room", "loadNews START");
-        showProgress(true);
-//        progress.setVisibility(View.VISIBLE);
-//        recyclerView.setVisibility(View.GONE);
-        final Disposable searchDisposable = RestApi.getInstance()   //init Retrofit client
-                .topStoriesEndpoint()   //return topStoriesEndpoint
-                .getNews(category)      //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
-                .map(response -> MapperDtoToDb.map(response.getNews()))   //return List<NewsItemDB>
+//        showProgress(true);
+        recyclerView.setVisibility(View.INVISIBLE);
+        progress.setVisibility(View.VISIBLE);
+        final Disposable searchDisposable = RestApi.getInstance()
+                .topStoriesEndpoint()
+                .getNews(category)
+                .delay(4, TimeUnit.SECONDS)
+                .map(response -> MapperDtoToDb.map(response.getNews()))
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
-//        Log.d("room", "loadNews END");
+                .subscribe(() -> {
+                    showNews(true);
+                }, throwable -> showError(throwable));
         compositeDisposable.add(searchDisposable);
-        showProgress(false);
-//        progress.setVisibility(View.GONE);
-//        recyclerView.setVisibility(View.VISIBLE);
-//        Visibility.setVisible(recyclerView, true);
+//        showProgress(false);
+        progress.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void subscribeToDataFromDb() {
-//        Log.d("room", "subscribeToDataFromDb()");
         Disposable disposable = newsRepository.getDataObservable()
                 .map(newsItemDBS -> MapperDbToNewsItem.map(newsItemDBS))
                 .subscribeOn(Schedulers.io())
@@ -184,8 +172,6 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void setupNews(List<NewsItem> newsItems) {
-//        showProgress(false);
-//        Log.d("room", "UPDATE RV: setupNews");
         if (adapter != null) adapter.replaceItems(newsItems);
     }
 
@@ -201,16 +187,28 @@ public class NewsListFragment extends android.app.Fragment {
         fabRefresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 
+    public void showNews(boolean show) {
+        Visibility.setVisible(progress, !show);
+        Visibility.setVisible(recyclerView, show);
+        Visibility.setVisible(error, !show);
+    }
+
     public void showProgress(boolean show) {
         Visibility.setVisible(progress, show);
         Visibility.setVisible(recyclerView, !show);
         Visibility.setVisible(error, !show);
     }
 
-    public void handleError(Throwable throwable) {
+    public void showError(Throwable throwable) {
         if (throwable instanceof IOException) {
             return;
         }
+        Visibility.setVisible(recyclerView, false);
+        Visibility.setVisible(progress, false);
+        Visibility.setVisible(error, true);
+    }
+
+    public void showError() {
         Visibility.setVisible(recyclerView, false);
         Visibility.setVisible(progress, false);
         Visibility.setVisible(error, true);
@@ -236,23 +234,4 @@ public class NewsListFragment extends android.app.Fragment {
 //    public int getFirstItemId() {
 //        return adapter.getFirstItemId();
 //    }
-
-    /*@Override
-    public void onStart() {
-        Log.d("lifecycle", "listFragment_____________onSTART");
-        super.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        Log.d("lifecycle", "listFragment_____________onPAUSE");
-        super.onPause();
-    }
-
-    /*@Override
-    public void onDestroy() {
-        Log.d("lifecycle", "listFragment_____________onDESTROY");
-        super.onDestroy();
-    }*/
-
 }

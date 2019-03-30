@@ -36,7 +36,7 @@
     <string name="action_settings">Settings</string>
     <string name="about">About</string>
     <string name="action_switch">test text2</string>
-    <string name="error_network">error network</string>
+    <string name="error_network">network error</string>
     <string name="btn_try_again">try again</string>
     <string name="go_to_source">go to Source</string>
     <string name="channel_name">Primary</string>

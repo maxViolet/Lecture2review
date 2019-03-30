@@ -52,6 +52,9 @@ public final class RestApi {
                 .connectTimeout(2, TimeUnit.SECONDS)
                 .addInterceptor(ApiKeyInterceptor.create(API_KEY))
                 .addInterceptor(networkLogInterceptor)
+                .connectTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .build();
     }
 
