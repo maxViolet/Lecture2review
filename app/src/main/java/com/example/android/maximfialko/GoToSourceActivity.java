@@ -10,14 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-public class SourceActivity extends AppCompatActivity {
+public class GoToSourceActivity extends AppCompatActivity {
 
     private WebView webView;
     private static final String URL_EXTRAS = "url_extras";
     private String url;
 
     public static void start(Activity activity, String url) {
-        Intent intent = new Intent(activity, SourceActivity.class);
+        Intent intent = new Intent(activity, GoToSourceActivity.class);
         intent.putExtra(URL_EXTRAS,url);
         activity.startActivity(intent);
     }

@@ -53,10 +53,6 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
     public void onStart() {
         Log.d("lifecycle", "main_____________onSTART");
         super.onStart();
-//        if (isTwoPanel) {
-//            int id = newsList_Fragment.getFirstItemId();
-//            openDetailFragment(id);
-//        }
     }
 
     @Override

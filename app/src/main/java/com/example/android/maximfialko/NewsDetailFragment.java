@@ -225,7 +225,7 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void openSourceActivity(String url) {
-        SourceActivity.start(activity, url);
+        GoToSourceActivity.start(activity, url);
     }
 
     private void makeLookLikeTextView(EditText editText) {

@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.annotation.IntRange;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Margins extends RecyclerView.ItemDecoration {
+public class ItemDecorator extends RecyclerView.ItemDecoration {
     private final int columns;
     private int margin;
 
@@ -16,12 +16,12 @@ public class Margins extends RecyclerView.ItemDecoration {
      * @param margin  desirable margin size in px between the views in the recyclerView
      * @param columns number of columns of the RecyclerView
      */
-    public Margins(@IntRange(from = 0) int margin, @IntRange(from = 0) int columns) {
+    public ItemDecorator(@IntRange(from = 0) int margin, @IntRange(from = 0) int columns) {
         this.margin = margin;
         this.columns = columns;
     }
 
-    /*Set different Margins for the items inside the recyclerView: no top margin for the first rowK
+    /*Set different ItemDecorator for the items inside the recyclerView: no top margin for the first rowK
      and no left margin for the first column.*/
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
