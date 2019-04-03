@@ -2,6 +2,7 @@ package com.example.android.maximfialko;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -84,7 +85,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         Log.d("lifecycle", "detailFragment_____________onCREATE_VIEW");
         activity = getActivity();
 
-        View view = inflater.inflate(R.layout.activity_detailed_news, null);
+        View view = inflater.inflate(R.layout.detailed_news_fragment, null);
         newsRepository = new NewsItemRepository(activity);
 
         initViews(view);
@@ -147,11 +148,11 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void setupFab(View view) {
-        fabOptions = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
+        fabOptions = view.findViewById(R.id.fab_refresh);
         fabOptions.setVisibility(View.VISIBLE);
-        fab1 = (FloatingActionButton) view.findViewById(R.id.fab_1);
-        fab2 = (FloatingActionButton) view.findViewById(R.id.fab_2);
-        fab3 = (FloatingActionButton) view.findViewById(R.id.fab_3);
+        fab1 = view.findViewById(R.id.fab_1);
+        fab2 = view.findViewById(R.id.fab_2);
+        fab3 = view.findViewById(R.id.fab_3);
 
         fabOptions.setOnClickListener(
                 v -> {
@@ -224,6 +225,14 @@ public class NewsDetailFragment extends android.app.Fragment {
         fab3.hide();
     }
 
+    private PointF getMiniFabPosition(PointF center, float radius, float angle) {
+
+        PointF p = new PointF((float) (center.x + radius * Math.cos(Math.toRadians(angle))),
+                (float) (center.y + radius* Math.sin(Math.toRadians(angle))));
+
+        return p;
+    }
+
     public void openSourceActivity(String url) {
         GoToSourceActivity.start(activity, url);
     }
@@ -242,7 +251,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         editText.setBackground(original);
     }
 
-    public int getItemId() {
-        return item.getId();
-    }
+//    public int getItemId() {
+//        return item.getId();
+//    }
 }

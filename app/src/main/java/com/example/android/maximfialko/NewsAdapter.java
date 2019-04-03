@@ -1,7 +1,6 @@
 package com.example.android.maximfialko;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                inflater.inflate(R.layout.cardview_news_item, parent, false)
+                inflater.inflate(R.layout.news_item_cardview, parent, false)
         );
     }
 

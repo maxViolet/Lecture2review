@@ -25,7 +25,7 @@ public class GoToSourceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_source);
+        setContentView(R.layout.gotosource_activity);
 
         webView = findViewById(R.id.web_source);
         url = getIntent().getStringExtra(URL_EXTRAS);

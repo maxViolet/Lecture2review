@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -69,7 +67,7 @@ public class NewsListFragment extends android.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_news, null);
+        View view = inflater.inflate(R.layout.list_news_fragment, null);
         activityInstance = getActivity();
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -228,16 +226,16 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void hideViews() {
-        mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+        mToolbar.animate().translationY(-mToolbar.getHeight());
 
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) fabRefresh.getLayoutParams();
         int fabBottomMargin = lp.bottomMargin;
-        fabRefresh.animate().translationY(fabRefresh.getHeight()+fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+        fabRefresh.animate().translationY(+fabRefresh.getHeight() + fabBottomMargin).start();
     }
 
     private void showViews() {
-        mToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-        fabRefresh.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+        mToolbar.animate().translationY(0);
+        fabRefresh.animate().translationY(0);
     }
 
 //    public int getFirstItemId() {

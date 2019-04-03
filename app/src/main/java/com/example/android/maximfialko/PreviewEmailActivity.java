@@ -3,7 +3,7 @@ package com.example.android.maximfialko;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import androidx.appcompat.app.ActionBar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +26,7 @@ public class PreviewEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email);
+        setContentView(R.layout.email_activity);
 
         final Button email = findViewById(R.id.emailButton);
         final TextView messageView = findViewById(R.id.textOutput);

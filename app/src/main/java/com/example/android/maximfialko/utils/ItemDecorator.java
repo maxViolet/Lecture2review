@@ -11,8 +11,6 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
     private int margin;
 
     /**
-     * constructor
-     *
      * @param margin  desirable margin size in px between the views in the recyclerView
      * @param columns number of columns of the RecyclerView
      */
