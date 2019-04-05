@@ -62,7 +62,7 @@ public class NewsItemRepository {
 
     public Completable deleteNews(final NewsItemDB newsItemDB) {
         AppDatabase db = AppDatabase.getAppDatabase(mContext);
-        return Completable.fromAction(() -> { db.newsItemDAO().delete(newsItemDB); });
+        return Completable.fromAction(() -> db.newsItemDAO().delete(newsItemDB));
     }
 
     public Completable updateNews(final NewsItemDB newsItemDB) {

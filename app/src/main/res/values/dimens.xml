@@ -12,7 +12,8 @@
 
     <dimen name="fab_margin">12dp</dimen>
     <dimen name="fab_size">40dp</dimen>
-    <dimen name="list_fab_imageSize">47dp</dimen>
+    <dimen name="fab_imageSize">30dp</dimen>
+    <dimen name="fab_imageSize2">35dp</dimen>
 
     <dimen name="indent_portrait">50dp</dimen>
     <dimen name="app_bar_height">400dp</dimen>

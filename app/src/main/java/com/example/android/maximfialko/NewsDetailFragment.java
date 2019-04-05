@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.example.android.maximfialko.utils.DateUtils;
@@ -33,7 +34,7 @@ public class NewsDetailFragment extends android.app.Fragment {
     public static final String ID_EXTRAS = "id_extras";
     private static int Id;
 
-    private Activity activity;
+    private Activity activityInstance;
     private Boolean miniFabShow = false;
 
     private ImageView photo;
@@ -49,7 +50,7 @@ public class NewsDetailFragment extends android.app.Fragment {
     private FloatingActionButton fab2;
     private FloatingActionButton fab3;
 
-    private NewsItemDB item;
+    private NewsItemDB newsItemDB;
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -64,10 +65,9 @@ public class NewsDetailFragment extends android.app.Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("lifecycle", "detailFragment_____________onCREATE");
 
         Id = getArguments().getInt(ID_EXTRAS);
-        Log.d("room", String.valueOf(Id));
+//        Log.d("room", String.valueOf(Id));
     }
 
 
@@ -75,11 +75,10 @@ public class NewsDetailFragment extends android.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.d("lifecycle", "detailFragment_____________onCREATE_VIEW");
-        activity = getActivity();
+        activityInstance = getActivity();
 
         View view = inflater.inflate(R.layout.detailed_news_fragment, null);
-        newsRepository = new NewsItemRepository(activity);
+        newsRepository = new NewsItemRepository(activityInstance);
 
         initViews(view);
         setupFabs(view);
@@ -91,10 +90,8 @@ public class NewsDetailFragment extends android.app.Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("lifecycle", "detailFragment_____________onSTOP");
-
         compositeDisposable.clear();
-        activity = null;
+        activityInstance = null;
     }
 
     public void initViews(View view) {
@@ -113,7 +110,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         Disposable disposable = newsRepository.getNewsById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(NewsItemDB -> item = NewsItemDB)
+                .map(NewsItemDB -> newsItemDB = NewsItemDB)
                 .subscribe(newsItemDB -> setupViews(newsItemDB),
                         throwable -> Log.d("room", throwable.toString()));
 
@@ -122,7 +119,7 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void setupViews(NewsItemDB item) {
-        Glide.with(activity)
+        Glide.with(activityInstance)
                 .load(item.getImageUrl())
                 .into(photo);
 
@@ -130,7 +127,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         title.setText(item.getTitle());
         date.setText(
                 DateUtils.formatDateTime(
-                        activity,
+                        activityInstance,
                         formatDateFromDb(item.getPublishDate())
                 )
         );
@@ -141,26 +138,27 @@ public class NewsDetailFragment extends android.app.Fragment {
 
     public void setupFabs(View view) {
         fabOptions = view.findViewById(R.id.fab_options);
-//        fabOptions.show();
         fab1 = view.findViewById(R.id.fab_1);
         fab2 = view.findViewById(R.id.fab_2);
         fab3 = view.findViewById(R.id.fab_3);
 
-        fabOptions.setOnClickListener(
-                v -> {
-                    if (!miniFabShow) {
-                        miniFabShow = true;
-                        showMiniFabs();
-                    } else {
-                        miniFabShow = false;
-                        hideMiniFabs();
-                    }
-                }
-        );
-
+        setup_FabOptions_Clicklistener();
         setup_Fab1_Clicklistener();
         setup_Fab2_Clicklistener();
         setup_Fab3_Clicklistener();
+    }
+
+    public void setup_FabOptions_Clicklistener() {
+        fabOptions.setClickable(true);
+        fabOptions.setOnClickListener(v -> {
+            if (!miniFabShow) {
+                miniFabShow = true;
+                showMiniFabs();
+            } else {
+                miniFabShow = false;
+                hideMiniFabs();
+            }
+        });
     }
 
     public void setup_Fab1_Clicklistener() {
@@ -170,7 +168,7 @@ public class NewsDetailFragment extends android.app.Fragment {
 
     public void setup_Fab2_Clicklistener() {
         fab1.setClickable(true);
-        fab1.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
+        fab1.setOnClickListener(v -> openSourceActivity(newsItemDB.getTextUrl()));
     }
 
     public void setup_Fab3_Clicklistener() {
@@ -181,23 +179,21 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     private void deleteFromDb() {
-        if (item != null) {
-            Disposable disposable = newsRepository.deleteNews(item)
+        if (newsItemDB != null) {
+            Disposable disposable = newsRepository.deleteNews(newsItemDB)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+                    .subscribe(() -> activityInstance.getFragmentManager().popBackStack());
             compositeDisposable.add(disposable);
-//            finish();
-//            activity.getFragmentManager().popBackStack();
-            activity.onBackPressed();
+            activityInstance.onBackPressed();
         }
     }
 
     private void updateDb() {
-        if (item != null) {
-            item.setTitle(title.getText().toString());
-            item.setPreviewText(fullText.getText().toString());
-            Disposable disposable = newsRepository.updateNews(item)
+        if (newsItemDB != null) {
+            newsItemDB.setTitle(title.getText().toString());
+            newsItemDB.setPreviewText(fullText.getText().toString());
+            Disposable disposable = newsRepository.updateNews(newsItemDB)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
@@ -207,9 +203,9 @@ public class NewsDetailFragment extends android.app.Fragment {
 
     public void showMiniFabs() {
         final int radius = 135;
-        final int fab1angle = 185;
+        final int fab1angle = 182;
         final int fab2angle = 225;
-        final int fab3angle = 265;
+        final int fab3angle = 268;
 
         fab1.show();
         fab2.show();
@@ -241,7 +237,7 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void openSourceActivity(String url) {
-        GoToSourceActivity.start(activity, url);
+        GoToSourceActivity.start(activityInstance, url);
     }
 
     private void makeLookLikeTextView(EditText editText) {
@@ -259,6 +255,6 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
 //    public int getItemId() {
-//        return item.getId();
+//        return newsItemDB.getId();
 //    }
 }

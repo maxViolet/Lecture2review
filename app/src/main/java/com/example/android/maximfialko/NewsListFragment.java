@@ -149,12 +149,14 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void loadItemsToDb(@NonNull String category) {
+        int delay_in_milliseconds = 500;
+
         showProgress(true);
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
                 .getNews(category)
-                //delay
-                .delay(500, TimeUnit.MILLISECONDS)
+                //put delay
+                .delay(delay_in_milliseconds, TimeUnit.MILLISECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))
                 //save data to database
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))

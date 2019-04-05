@@ -52,7 +52,7 @@
             android:src="@drawable/baseline_refresh_24"
             android:tint="@color/white"
             app:borderWidth="@dimen/zero"
-            app:maxImageSize="@dimen/list_fab_imageSize" />
+            app:maxImageSize="@dimen/fab_imageSize2" />
     </FrameLayout>
 
     <!--show progress layout-->

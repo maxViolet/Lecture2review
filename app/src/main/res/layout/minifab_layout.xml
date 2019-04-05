@@ -26,8 +26,7 @@
         android:layout_marginBottom="38dp"
         android:src="@drawable/sharp_copyright_24"
         android:visibility="invisible"
-        app:fabSize="mini"
-        app:maxImageSize="30dp" />
+        app:fabSize="mini" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
