@@ -79,7 +79,7 @@
                 android:backgroundTint="@android:color/holo_orange_dark"
                 android:hint="@string/enter_a_message"
                 android:inputType="text"
-                android:autofillHints="@string/send_message" />
+                tools:ignore="Autofill" />
 
             <Button
                 android:id="@+id/previewEmailButton"

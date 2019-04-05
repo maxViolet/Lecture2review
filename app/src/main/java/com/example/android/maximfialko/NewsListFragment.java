@@ -183,7 +183,7 @@ public class NewsListFragment extends android.app.Fragment {
     };
 
     public void setupFab(View view) {
-        fabRefresh = view.findViewById(R.id.fab_refresh);
+        fabRefresh = view.findViewById(R.id.fab_options);
         fabRefresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 

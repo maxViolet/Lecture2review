@@ -91,7 +91,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         newsRepository = new NewsItemRepository(activity);
 
         initViews(view);
-        setupFab(view);
+        setupFabs(view);
         loadNewsItemFromDb(Id);
 
         return view;
@@ -126,7 +126,7 @@ public class NewsDetailFragment extends android.app.Fragment {
                 .subscribe(newsItemDB -> setupViews(newsItemDB),
                         throwable -> Log.d("room", throwable.toString()));
 
-        Log.d("room", "ID of NewsItemDB " + String.valueOf(id));
+//        Log.d("room", "ID of NewsItemDB " + String.valueOf(id));
         compositeDisposable.add(disposable);
     }
 
@@ -149,9 +149,9 @@ public class NewsDetailFragment extends android.app.Fragment {
         buttonSource.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
     }
 
-    public void setupFab(View view) {
-        fabOptions = view.findViewById(R.id.fab_refresh);
-        fabOptions.setVisibility(View.VISIBLE);
+    public void setupFabs(View view) {
+        fabOptions = view.findViewById(R.id.fab_options);
+//        fabOptions.show();
         fab1 = view.findViewById(R.id.fab_1);
         fab2 = view.findViewById(R.id.fab_2);
         fab3 = view.findViewById(R.id.fab_3);
