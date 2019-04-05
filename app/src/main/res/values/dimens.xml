@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_size">16sp</dimen>
+    <dimen name="text_size16">16sp</dimen>
+    <dimen name="textSize24">24sp</dimen>
     <dimen name="button_text">32sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="indent_landscape">0dp</dimen>
+    <dimen name="zero">0dp</dimen>
     <dimen name="halfmin">4dp</dimen>
     <dimen name="min">8dp</dimen>
-    <dimen name="fab_margin">12dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
     <dimen name="minx2">16dp</dimen>
-    <dimen name="textSize15">24sp</dimen>
+
+    <dimen name="fab_margin">12dp</dimen>
     <dimen name="fab_size">40dp</dimen>
+    <dimen name="list_fab_imageSize">47dp</dimen>
+
     <dimen name="indent_portrait">50dp</dimen>
     <dimen name="app_bar_height">400dp</dimen>
     <dimen name="first_panel">335dp</dimen>
     <dimen name="sw600">600dp</dimen>
-
 </resources>

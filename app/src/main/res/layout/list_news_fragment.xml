@@ -51,8 +51,8 @@
             android:backgroundTint="@color/design_default_color_primary"
             android:src="@drawable/baseline_refresh_24"
             android:tint="@color/white"
-            app:borderWidth="0dp"
-            app:maxImageSize="47dp" />
+            app:borderWidth="@dimen/zero"
+            app:maxImageSize="@dimen/list_fab_imageSize" />
     </FrameLayout>
 
     <!--show progress layout-->

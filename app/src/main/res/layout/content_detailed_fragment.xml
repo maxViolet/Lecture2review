@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/min"
             android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/textSize15"
+            android:textSize="@dimen/textSize24"
             android:textStyle="italic"
             tools:text="@tools:sample/cities" />
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize15"
+            android:textSize="@dimen/textSize24"
             android:textStyle="bold"
             tools:text="@tools:sample/cities" />
 
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/minx2"
             android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size16"
             tools:text="@tools:sample/date/ddmmyy" />
 
         <EditText
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size16"
             tools:text="@tools:sample/cities" />
 
         <Button

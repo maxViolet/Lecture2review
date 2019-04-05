@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.android.maximfialko.AboutActivity"
-    tools:showIn="@layout/activity_about-land">
+    tools:context="com.example.android.maximfialko.AboutActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -28,7 +27,7 @@
                 android:drawablePadding="@dimen/min"
                 android:padding="@dimen/min"
                 android:text="@string/text1"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/text_size16"
                 tools:text="@tools:sample/cities" />
 
             <TextView
@@ -38,7 +37,7 @@
                 android:drawablePadding="8dp"
                 android:padding="@dimen/min"
                 android:text="@string/text2"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size16" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +46,7 @@
                 android:drawablePadding="@dimen/min"
                 android:padding="@dimen/min"
                 android:text="@string/text3"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size16" />
         </LinearLayout>
 
         <View
@@ -64,7 +63,7 @@
             android:layout_marginEnd="@dimen/minx2"
             android:padding="@dimen/min"
             android:text="@string/blablabla"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size16"
             tools:text="@tools:sample/cities" />
 
         <EditText

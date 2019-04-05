@@ -211,13 +211,11 @@ public class NewsListFragment extends android.app.Fragment {
     public void openNewsDetails(int id) {
         if (isTwoPanel) {
             detailNews_fragment = NewsDetailFragment.newInstance(id);
-
             getFragmentManager().beginTransaction()
                     .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
                     .commit();
         } else {
             detailNews_fragment = NewsDetailFragment.newInstance(id);
-
             getFragmentManager().beginTransaction()
                     .replace(R.id.frame_list, detailNews_fragment, TAG_DETAIL_FRAGMENT)
                     .addToBackStack(null)

@@ -1,5 +1,7 @@
 package com.example.android.maximfialko;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PointF;
@@ -214,9 +216,30 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void showMiniFabs() {
+        int radius = 144;
+        int fab1angle = 185;
+        int fab2angle = 225;
+        int fab3angle = 265;
+        PointF positionFab1 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab1angle);
+//        Log.d("fab", positionFab1.x + " | " + positionFab1.y);
+//        playMiniFabAnimation(fab1, positionFab1.x, positionFab1.y);
+
+        PointF positionFab2 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab2angle);
+//        Log.d("fab", positionFab2.x + " | " + positionFab2.y);
+//        playMiniFabAnimation(fab1, positionFab2.x, positionFab2.y);
+
+        PointF positionFab3 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab3angle);
+//        Log.d("fab", positionFab3.x + " | " + positionFab3.y);
+//        playMiniFabAnimation(fab1, positionFab3.x, positionFab3.y);
+
+        fab1.setX(positionFab1.x); fab1.setY(positionFab1.y);
+        fab2.setX(positionFab2.x); fab2.setY(positionFab2.y);
+        fab3.setX(positionFab3.x); fab3.setY(positionFab3.y);
+
         fab1.show();
         fab2.show();
         fab3.show();
+
     }
 
     public void hideMiniFabs() {
@@ -225,12 +248,40 @@ public class NewsDetailFragment extends android.app.Fragment {
         fab3.hide();
     }
 
-    private PointF getMiniFabPosition(PointF center, float radius, float angle) {
+    private PointF getMiniFabPosition(float centerX, float centerY, float radius, float angle) {
 
-        PointF p = new PointF((float) (center.x + radius * Math.cos(Math.toRadians(angle))),
-                (float) (center.y + radius* Math.sin(Math.toRadians(angle))));
+        return new PointF((float) (centerX + radius * Math.cos(Math.toRadians(angle))),
+                (float) (centerY + radius * Math.sin(Math.toRadians(angle))));
+    }
 
-        return p;
+    private void playMiniFabAnimation(View view, Float x, Float y) {
+        int ANIMATION_DURATION = 2;
+
+        AnimatorSet animSet = new AnimatorSet();
+
+        ValueAnimator buttonAnimatorX = ValueAnimator.ofFloat(fabOptions.getX(), x);
+        buttonAnimatorX.addUpdateListener(animation -> {
+            view.setX((float) animation.getAnimatedValue() - (float) view.getLayoutParams().width / 2);
+            view.requestLayout();
+        });
+        buttonAnimatorX.setDuration(ANIMATION_DURATION);
+
+        ValueAnimator buttonAnimatorY = ValueAnimator.ofFloat(fabOptions.getY(), y);
+        buttonAnimatorY.addUpdateListener(animation -> {
+            view.setY((float) animation.getAnimatedValue() - (float) view.getLayoutParams().width / 2);
+            view.requestLayout();
+        });
+        buttonAnimatorY.setDuration(ANIMATION_DURATION);
+
+        /*ValueAnimator buttonSizeAnimator = ValueAnimator.ofFloat(1, width);
+        buttonSizeAnimator.addUpdateListener(animation -> {
+            button.getLayoutParams().width = (int) animation.getAnimatedValue();
+            button.getLayoutParams().height = (int) animation.getAnimatedValue();
+            button.requestLayout();
+        });
+        buttonSizeAnimator.setDuration(ANIMATION_DURATION);*/
+
+        animSet.playTogether(buttonAnimatorX, buttonAnimatorY /*buttonSizeAnimator*/);
     }
 
     public void openSourceActivity(String url) {
