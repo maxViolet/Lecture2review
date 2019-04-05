@@ -1,9 +1,6 @@
 package com.example.android.maximfialko;
 
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.maximfialko.utils.DateUtils;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
+import com.example.android.maximfialko.utils.DateUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -62,12 +59,6 @@ public class NewsDetailFragment extends android.app.Fragment {
         arg.putInt(ID_EXTRAS, id);
         detailNews_fragment.setArguments(arg);
         return detailNews_fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d("lifecycle", "detailFragment_____________onATTACH");
     }
 
     @Override
@@ -131,7 +122,6 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void setupViews(NewsItemDB item) {
-
         Glide.with(activity)
                 .load(item.getImageUrl())
                 .into(photo);
@@ -216,33 +206,29 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     public void showMiniFabs() {
-        int radius = 144;
-        int fab1angle = 185;
-        int fab2angle = 225;
-        int fab3angle = 265;
-        PointF positionFab1 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab1angle);
-//        Log.d("fab", positionFab1.x + " | " + positionFab1.y);
-//        playMiniFabAnimation(fab1, positionFab1.x, positionFab1.y);
-
-        PointF positionFab2 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab2angle);
-//        Log.d("fab", positionFab2.x + " | " + positionFab2.y);
-//        playMiniFabAnimation(fab1, positionFab2.x, positionFab2.y);
-
-        PointF positionFab3 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab3angle);
-//        Log.d("fab", positionFab3.x + " | " + positionFab3.y);
-//        playMiniFabAnimation(fab1, positionFab3.x, positionFab3.y);
-
-        fab1.setX(positionFab1.x); fab1.setY(positionFab1.y);
-        fab2.setX(positionFab2.x); fab2.setY(positionFab2.y);
-        fab3.setX(positionFab3.x); fab3.setY(positionFab3.y);
+        final int radius = 135;
+        final int fab1angle = 185;
+        final int fab2angle = 225;
+        final int fab3angle = 265;
 
         fab1.show();
         fab2.show();
         fab3.show();
 
+        PointF positionFab1 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab1angle);
+        fab1.animate().x(positionFab1.x).y(positionFab1.y).start();
+
+        PointF positionFab2 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab2angle);
+        fab2.animate().x(positionFab2.x).y(positionFab2.y).start();
+
+        PointF positionFab3 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab3angle);
+        fab3.animate().x(positionFab3.x).y(positionFab3.y).start();
     }
 
     public void hideMiniFabs() {
+        fab1.animate().x(fabOptions.getX()).y(fabOptions.getY()).start();
+        fab2.animate().x(fabOptions.getX()).y(fabOptions.getY()).start();
+        fab3.animate().x(fabOptions.getX()).y(fabOptions.getY()).start();
         fab1.hide();
         fab2.hide();
         fab3.hide();
@@ -252,36 +238,6 @@ public class NewsDetailFragment extends android.app.Fragment {
 
         return new PointF((float) (centerX + radius * Math.cos(Math.toRadians(angle))),
                 (float) (centerY + radius * Math.sin(Math.toRadians(angle))));
-    }
-
-    private void playMiniFabAnimation(View view, Float x, Float y) {
-        int ANIMATION_DURATION = 2;
-
-        AnimatorSet animSet = new AnimatorSet();
-
-        ValueAnimator buttonAnimatorX = ValueAnimator.ofFloat(fabOptions.getX(), x);
-        buttonAnimatorX.addUpdateListener(animation -> {
-            view.setX((float) animation.getAnimatedValue() - (float) view.getLayoutParams().width / 2);
-            view.requestLayout();
-        });
-        buttonAnimatorX.setDuration(ANIMATION_DURATION);
-
-        ValueAnimator buttonAnimatorY = ValueAnimator.ofFloat(fabOptions.getY(), y);
-        buttonAnimatorY.addUpdateListener(animation -> {
-            view.setY((float) animation.getAnimatedValue() - (float) view.getLayoutParams().width / 2);
-            view.requestLayout();
-        });
-        buttonAnimatorY.setDuration(ANIMATION_DURATION);
-
-        /*ValueAnimator buttonSizeAnimator = ValueAnimator.ofFloat(1, width);
-        buttonSizeAnimator.addUpdateListener(animation -> {
-            button.getLayoutParams().width = (int) animation.getAnimatedValue();
-            button.getLayoutParams().height = (int) animation.getAnimatedValue();
-            button.requestLayout();
-        });
-        buttonSizeAnimator.setDuration(ANIMATION_DURATION);*/
-
-        animSet.playTogether(buttonAnimatorX, buttonAnimatorY /*buttonSizeAnimator*/);
     }
 
     public void openSourceActivity(String url) {

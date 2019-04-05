@@ -54,7 +54,7 @@
         android:src="@drawable/brightness_7"
         android:tint="@color/white"
         app:borderWidth="0dp"
-        app:maxImageSize="37dp" />
+        app:maxImageSize="30dp" />
 
     <include layout="@layout/minifab_layout" />
 
