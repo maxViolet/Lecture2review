@@ -2,10 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/spinner_title"
-    android:textSize="20sp"
-    android:textColor="@color/colorPrimaryDark"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:text="@tools:sample/cities">
-</TextView>
+    android:textAllCaps="true"
+    android:textColor="@color/colorPrimaryDark"
+    android:textSize="17sp"
+    android:textStyle="normal"
+    tools:text="@tools:sample/cities" />
