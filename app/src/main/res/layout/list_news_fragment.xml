@@ -26,6 +26,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/news_item_cardview" />
 
+        <!--Spinner Toolbar-->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"

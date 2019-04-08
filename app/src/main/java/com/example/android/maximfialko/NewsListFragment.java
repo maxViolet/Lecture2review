@@ -2,6 +2,7 @@ package com.example.android.maximfialko;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -38,7 +40,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NewsListFragment extends android.app.Fragment {
 
-    static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
+    private static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
+    private static final String KEY_RECYCLER_STATE = "recyclerviewState";
     private static int MARGIN = 5;
 
     private boolean isTwoPanel;
@@ -46,6 +49,9 @@ public class NewsListFragment extends android.app.Fragment {
     private NewsDetailFragment detailNews_fragment;
     private NewsAdapter adapter;
     private RecyclerView recyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private Parcelable recyclerviewState;
+
     private Toolbar mToolbar;
     private View progress_container;
     private View recycler_container;
@@ -68,6 +74,12 @@ public class NewsListFragment extends android.app.Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_news_fragment, null);
+
+        if (savedInstanceState != null)
+            recyclerviewState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+
+        isTwoPanel = view.findViewById(R.id.frame_detail) != null;
+
         activityInstance = getActivity();
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -78,12 +90,12 @@ public class NewsListFragment extends android.app.Fragment {
 
         newsRepository = new NewsItemRepository(activityInstance);
 
+        setupRecycler(view, recyclerView);
         setupSpinner();
         setupFab(view);
-        setupRecycler(view, recyclerView);
+
         subscribeToDataFromDb();
 
-        isTwoPanel = view.findViewById(R.id.frame_detail) != null;
         return view;
     }
 
@@ -107,14 +119,27 @@ public class NewsListFragment extends android.app.Fragment {
         activityInstance = null;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(KEY_RECYCLER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
     public void setupRecycler(View view, RecyclerView recyclerView) {
         adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), itemClickListener);
         mToolbar = view.findViewById(R.id.collapsing_toolbar);
+        mLayoutManager = new LinearLayoutManager(activityInstance);
 
         ItemDecorator decoration = new ItemDecorator(DensityPixelMath.dpToPx(MARGIN), 1);
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(decoration);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        if (recyclerviewState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerviewState);
+        }
 
         recyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override
@@ -149,14 +174,10 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     private void loadItemsToDb(@NonNull String category) {
-        int delay_in_milliseconds = 500;
-
         showProgress(true);
         final Disposable searchDisposable = RestApi.getInstance()
                 .topStoriesEndpoint()
                 .getNews(category)
-                //put delay
-                .delay(delay_in_milliseconds, TimeUnit.MILLISECONDS)
                 .map(response -> MapperDtoToDb.map(response.getNews()))
                 //save data to database
                 .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
