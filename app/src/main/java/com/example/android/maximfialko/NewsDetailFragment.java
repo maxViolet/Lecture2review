@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.maximfialko.data.NewsItem;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.example.android.maximfialko.utils.DateUtils;
@@ -29,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.example.android.maximfialko.utils.DateUtils.formatDateFromDb;
 
-public class NewsDetailFragment extends android.app.Fragment {
+public class NewsDetailFragment extends androidx.fragment.app.Fragment {
 
     public static final String ID_EXTRAS = "id_extras";
     private static int Id;
@@ -94,7 +93,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         activityInstance = null;
     }
 
-    public void initViews(View view) {
+    private void initViews(View view) {
         category = view.findViewById(R.id.tv_cont_category);
         photo = view.findViewById(R.id.iv_det_photo);
         title = view.findViewById(R.id.tv_cont_title);
@@ -102,11 +101,11 @@ public class NewsDetailFragment extends android.app.Fragment {
         fullText = view.findViewById(R.id.tv_cont_fulltext);
         buttonSource = view.findViewById(R.id.button_goToSource);
 
-        makeLookLikeTextView(title);
-        makeLookLikeTextView(fullText);
+//        makeLookLikeTextView(title);
+//        makeLookLikeTextView(fullText);
     }
 
-    public void loadNewsItemFromDb(int id) {
+    private void loadNewsItemFromDb(int id) {
         Disposable disposable = newsRepository.getNewsById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -118,7 +117,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         compositeDisposable.add(disposable);
     }
 
-    public void setupViews(NewsItemDB item) {
+    private void setupViews(NewsItemDB item) {
         Glide.with(activityInstance)
                 .load(item.getImageUrl())
                 .into(photo);
@@ -136,46 +135,47 @@ public class NewsDetailFragment extends android.app.Fragment {
         buttonSource.setOnClickListener(v -> openSourceActivity(item.getTextUrl()));
     }
 
-    public void setupFabs(View view) {
+    private void setupFabs(View view) {
         fabOptions = view.findViewById(R.id.fab_options);
         fab1 = view.findViewById(R.id.fab_1);
         fab2 = view.findViewById(R.id.fab_2);
         fab3 = view.findViewById(R.id.fab_3);
 
-        setup_FabOptions_Clicklistener();
-        setup_Fab1_Clicklistener();
-        setup_Fab2_Clicklistener();
-        setup_Fab3_Clicklistener();
+        setMiniFabClicklistener(fabOptions);
+        setMiniFabClicklistener(fab1);
+        setMiniFabClicklistener(fab2);
+        setMiniFabClicklistener(fab3);
     }
 
-    public void setup_FabOptions_Clicklistener() {
-        fabOptions.setClickable(true);
-        fabOptions.setOnClickListener(v -> {
-            if (!miniFabShow) {
-                miniFabShow = true;
-                showMiniFabs();
-            } else {
-                miniFabShow = false;
-                hideMiniFabs();
-            }
-        });
-    }
-
-    public void setup_Fab1_Clicklistener() {
-        fab1.setClickable(true);
-        fab1.setOnClickListener(v -> deleteFromDb());
-    }
-
-    public void setup_Fab2_Clicklistener() {
-        fab1.setClickable(true);
-        fab1.setOnClickListener(v -> openSourceActivity(newsItemDB.getTextUrl()));
-    }
-
-    public void setup_Fab3_Clicklistener() {
-        fab1.setClickable(true);
-        fab1.setOnClickListener(v -> updateDb());
-        makeLookLikeEditText(title, originalDrawable);
-        makeLookLikeEditText(fullText, originalDrawable);
+    private void setMiniFabClicklistener(View view) {
+        view.setClickable(true);
+        switch (view.getId()) {
+            case R.id.fab_options:
+                view.setOnClickListener(v -> {
+                    if (!miniFabShow) {
+                        miniFabShow = true;
+                        showMiniFabs();
+                    } else {
+                        miniFabShow = false;
+                        hideMiniFabs();
+                    }
+                });
+                break;
+            case R.id.fab_1:
+                view.setClickable(true);
+                view.setOnClickListener(v -> deleteFromDb());
+                break;
+            case R.id.fab_2:
+                view.setClickable(true);
+                view.setOnClickListener(v -> openSourceActivity(newsItemDB.getTextUrl()));
+                break;
+            case R.id.fab_3:
+                view.setClickable(true);
+                view.setOnClickListener(v -> updateDb());
+                makeLookLikeEditText(title, originalDrawable);
+                makeLookLikeEditText(fullText, originalDrawable);
+                break;
+        }
     }
 
     private void deleteFromDb() {
@@ -201,7 +201,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         }
     }
 
-    public void showMiniFabs() {
+    private void showMiniFabs() {
         final int radius = 135;
         final int fab1angle = 182;
         final int fab2angle = 225;
@@ -221,7 +221,7 @@ public class NewsDetailFragment extends android.app.Fragment {
         fab3.animate().x(positionFab3.x).y(positionFab3.y).start();
     }
 
-    public void hideMiniFabs() {
+    private void hideMiniFabs() {
         fab1.animate().x(fabOptions.getX()).y(fabOptions.getY()).start();
         fab2.animate().x(fabOptions.getX()).y(fabOptions.getY()).start();
         fab3.animate().x(fabOptions.getX()).y(fabOptions.getY()).start();
@@ -231,12 +231,11 @@ public class NewsDetailFragment extends android.app.Fragment {
     }
 
     private PointF getMiniFabPosition(float centerX, float centerY, float radius, float angle) {
-
         return new PointF((float) (centerX + radius * Math.cos(Math.toRadians(angle))),
                 (float) (centerY + radius * Math.sin(Math.toRadians(angle))));
     }
 
-    public void openSourceActivity(String url) {
+    private void openSourceActivity(String url) {
         GoToSourceActivity.start(activityInstance, url);
     }
 
@@ -253,8 +252,4 @@ public class NewsDetailFragment extends android.app.Fragment {
         editText.setLongClickable(true);
         editText.setBackground(original);
     }
-
-//    public int getItemId() {
-//        return newsItemDB.getId();
-//    }
 }

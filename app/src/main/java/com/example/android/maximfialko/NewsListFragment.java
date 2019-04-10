@@ -26,7 +26,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,19 +37,20 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class NewsListFragment extends android.app.Fragment {
+public class NewsListFragment extends androidx.fragment.app.Fragment {
 
     private static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
     private static final String KEY_RECYCLER_STATE = "recyclerviewState";
-    private static int MARGIN = 5;
+    private static final int MARGIN = 5;
 
     private boolean isTwoPanel;
     private Activity activityInstance;
     private NewsDetailFragment detailNews_fragment;
     private NewsAdapter adapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private Parcelable recyclerviewState;
+    private LinearLayoutManager linearLayoutManager;
+    public static int index = -1;
+    public static int top = -1;
 
     private Toolbar mToolbar;
     private View progress_container;
@@ -61,9 +61,9 @@ public class NewsListFragment extends android.app.Fragment {
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public interface DetailFragmentListener {
-        void openDetailFragment(int id);
-    }
+//    public interface DetailFragmentListener {
+//        void openDetailFragment(int id);
+//    }
 
     static NewsListFragment newInstance() {
         return new NewsListFragment();
@@ -73,13 +73,10 @@ public class NewsListFragment extends android.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.d("stateSave", "onCREATE_VIEW");
         View view = inflater.inflate(R.layout.list_news_fragment, null);
 
-        if (savedInstanceState != null)
-            recyclerviewState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
-
         isTwoPanel = view.findViewById(R.id.frame_detail) != null;
-
         activityInstance = getActivity();
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -107,41 +104,66 @@ public class NewsListFragment extends android.app.Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        subscribeToDataFromDb();
+    public void onPause() {
+        super.onPause();
+        Log.d("stateSave", "onPAUSE");
+        compositeDisposable.clear();
+        activityInstance = null;
+
+        //Save the fragment's state here
+        index = linearLayoutManager.findFirstVisibleItemPosition();
+        Log.d("stateSave", "index " + String.valueOf(index));
+        View v = recyclerView.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
+        Log.d("stateSave", "top " + String.valueOf(top));
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        compositeDisposable.clear();
-        activityInstance = null;
+    public void onResume() {
+        super.onResume();
+        Log.d("stateSave", "onRESUME");
+        subscribeToDataFromDb();
+
+        //read current recyclerview position
+        if (index != -1) {
+            linearLayoutManager.scrollToPositionWithOffset(index, top);
+            Log.d("stateSave", "index " + String.valueOf(index));
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("stateSave", "onDESTROY_VIEW-------------------------------------------RIP");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putParcelable(KEY_RECYCLER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
-    public void setupRecycler(View view, RecyclerView recyclerView) {
-        adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), itemClickListener);
-        mToolbar = view.findViewById(R.id.collapsing_toolbar);
-        mLayoutManager = new LinearLayoutManager(activityInstance);
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
 
+        /*if (savedInstanceState != null) {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }*/
+    }
+
+    private void setupRecycler(View view, RecyclerView recyclerView) {
+        adapter = new NewsAdapter(view.getContext(), new ArrayList<>(), itemClickListener);
+        linearLayoutManager = new LinearLayoutManager(activityInstance);
+        mToolbar = view.findViewById(R.id.collapsing_toolbar);
+        //add space between recyclerView items
         ItemDecorator decoration = new ItemDecorator(DensityPixelMath.dpToPx(MARGIN), 1);
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(decoration);
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        if (recyclerviewState != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerviewState);
-        }
-
-        recyclerView.setOnScrollListener(new HidingScrollListener() {
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addOnScrollListener(new HidingScrollListener() {
             @Override
             public void onHide() {
                 hideViews();
@@ -152,6 +174,7 @@ public class NewsListFragment extends android.app.Fragment {
                 showViews();
             }
         });
+
     }
 
     private void setupSpinner() {
@@ -201,28 +224,26 @@ public class NewsListFragment extends android.app.Fragment {
         if (adapter != null) adapter.replaceItems(newsItems);
     }
 
-    public final NewsAdapter.newsItemClickListener itemClickListener = (NewsItem newsItem) -> {
-        NewsListFragment.this.openNewsDetails(newsItem.getId());
-    };
+    private final NewsAdapter.newsItemClickListener itemClickListener = (NewsItem newsItem) -> NewsListFragment.this.openNewsDetails(newsItem.getId());
 
-    public void setupFab(View view) {
+    private void setupFab(View view) {
         fabRefresh = view.findViewById(R.id.fab_options);
         fabRefresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
 
-    public void showNews(boolean show) {
+    private void showNews(boolean show) {
         Visibility.setVisible(progress_container, !show);
         Visibility.setVisible(recycler_container, show);
         Visibility.setVisible(error_container, !show);
     }
 
-    public void showProgress(boolean show) {
+    private void showProgress(boolean show) {
         Visibility.setVisible(progress_container, show);
         Visibility.setVisible(recycler_container, !show);
         Visibility.setVisible(error_container, !show);
     }
 
-    public void showError(Throwable throwable) {
+    private void showError(Throwable throwable) {
         if (throwable instanceof IOException) {
             return;
         }
@@ -231,26 +252,31 @@ public class NewsListFragment extends android.app.Fragment {
         Visibility.setVisible(error_container, true);
     }
 
-    public void openNewsDetails(int id) {
+    private void openNewsDetails(int id) {
         if (isTwoPanel) {
             detailNews_fragment = NewsDetailFragment.newInstance(id);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
-                    .commit();
+            if (getFragmentManager() != null) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
+    //                    .addToBackStack(TAG_DETAIL_FRAGMENT)
+                        .commit();
+            }
         } else {
             detailNews_fragment = NewsDetailFragment.newInstance(id);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.frame_list, detailNews_fragment, TAG_DETAIL_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit();
+            if (getFragmentManager() != null) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frame_list, detailNews_fragment, TAG_DETAIL_FRAGMENT)
+                        .addToBackStack(TAG_DETAIL_FRAGMENT)
+                        .commit();
+            }
         }
     }
 
     private void hideViews() {
         mToolbar.animate().translationY(-mToolbar.getHeight());
 
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) fabRefresh.getLayoutParams();
-        int fabBottomMargin = lp.bottomMargin;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fabRefresh.getLayoutParams();
+        int fabBottomMargin = layoutParams.bottomMargin;
         fabRefresh.animate().translationY(+fabRefresh.getHeight() + fabBottomMargin).start();
     }
 
@@ -258,8 +284,4 @@ public class NewsListFragment extends android.app.Fragment {
         mToolbar.animate().translationY(0);
         fabRefresh.animate().translationY(0);
     }
-
-//    public int getFirstItemId() {
-//        return adapter.getFirstItemId();
-//    }
 }
