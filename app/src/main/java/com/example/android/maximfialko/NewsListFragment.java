@@ -41,16 +41,16 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
     private static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
     private static final String KEY_RECYCLER_STATE = "recyclerviewState";
+    private static final String POSITION = "position";
     private static final int MARGIN = 5;
 
     private boolean isTwoPanel;
     private Activity activityInstance;
-    private NewsDetailFragment detailNews_fragment;
     private NewsAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    public static int index = -1;
-    public static int top = -1;
+    private Parcelable mRecipeListParcelable;
+    private int mScrollPosition = -1;
 
     private Toolbar mToolbar;
     private View progress_container;
@@ -61,9 +61,6 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-//    public interface DetailFragmentListener {
-//        void openDetailFragment(int id);
-//    }
 
     static NewsListFragment newInstance() {
         return new NewsListFragment();
@@ -73,7 +70,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.d("stateSave", "onCREATE_VIEW");
+        Log.d("stateSave", "onCREATEVIEW");
         View view = inflater.inflate(R.layout.list_news_fragment, null);
 
         isTwoPanel = view.findViewById(R.id.frame_detail) != null;
@@ -109,13 +106,6 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
         Log.d("stateSave", "onPAUSE");
         compositeDisposable.clear();
         activityInstance = null;
-
-        //Save the fragment's state here
-        index = linearLayoutManager.findFirstVisibleItemPosition();
-        Log.d("stateSave", "index " + String.valueOf(index));
-        View v = recyclerView.getChildAt(0);
-        top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
-        Log.d("stateSave", "top " + String.valueOf(top));
     }
 
     @Override
@@ -123,12 +113,6 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
         super.onResume();
         Log.d("stateSave", "onRESUME");
         subscribeToDataFromDb();
-
-        //read current recyclerview position
-        if (index != -1) {
-            linearLayoutManager.scrollToPositionWithOffset(index, top);
-            Log.d("stateSave", "index " + String.valueOf(index));
-        }
     }
 
     @Override
@@ -138,19 +122,25 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        // save list position
+        int scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        mRecipeListParcelable = linearLayoutManager.onSaveInstanceState();
+        outState.putParcelable(KEY_RECYCLER_STATE, mRecipeListParcelable);
+        outState.putInt(POSITION, scrollPosition);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
-        /*if (savedInstanceState != null) {
-            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
-        }*/
+        // restore list position
+        if (savedInstanceState != null) {
+            mRecipeListParcelable = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+            mScrollPosition = savedInstanceState.getInt(POSITION);
+        }
     }
 
     private void setupRecycler(View view, RecyclerView recyclerView) {
@@ -174,7 +164,6 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
                 showViews();
             }
         });
-
     }
 
     private void setupSpinner() {
@@ -222,6 +211,8 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
     private void setupNews(List<NewsItem> newsItems) {
         if (adapter != null) adapter.replaceItems(newsItems);
+        // scroll list to saved position
+        recyclerView.scrollToPosition(mScrollPosition);
     }
 
     private final NewsAdapter.newsItemClickListener itemClickListener = (NewsItem newsItem) -> NewsListFragment.this.openNewsDetails(newsItem.getId());
@@ -253,12 +244,13 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
     }
 
     private void openNewsDetails(int id) {
+        NewsDetailFragment detailNews_fragment;
         if (isTwoPanel) {
             detailNews_fragment = NewsDetailFragment.newInstance(id);
             if (getFragmentManager() != null) {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frame_detail, detailNews_fragment, TAG_DETAIL_FRAGMENT)
-    //                    .addToBackStack(TAG_DETAIL_FRAGMENT)
+                        //                    .addToBackStack(TAG_DETAIL_FRAGMENT)
                         .commit();
             }
         } else {
