@@ -61,29 +61,22 @@ public class NewsUpdateService extends Service {
         Log.d(LOG_TAG, "onStartCOMMAND");
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            downloadDisposable = RestApi.getInstance()                         //init Retrofit client
-                    .topStoriesEndpoint()                                      //return topStoriesEndpoint
-                    .getNews("home")                                   //@GET Single<TopStoriesResponse>, TopStoriesResponse = List<NewsItemDTO>
-                    .map(response -> MapperDtoToDb.map(response.getNews()))    //return List<NewsItemDB>
-                    //сохраняем в БД
+            downloadDisposable = RestApi.getInstance()
+                    .topStoriesEndpoint()
+                    .getNews("home")
+                    .map(response -> MapperDtoToDb.map(response.getNews()))
+                    //save to DB
                     .flatMapCompletable(NewsItemDB -> newsRepository.saveData(NewsItemDB))
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
-//                    .subscribe();
-                    .subscribe(new Action() {
-                        @Override
-                        public void run() throws Exception {
-                            NotificationBuilder.showResultNotification(NewsUpdateService.this,
-                                    NewsUpdateService.this.getString(R.string.success_message));
-                            NewsUpdateService.this.stopSelf();
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) {
-                            NotificationBuilder.showResultNotification(NewsUpdateService.this,
-                                    throwable.getClass().getSimpleName());
-                            NewsUpdateService.this.stopSelf();
-                        }
+                    .subscribe(() -> {
+                        NotificationBuilder.showResultNotification(NewsUpdateService.this,
+                                NewsUpdateService.this.getString(R.string.success_message));
+                        NewsUpdateService.this.stopSelf();
+                    }, throwable -> {
+                        NotificationBuilder.showResultNotification(NewsUpdateService.this,
+                                throwable.getClass().getSimpleName());
+                        NewsUpdateService.this.stopSelf();
                     });
         }
         NewsUpdateService.this.stopSelf();

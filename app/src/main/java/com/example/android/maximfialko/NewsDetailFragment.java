@@ -30,7 +30,7 @@ import static com.example.android.maximfialko.utils.DateUtils.formatDateFromDb;
 
 public class NewsDetailFragment extends androidx.fragment.app.Fragment {
 
-    public static final String ID_EXTRAS = "id_extras";
+    private static final String ID_EXTRAS = "id_extras";
     private static int Id;
 
     private Activity activityInstance;
@@ -53,7 +53,7 @@ public class NewsDetailFragment extends androidx.fragment.app.Fragment {
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public static NewsDetailFragment newInstance(int id) {
+    static NewsDetailFragment newInstance(int id) {
         NewsDetailFragment detailNews_fragment = new NewsDetailFragment();
         Bundle arg = new Bundle();
         arg.putInt(ID_EXTRAS, id);
@@ -101,8 +101,8 @@ public class NewsDetailFragment extends androidx.fragment.app.Fragment {
         fullText = view.findViewById(R.id.tv_cont_fulltext);
         buttonSource = view.findViewById(R.id.button_goToSource);
 
-//        makeLookLikeTextView(title);
-//        makeLookLikeTextView(fullText);
+        makeLookLikeTextView(title);
+        makeLookLikeTextView(fullText);
     }
 
     private void loadNewsItemFromDb(int id) {
@@ -210,7 +210,7 @@ public class NewsDetailFragment extends androidx.fragment.app.Fragment {
         fab1.show();
         fab2.show();
         fab3.show();
-
+        //animations for miniFabs buttons
         PointF positionFab1 = getMiniFabPosition(fabOptions.getX(), fabOptions.getY(), radius, fab1angle);
         fab1.animate().x(positionFab1.x).y(positionFab1.y).start();
 

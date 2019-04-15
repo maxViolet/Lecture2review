@@ -49,7 +49,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
     private NewsAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private Parcelable mRecipeListParcelable;
+    private Parcelable stateParcelable;
     private int mScrollPosition = -1;
 
     private Toolbar mToolbar;
@@ -86,7 +86,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
         setupRecycler(view, recyclerView);
         setupSpinner();
-        setupFab(view);
+        setupFabRefresh(view);
 
         subscribeToDataFromDb();
 
@@ -127,8 +127,8 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
         // save list position
         int scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-        mRecipeListParcelable = linearLayoutManager.onSaveInstanceState();
-        outState.putParcelable(KEY_RECYCLER_STATE, mRecipeListParcelable);
+        stateParcelable = linearLayoutManager.onSaveInstanceState();
+        outState.putParcelable(KEY_RECYCLER_STATE, stateParcelable);
         outState.putInt(POSITION, scrollPosition);
     }
 
@@ -138,7 +138,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
         // restore list position
         if (savedInstanceState != null) {
-            mRecipeListParcelable = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+            stateParcelable = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
             mScrollPosition = savedInstanceState.getInt(POSITION);
         }
     }
@@ -156,12 +156,12 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
         recyclerView.addOnScrollListener(new HidingScrollListener() {
             @Override
             public void onHide() {
-                hideViews();
+                hideToolbarNFab();
             }
 
             @Override
             public void onShow() {
-                showViews();
+                showToolbarNFab();
             }
         });
     }
@@ -174,8 +174,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                loadItemsToDb(spinner.getSelectedItem().toString());
             }
 
@@ -217,7 +216,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
 
     private final NewsAdapter.newsItemClickListener itemClickListener = (NewsItem newsItem) -> NewsListFragment.this.openNewsDetails(newsItem.getId());
 
-    private void setupFab(View view) {
+    private void setupFabRefresh(View view) {
         fabRefresh = view.findViewById(R.id.fab_options);
         fabRefresh.setOnClickListener(v -> loadItemsToDb(spinner.getSelectedItem().toString()));
     }
@@ -264,7 +263,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
         }
     }
 
-    private void hideViews() {
+    private void hideToolbarNFab() {
         mToolbar.animate().translationY(-mToolbar.getHeight());
 
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fabRefresh.getLayoutParams();
@@ -272,7 +271,7 @@ public class NewsListFragment extends androidx.fragment.app.Fragment {
         fabRefresh.animate().translationY(+fabRefresh.getHeight() + fabBottomMargin).start();
     }
 
-    private void showViews() {
+    private void showToolbarNFab() {
         mToolbar.animate().translationY(0);
         fabRefresh.animate().translationY(0);
     }
