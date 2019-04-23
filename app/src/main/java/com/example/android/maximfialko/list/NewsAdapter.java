@@ -1,4 +1,4 @@
-package com.example.android.maximfialko;
+package com.example.android.maximfialko.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.android.maximfialko.R;
 import com.example.android.maximfialko.utils.DateUtils;
 import com.example.android.maximfialko.data.NewsItem;
 

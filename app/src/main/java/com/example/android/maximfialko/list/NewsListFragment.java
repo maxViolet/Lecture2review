@@ -1,4 +1,4 @@
-package com.example.android.maximfialko;
+package com.example.android.maximfialko.list;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 
+import com.example.android.maximfialko.detail.NewsDetailFragment;
+import com.example.android.maximfialko.R;
 import com.example.android.maximfialko.utils.DensityPixelMath;
 import com.example.android.maximfialko.utils.HidingScrollListener;
 import com.example.android.maximfialko.utils.ItemDecorator;

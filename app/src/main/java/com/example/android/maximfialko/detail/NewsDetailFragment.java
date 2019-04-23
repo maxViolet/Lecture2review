@@ -1,4 +1,4 @@
-package com.example.android.maximfialko;
+package com.example.android.maximfialko.detail;
 
 import android.app.Activity;
 import android.graphics.PointF;
@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.android.maximfialko.GoToSourceActivity;
+import com.example.android.maximfialko.R;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;
 import com.example.android.maximfialko.utils.DateUtils;
@@ -53,7 +55,7 @@ public class NewsDetailFragment extends androidx.fragment.app.Fragment {
     private NewsItemRepository newsRepository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    static NewsDetailFragment newInstance(int id) {
+    public static NewsDetailFragment newInstance(int id) {
         NewsDetailFragment detailNews_fragment = new NewsDetailFragment();
         Bundle arg = new Bundle();
         arg.putInt(ID_EXTRAS, id);

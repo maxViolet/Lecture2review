@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".MainActivity">
+            android:name=".list.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -31,7 +31,7 @@
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".GoToSourceActivity" />
         <activity
-            android:name=".IntroActivityFragment"
+            android:name=".intro.IntroActivityFragment"
             android:screenOrientation="portrait">
 
         </activity>

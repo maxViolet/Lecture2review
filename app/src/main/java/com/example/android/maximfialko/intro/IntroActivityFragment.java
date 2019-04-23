@@ -1,4 +1,4 @@
-package com.example.android.maximfialko;
+package com.example.android.maximfialko.intro;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.android.maximfialko.R;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class IntroActivityFragment extends FragmentActivity {

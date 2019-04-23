@@ -5,7 +5,7 @@
     android:id="@+id/intro_rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IntroActivityFragment">
+    tools:context=".intro.IntroActivityFragment">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
