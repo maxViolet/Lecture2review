@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.detail;
+package com.example.android.maximfialko.ui.detail;
 
 import android.app.Activity;
 import android.graphics.PointF;
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.maximfialko.GoToSourceActivity;
+import com.example.android.maximfialko.ui.GoToSourceActivity;
 import com.example.android.maximfialko.R;
 import com.example.android.maximfialko.room.NewsItemDB;
 import com.example.android.maximfialko.room.NewsItemRepository;

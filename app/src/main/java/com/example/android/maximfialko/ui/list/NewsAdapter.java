@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.list;
+package com.example.android.maximfialko.ui.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;

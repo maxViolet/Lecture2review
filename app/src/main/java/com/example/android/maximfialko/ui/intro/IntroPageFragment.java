@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.intro;
+package com.example.android.maximfialko.ui.intro;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.android.maximfialko.list.MainActivity;
+import com.example.android.maximfialko.ui.list.MainActivity;
 import com.example.android.maximfialko.R;
 
 import androidx.annotation.NonNull;

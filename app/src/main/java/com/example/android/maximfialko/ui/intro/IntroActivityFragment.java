@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.intro;
+package com.example.android.maximfialko.ui.intro;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;

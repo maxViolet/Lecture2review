@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.list;
+package com.example.android.maximfialko.ui.list;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.android.maximfialko.AboutActivity;
-import com.example.android.maximfialko.detail.NewsDetailFragment;
+import com.example.android.maximfialko.ui.AboutActivity;
+import com.example.android.maximfialko.ui.detail.NewsDetailFragment;
 import com.example.android.maximfialko.R;
 //import com.example.android.maximfialko.Utils.Navigator;
 

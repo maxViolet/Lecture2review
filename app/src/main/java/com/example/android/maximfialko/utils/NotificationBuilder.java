@@ -7,7 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.android.maximfialko.list.MainActivity;
+import com.example.android.maximfialko.ui.list.MainActivity;
 import com.example.android.maximfialko.R;
 import com.example.android.maximfialko.service.StopNewsUpdateService;
 

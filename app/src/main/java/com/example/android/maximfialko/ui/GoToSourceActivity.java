@@ -1,4 +1,4 @@
-package com.example.android.maximfialko;
+package com.example.android.maximfialko.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+
+import com.example.android.maximfialko.R;
 
 public class GoToSourceActivity extends AppCompatActivity {
 

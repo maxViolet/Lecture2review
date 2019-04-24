@@ -18,20 +18,20 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".list.MainActivity">
+            android:name=".ui.list.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".PreviewEmailActivity" />
+        <activity android:name=".ui.PreviewEmailActivity" />
         <activity
-            android:name=".AboutActivity"
+            android:name=".ui.AboutActivity"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name=".GoToSourceActivity" />
+        <activity android:name=".ui.GoToSourceActivity" />
         <activity
-            android:name=".intro.IntroActivityFragment"
+            android:name=".ui.intro.IntroActivityFragment"
             android:screenOrientation="portrait">
 
         </activity>
