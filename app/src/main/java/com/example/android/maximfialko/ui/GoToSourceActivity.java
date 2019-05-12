@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import com.example.android.maximfialko.R;
+import com.example.android.maximfialko.ui.about.AboutActivity;
 
 public class GoToSourceActivity extends AppCompatActivity {
 

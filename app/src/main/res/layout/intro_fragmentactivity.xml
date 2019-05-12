@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/intro_rl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.intro.IntroActivityFragment">
+    android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:paddingTop="@dimen/minx2"
-        android:paddingBottom="@dimen/minx2"
-        android:layout_gravity="bottom" />
+        android:paddingBottom="@dimen/minx2" />
 
     <com.pixelcan.inkpageindicator.InkPageIndicator
         android:id="@+id/indicator"

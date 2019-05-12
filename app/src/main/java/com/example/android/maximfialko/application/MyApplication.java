@@ -5,23 +5,40 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 
-import com.example.android.maximfialko.utils.NetworkUtils;
+import com.example.android.maximfialko.background_update.NewsUpdateWork;
+import com.example.android.maximfialko.utils.NetworkCheckUtils;
+
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.Constraints;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 public class MyApplication extends Application {
-
     private static MyApplication sMyApplication;
+    private static int updatePeriodInMinutes = 3;
 
     @Override
     public void onCreate() {
         super.onCreate();
         sMyApplication = this;
-        // TODO:  your logic
-        registerReceiver(NetworkUtils.sNetworkUtils.getReceiver(),
+
+        registerReceiver(NetworkCheckUtils.sNetworkUtils.getReceiver(),
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiresCharging(true)
+                .build();
+
+        WorkRequest workRequest = new PeriodicWorkRequest.Builder(NewsUpdateWork.class, updatePeriodInMinutes, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance().enqueue(workRequest);
     }
 
     public static Context getContext() {
         return sMyApplication;
     }
-
 }

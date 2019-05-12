@@ -14,9 +14,9 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
-public class NetworkUtils {
+public class NetworkCheckUtils {
 
-    public static NetworkUtils sNetworkUtils = new NetworkUtils();
+    public static NetworkCheckUtils sNetworkUtils = new NetworkCheckUtils();
     private NetworkReceiver mNetworkReceiver = new NetworkReceiver();
     private Subject<Boolean> mNetworkState = BehaviorSubject.createDefault(isNetworkAvailable());
 
@@ -37,7 +37,7 @@ public class NetworkUtils {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager)MyApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) MyApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             return false;
         }

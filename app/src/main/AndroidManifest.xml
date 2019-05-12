@@ -17,8 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".ui.list.MainActivity">
+        <activity android:name=".ui.list.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +26,7 @@
 
         <activity android:name=".ui.PreviewEmailActivity" />
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.about.AboutActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".ui.GoToSourceActivity" />
         <activity
@@ -37,8 +36,13 @@
         </activity>
 
         <service
-            android:name=".service.NewsUpdateService"
+            android:name=".background_update.NewsUpdateService"
             android:exported="false" />
+
+        <receiver
+            android:name=".background_update.StopNewsUpdateService"
+            android:enabled="true"
+            android:process=":remote" />
     </application>
 
 

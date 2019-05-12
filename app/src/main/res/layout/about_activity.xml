@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.example.android.maximfialko.ui.AboutActivity">
+    tools:context="com.example.android.maximfialko.ui.about.AboutActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

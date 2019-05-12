@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.service;
+package com.example.android.maximfialko.background_update;
 
 import android.app.Notification;
 import android.app.Service;
@@ -16,15 +16,13 @@ import com.example.android.maximfialko.utils.VersionControl;
 
 
 import androidx.annotation.Nullable;
-import io.reactivex.Completable;
+import androidx.core.app.JobIntentService;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class NewsUpdateService extends Service {
 
-    private static final String LOG_TAG = "newsDownLoad_SERVICE";
+    private static final String LOG_TAG = "newsUpdate_SERVICE";
     private static final int FG_ID = 1;
     private Disposable downloadDisposable;
     private NewsItemRepository newsRepository;
@@ -52,7 +50,7 @@ public class NewsUpdateService extends Service {
         Log.d(LOG_TAG, "onCREATE");
         Notification notification = NotificationBuilder.createForegroundNotification(this);
         startForeground(FG_ID, notification);
-        newsRepository = new NewsItemRepository(this);
+        newsRepository = new NewsItemRepository(this.getApplicationContext());
     }
 
     @Override

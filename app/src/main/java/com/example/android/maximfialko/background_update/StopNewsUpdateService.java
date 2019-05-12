@@ -1,4 +1,4 @@
-package com.example.android.maximfialko.service;
+package com.example.android.maximfialko.background_update;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

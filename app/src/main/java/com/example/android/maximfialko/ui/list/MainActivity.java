@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.android.maximfialko.ui.AboutActivity;
+import com.example.android.maximfialko.ui.about.AboutActivity;
 import com.example.android.maximfialko.ui.detail.NewsDetailFragment;
 import com.example.android.maximfialko.R;
 //import com.example.android.maximfialko.Utils.Navigator;
