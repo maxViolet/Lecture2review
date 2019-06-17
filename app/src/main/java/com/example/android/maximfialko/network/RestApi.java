@@ -3,6 +3,7 @@ package com.example.android.maximfialko.network;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

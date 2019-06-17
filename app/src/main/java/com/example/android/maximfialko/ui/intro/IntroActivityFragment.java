@@ -14,9 +14,9 @@ import com.example.android.maximfialko.R;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 public class IntroActivityFragment extends FragmentActivity {
-    ViewPager pager;
-    PagerAdapter pagerAdapter;
-    InkPageIndicator inkPageIndicator;
+    private ViewPager pager;
+    private PagerAdapter pagerAdapter;
+    private InkPageIndicator inkPageIndicator;
 
     static final int PAGE_COUNT = 3;
 
@@ -37,7 +37,7 @@ public class IntroActivityFragment extends FragmentActivity {
         pager = findViewById(R.id.viewpager);
         pagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
-        inkPageIndicator.setViewPager(pager);
+//        inkPageIndicator.setViewPager(pager);
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

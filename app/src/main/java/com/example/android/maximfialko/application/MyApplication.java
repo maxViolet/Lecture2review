@@ -17,7 +17,7 @@ import androidx.work.WorkRequest;
 
 public class MyApplication extends Application {
     private static MyApplication sMyApplication;
-    private static int updatePeriodInMinutes = 3;
+    private static int updatePeriodInMinutes = 180;
 
     @Override
     public void onCreate() {

@@ -1,11 +1,8 @@
 package com.example.android.maximfialko.room;
 
-import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "newsItemDB")
